@@ -1,0 +1,208 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "title": "Landing · 390",
+      "page": "page-1",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 6400
+    },
+    {
+      "file": "Login.dc.html",
+      "title": "Login · 390",
+      "page": "page-1",
+      "x": 510,
+      "y": 0,
+      "w": 390,
+      "h": 920
+    },
+    {
+      "file": "PrimeiroAcesso.dc.html",
+      "title": "Primeiro acesso · 390",
+      "page": "page-1",
+      "x": 1020,
+      "y": 0,
+      "w": 390,
+      "h": 920
+    },
+    {
+      "file": "VerifiqueEmail.dc.html",
+      "title": "Verifique seu e-mail · 390",
+      "page": "page-1",
+      "x": 1530,
+      "y": 0,
+      "w": 390,
+      "h": 1000
+    },
+    {
+      "file": "Produtos.dc.html",
+      "title": "Portal · Meus Produtos · 390",
+      "page": "page-1",
+      "x": 510,
+      "y": 1160,
+      "w": 390,
+      "h": 1700
+    },
+    {
+      "file": "Faturas.dc.html",
+      "title": "Portal · Faturas · 390",
+      "page": "page-1",
+      "x": 1020,
+      "y": 1160,
+      "w": 390,
+      "h": 1500
+    },
+    {
+      "file": "CheckoutCartao.dc.html",
+      "title": "Checkout · Cartão · 390",
+      "page": "page-1",
+      "x": 1530,
+      "y": 1160,
+      "w": 390,
+      "h": 1250
+    },
+    {
+      "file": "CheckoutPix.dc.html",
+      "title": "Checkout · Pix · 390",
+      "page": "page-1",
+      "x": 510,
+      "y": 3020,
+      "w": 390,
+      "h": 1250
+    },
+    {
+      "file": "CheckoutBoleto.dc.html",
+      "title": "Checkout · Boleto · 390",
+      "page": "page-1",
+      "x": 1020,
+      "y": 3020,
+      "w": 390,
+      "h": 1250
+    },
+    {
+      "file": "LandingDesktop.dc.html",
+      "title": "Landing · 1440",
+      "page": "page-2",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 5400
+    },
+    {
+      "file": "LoginDesktop.dc.html",
+      "title": "Login · 1440",
+      "page": "page-2",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 940
+    },
+    {
+      "file": "ProdutosDesktop.dc.html",
+      "title": "Meus Produtos · 1440",
+      "page": "page-2",
+      "x": 1560,
+      "y": 1100,
+      "w": 1440,
+      "h": 1100
+    },
+    {
+      "file": "FaturasDesktop.dc.html",
+      "title": "Faturas · 1440",
+      "page": "page-2",
+      "x": 1560,
+      "y": 2360,
+      "w": 1440,
+      "h": 1120
+    },
+    {
+      "file": "CheckoutDesktop.dc.html",
+      "title": "Checkout · Cartão · 1440",
+      "page": "page-2",
+      "x": 1560,
+      "y": 3640,
+      "w": 1440,
+      "h": 1250
+    },
+    {
+      "file": "Tokens.dc.html",
+      "title": "Tokens",
+      "page": "page-3",
+      "x": 0,
+      "y": 0,
+      "w": 1200,
+      "h": 2650
+    },
+    {
+      "file": "Movimento.dc.html",
+      "title": "Movimento",
+      "page": "page-3",
+      "x": 1320,
+      "y": 0,
+      "w": 1200,
+      "h": 2000
+    }
+  ],
+  "annotations": [
+    {
+      "id": "legenda-390",
+      "page": "page-1",
+      "x": 0,
+      "y": -300,
+      "w": 1000,
+      "text": "RASCUNHO — aguardando sua aprovação.\n\nTodo texto aqui é provisório.\nSublinhado pontilhado = texto que eu escrevi de rascunho.\n[caixinha tracejada] = dado que eu não tenho e você precisa preencher.\n\nNenhum valor de fatura, data, nome de cliente, depoimento, prêmio ou case foi inventado.\nEstas são as telas em 390px — o mobile veio primeiro. O desktop está na página \"Desktop · 1440\"."
+    },
+    {
+      "id": "legenda-desktop",
+      "page": "page-2",
+      "x": 0,
+      "y": -260,
+      "w": 1000,
+      "text": "DESKTOP · 1440px\n\nÉ o mesmo HTML das telas de 390 — só muda a largura do quadro.\nO layout responde sozinho: nav com links, serviços em 3 colunas, passos em 4, portal em 2 colunas, login com painel escuro.\n\nPix e boleto no desktop têm o mesmo layout do cartão (coluna central de 560px), por isso só o cartão está aqui."
+    },
+    {
+      "id": "legenda-tokens",
+      "page": "page-3",
+      "x": 0,
+      "y": -220,
+      "w": 1000,
+      "text": "TOKENS\n\nOs que você me passou, mais 6 que eu precisei decidir para fechar as telas — todos marcados com \"decidido por mim\" na folha.\nSe algum não te agradar, é aqui que a gente muda antes de eu escrever qualquer código."
+    },
+    {
+      "id": "nota-abrir-email",
+      "page": "page-1",
+      "x": 1960,
+      "y": 0,
+      "w": 420,
+      "text": "BOTAO \"Abrir meu e-mail\"\n\nLeva a caixa de entrada do provedor, escolhido pelo dominio do e-mail digitado (Gmail, Outlook, Yahoo, iCloud, UOL, BOL, Terra).\n\nRegra: quando o dominio for proprio de empresa, nao da para adivinhar o provedor — o botao simplesmente nao aparece, e sobra so o \"Reenviar link\"."
+    },
+    {
+      "id": "nota-movimento",
+      "page": "page-3",
+      "x": 1320,
+      "y": -220,
+      "w": 1000,
+      "text": "MOVIMENTO — proposta\n\nUnico quadro do canvas que se mexe. Os seis exemplos funcionam de verdade: passe o mouse, clique no acordeao, clique no campo.\n\nO que depende de scroll de verdade (Lenis e entrada de secao) esta escrito, nao demonstrado — quadro de altura fixa nao reproduz rolagem com honestidade."
+    }
+  ],
+  "launch": {
+    "view": "canvas",
+    "page": "page-3"
+  },
+  "pages": [
+    {
+      "id": "page-1",
+      "name": "Telas · 390"
+    },
+    {
+      "id": "page-2",
+      "name": "Desktop · 1440"
+    },
+    {
+      "id": "page-3",
+      "name": "Tokens e movimento"
+    }
+  ]
+}

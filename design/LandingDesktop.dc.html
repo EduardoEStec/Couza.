@@ -1,0 +1,400 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&amp;display=swap">
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#191919; --dark:#080808; --n1:#737373; --n2:#a3a3a3;
+      --acc:#4F2BFF; --acc-h:#4123D1;
+      --line:#EAEAEA; --wash:#F5F5F5; --danger:#E0301F; --danger-w:#FDECEA;
+      --rc:32px; --rb:8px; --rp:999px;
+      --t-hero:clamp(44px,11.5vw,132px);
+      --t-h2:clamp(32px,5.2vw,64px);
+      --t-h3:clamp(20px,1.7vw,28px);
+      --t-lead:clamp(17px,1.4vw,21px);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);
+      font-family:'Jost','Century Gothic',Futura,system-ui,sans-serif;
+      font-weight:400;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+    a{color:var(--acc);text-decoration:none}
+    a:hover{color:var(--acc-h)}
+    h1,h2,h3,h4,p,ul,figure{margin:0;padding:0}
+    ul{list-style:none}
+    h1,h2,h3{font-weight:500;letter-spacing:-0.035em;line-height:1.03;text-wrap:balance}
+    p{text-wrap:pretty}
+    svg{display:block}
+
+    /* marcadores de rascunho */
+    .r{text-decoration:underline;text-decoration-style:dotted;text-decoration-color:#DCDCDC;text-decoration-thickness:1px;text-underline-offset:5px}
+    .ph{display:inline-block;padding:0 6px;border-radius:6px;background:var(--wash);border:1px dashed var(--n2);color:var(--n1);font-size:.92em;line-height:1.4;white-space:nowrap}
+    .ph-d{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.26);color:#a3a3a3}
+
+    /* layout */
+    .wrap{width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,3.5vw,56px)}
+    .sec{padding:clamp(56px,6.5vw,120px) 0}
+    .stack{display:flex;flex-direction:column}
+    .row{display:flex;align-items:center}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(1,minmax(0,1fr))}
+    @media (min-width:900px){ .grid{gap:24px;grid-template-columns:repeat(3,minmax(0,1fr))} }
+
+    /* tipografia */
+    .eyebrow{font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--n1)}
+    .lead{font-size:var(--t-lead);color:var(--n1);line-height:1.45}
+    .sm{font-size:14px;color:var(--n1)}
+    .xs{font-size:12px;color:var(--n2)}
+    .mono-n{font-variant-numeric:tabular-nums}
+
+    /* marca */
+    .logo{display:inline-flex;align-items:baseline;font-weight:600;font-size:22px;letter-spacing:-0.04em;color:var(--ink)}
+    .logo i{font-style:normal;color:var(--acc)}
+    .logo-d{color:#fff}
+
+    /* botões */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;
+      border-radius:var(--rb);background:var(--acc);color:#fff;font-weight:500;font-size:16px;border:1px solid var(--acc);
+      font-family:inherit;cursor:pointer;text-align:center}
+    .btn:hover{background:var(--acc-h);border-color:var(--acc-h);color:#fff}
+    .btn-lg{min-height:56px;padding:0 30px;font-size:17px}
+    .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+    .btn-ghost:hover{background:var(--wash);color:var(--ink);border-color:var(--n2)}
+    .btn-dark{background:#fff;color:var(--dark);border-color:#fff}
+    .btn-dark:hover{background:#EDEAFF;color:var(--dark);border-color:#EDEAFF}
+    .btn-danger{background:var(--danger);border-color:var(--danger)}
+    .btn-danger:hover{background:#B5251A;border-color:#B5251A}
+    .btn-sm{min-height:44px;padding:0 18px;font-size:15px}
+    .btn-block{width:100%}
+
+    /* pílulas / chips */
+    .pill{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border-radius:var(--rp);
+      font-size:13px;font-weight:500;line-height:1;white-space:nowrap}
+    .pill-acc{background:#EDEAFF;color:var(--acc)}
+    .pill-neutral{background:var(--wash);color:var(--n1)}
+    .pill-danger{background:var(--danger-w);color:var(--danger)}
+    .pill-dark{background:var(--dark);color:#fff}
+    .dot{width:7px;height:7px;border-radius:var(--rp);background:currentColor;flex:none}
+
+    /* cards */
+    .card{border:1px solid var(--line);border-radius:var(--rc);background:#fff}
+    .card-wash{background:var(--wash);border-color:transparent}
+    .card-dark{background:var(--dark);border-color:var(--dark);color:#fff}
+    .pad{padding:clamp(22px,2.2vw,32px)}
+
+    /* formulário */
+    .field{display:flex;flex-direction:column;gap:8px}
+    .label{font-size:14px;font-weight:500;color:var(--ink)}
+    .input{min-height:52px;border:1px solid var(--line);border-radius:var(--rb);padding:0 14px;
+      display:flex;align-items:center;gap:8px;color:var(--n2);font-size:16px;background:#fff}
+    .input-focus{border-color:var(--acc);box-shadow:0 0 0 3px #EDEAFF}
+    .hint{font-size:13px;color:var(--n2)}
+
+    /* abas */
+    .tabs{display:flex;gap:6px;padding:5px;background:var(--wash);border-radius:var(--rp)}
+    .tab{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 10px;
+      border-radius:var(--rp);font-size:15px;font-weight:500;color:var(--n1)}
+    .tab-on{background:#fff;color:var(--ink)}
+
+    /* topo do portal */
+    .topbar{position:sticky;top:0;z-index:9;display:flex;align-items:center;justify-content:space-between;
+      gap:16px;padding:14px clamp(20px,3.5vw,56px);background:rgba(255,255,255,.94);border-bottom:1px solid var(--line)}
+    .avatar{width:40px;height:40px;border-radius:var(--rp);background:var(--wash);display:flex;align-items:center;justify-content:center;color:var(--n1);flex:none}
+    .navlinks{display:none;gap:28px;font-size:16px;color:var(--n1)}
+    @media (min-width:900px){ .navlinks{display:flex} .hide-d{display:none!important} }
+    .segbar{display:flex;gap:8px;overflow:hidden}
+    .seg{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:var(--rp);
+      font-size:15px;font-weight:500;color:var(--n1);background:var(--wash);white-space:nowrap}
+    .seg-on{background:var(--dark);color:#fff}
+
+    .divider{height:1px;background:var(--line);border:0}
+    .kv{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0}
+    .kv + .kv{border-top:1px solid var(--line)}
+    .kv dt{font-size:15px;color:var(--n1)}
+    .kv dd{margin:0;font-size:15px;font-weight:500;text-align:right}
+  </style>
+</helmet>
+<style>
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+  .hero-vis{border-radius:var(--rc);background:var(--acc);color:#fff;min-height:280px;
+    display:flex;flex-direction:column;justify-content:space-between;gap:40px;padding:clamp(24px,2.4vw,40px)}
+  @media (min-width:900px){ .hero-vis{min-height:420px} }
+  .btn-on-acc{background:#fff;color:var(--acc);border-color:#fff}
+  .btn-on-acc:hover{background:#EDEAFF;color:var(--acc-h);border-color:#EDEAFF}
+  .grid4{display:grid;gap:16px;grid-template-columns:repeat(1,minmax(0,1fr))}
+  @media (min-width:900px){ .grid4{gap:24px;grid-template-columns:repeat(4,minmax(0,1fr))} }
+  .grid2{display:grid;gap:24px;grid-template-columns:repeat(1,minmax(0,1fr))}
+  @media (min-width:900px){ .grid2{gap:56px;grid-template-columns:1.05fr .95fr;align-items:end} }
+  .shot{border-radius:20px;border:1px dashed var(--n2);background:var(--wash);aspect-ratio:4/3;max-width:100%;
+    display:flex;align-items:center;justify-content:center;color:var(--n1);font-size:14px}
+  .faq-item{border-top:1px solid var(--line);padding:22px 0;display:flex;gap:16px;align-items:flex-start}
+  .faq-q{flex:1;font-size:clamp(18px,1.5vw,22px);font-weight:500;letter-spacing:-0.02em;line-height:1.3}
+  .sign{flex:none;width:24px;height:24px}
+  .fcols{display:grid;gap:32px;grid-template-columns:repeat(2,minmax(0,1fr))}
+  @media (min-width:900px){ .fcols{grid-template-columns:1.4fr .6fr .6fr .8fr;gap:40px} }
+  .flink{color:#a3a3a3;font-size:15px;padding:5px 0;display:block}
+  .flink:hover{color:#fff}
+  .num{font-size:clamp(40px,3.4vw,56px);font-weight:500;letter-spacing:-0.04em;color:var(--acc);line-height:1}
+  .feat{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+  .feat li{display:flex;align-items:center;gap:10px;font-size:14px}
+</style>
+
+<!-- ============ NAV (fixa) ============ -->
+<header class="nav">
+  <div class="wrap nav-in">
+    <span class="logo">courte<i>.</i></span>
+    <nav class="navlinks">
+      <a class="r" href="#" style="color:var(--n1)">Serviços</a>
+      <a class="r" href="#" style="color:var(--n1)">Como funciona</a>
+      <a class="r" href="#" style="color:var(--n1)">Trabalhos</a>
+      <a class="r" href="#" style="color:var(--n1)">Dúvidas</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:10px">
+      <a class="btn btn-sm" href="#">Portal do Cliente</a>
+      <span class="hide-d" style="width:44px;height:44px;border-radius:var(--rb);border:1px solid var(--line);display:flex;align-items:center;justify-content:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#191919" stroke-width="1.6" stroke-linecap="round"><path d="M3 7h18M3 12h18M3 17h18"></path></svg>
+      </span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="sec wrap" style="padding-top:clamp(40px,4vw,72px)">
+  <p class="eyebrow r">Desenvolvimento web sob medida</p>
+  <h1 style="font-size:var(--t-hero);margin-top:clamp(20px,2vw,32px);max-width:14ch">
+    <span class="r">Sites e sistemas</span><br><span class="r" style="color:var(--acc);text-decoration-color:#C9BEFF">sob medida.</span>
+  </h1>
+  <div class="grid2" style="margin-top:clamp(28px,3vw,48px)">
+    <p class="lead r" style="max-width:46ch">
+      Eu desenvolvo, publico e mantenho. Você acompanha tudo — o que contratou, o que vence e o que já pagou — no portal do cliente, sem precisar me perguntar.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      <a class="btn btn-lg" href="#">Pedir orçamento
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </a>
+      <a class="btn btn-lg btn-ghost" href="#">Ver trabalhos</a>
+    </div>
+  </div>
+  <div class="hero-vis" style="margin-top:clamp(32px,3.5vw,56px)">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px">
+      <span class="pill" style="background:rgba(255,255,255,.16);color:#fff">
+        <span class="dot"></span><span class="r" style="text-decoration-color:rgba(255,255,255,.45)">Projeto em destaque</span>
+      </span>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"></path></svg>
+    </div>
+    <div>
+      <span class="ph ph-d">imagem do projeto</span>
+      <p style="font-size:clamp(26px,2.6vw,44px);font-weight:500;letter-spacing:-0.035em;line-height:1.1;margin-top:16px">
+        <span class="ph ph-d">nome do projeto</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVIÇOS ============ -->
+<section class="sec wrap">
+  <p class="eyebrow r">Serviços</p>
+  <h2 style="font-size:var(--t-h2);margin-top:16px;max-width:18ch"><span class="r">O que eu faço, sem enrolação.</span></h2>
+
+  <div class="grid" style="margin-top:clamp(28px,3vw,48px)">
+    <article class="card pad">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13.5" rx="2.5"></rect><path d="M2.5 8.5h19M9 21h6"></path></svg>
+      <h3 class="r" style="font-size:var(--t-h3);margin-top:22px">Sites e landing pages</h3>
+      <p class="sm r" style="margin-top:12px;line-height:1.55">Uma página que apresenta o seu negócio e transforma visita em contato. Layout, texto e publicação.</p>
+      <ul class="feat">
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg><span class="r">Layout feito do zero</span></li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg><span class="r">Certo no celular primeiro</span></li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg><span class="r">Domínio e publicação</span></li>
+      </ul>
+    </article>
+
+    <article class="card pad">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5 12 3l8.5 4.5-8.5 4.5z"></path><path d="M3.5 12 12 16.5 20.5 12M3.5 16.5 12 21l8.5-4.5"></path></svg>
+      <h3 class="r" style="font-size:var(--t-h3);margin-top:22px">Sistemas sob medida</h3>
+      <p class="sm r" style="margin-top:12px;line-height:1.55">Quando a planilha não dá mais conta e o sistema de prateleira não serve, eu construo o que o seu processo pede.</p>
+      <ul class="feat">
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg><span class="r">Cadastros e relatórios</span></li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg><span class="r">Integração com outros serviços</span></li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg><span class="r">Acesso por usuário</span></li>
+      </ul>
+    </article>
+
+    <article class="card pad">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.4-5.7"></path><path d="M20 4v4h-4"></path></svg>
+      <h3 class="r" style="font-size:var(--t-h3);margin-top:22px">Manutenção e evolução</h3>
+      <p class="sm r" style="margin-top:12px;line-height:1.55">Mensalidade que cobre hospedagem, ajustes e melhorias — para o site não virar um problema seis meses depois.</p>
+      <ul class="feat">
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg><span class="r">Correções e ajustes</span></li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg><span class="r">Hospedagem monitorada</span></li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F2BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg><span class="r">Suporte direto comigo</span></li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- ============ COMO FUNCIONA ============ -->
+<section class="sec wrap">
+  <p class="eyebrow r">Como funciona</p>
+  <h2 style="font-size:var(--t-h2);margin-top:16px;max-width:16ch"><span class="r">Quatro passos, do primeiro contato ao pagamento.</span></h2>
+
+  <div class="grid4" style="margin-top:clamp(28px,3vw,48px)">
+    <div class="card card-wash pad">
+      <span class="num">01</span>
+      <h3 class="r" style="font-size:20px;margin-top:18px">Conversa</h3>
+      <p class="sm r" style="margin-top:10px;line-height:1.55">Você me conta o problema. Eu digo o que dá para fazer — e o que não vale a pena fazer.</p>
+    </div>
+    <div class="card card-wash pad">
+      <span class="num">02</span>
+      <h3 class="r" style="font-size:20px;margin-top:18px">Proposta</h3>
+      <p class="sm r" style="margin-top:10px;line-height:1.55">Escopo, prazo e valor por escrito, antes de qualquer linha de código.</p>
+    </div>
+    <div class="card card-wash pad">
+      <span class="num">03</span>
+      <h3 class="r" style="font-size:20px;margin-top:18px">Construção</h3>
+      <p class="sm r" style="margin-top:10px;line-height:1.55">Você acompanha o andamento e revisa antes de o site ir para o ar.</p>
+    </div>
+    <div class="card card-wash pad">
+      <span class="num">04</span>
+      <h3 class="r" style="font-size:20px;margin-top:18px">Portal</h3>
+      <p class="sm r" style="margin-top:10px;line-height:1.55">Depois de publicado, tudo fica no portal: produtos, faturas e pagamento.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRABALHOS (placeholder) ============ -->
+<section class="sec wrap">
+  <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between">
+    <div>
+      <p class="eyebrow r">Trabalhos</p>
+      <h2 style="font-size:var(--t-h2);margin-top:16px;max-width:16ch"><span class="r">Alguns projetos.</span></h2>
+    </div>
+    <span class="ph">a preencher com projetos reais</span>
+  </div>
+
+  <div class="grid" style="margin-top:clamp(28px,3vw,48px)">
+    <article class="card pad">
+      <div class="shot"><span class="ph">imagem do projeto</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px">
+        <h3 style="font-size:20px"><span class="ph">nome do projeto</span></h3>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"></path></svg>
+      </div>
+      <p class="sm" style="margin-top:10px"><span class="ph">tipo de projeto</span></p>
+    </article>
+    <article class="card pad">
+      <div class="shot"><span class="ph">imagem do projeto</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px">
+        <h3 style="font-size:20px"><span class="ph">nome do projeto</span></h3>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"></path></svg>
+      </div>
+      <p class="sm" style="margin-top:10px"><span class="ph">tipo de projeto</span></p>
+    </article>
+    <article class="card pad">
+      <div class="shot"><span class="ph">imagem do projeto</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px">
+        <h3 style="font-size:20px"><span class="ph">nome do projeto</span></h3>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"></path></svg>
+      </div>
+      <p class="sm" style="margin-top:10px"><span class="ph">tipo de projeto</span></p>
+    </article>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec wrap">
+  <div class="grid2" style="align-items:start">
+    <div>
+      <p class="eyebrow r">Dúvidas</p>
+      <h2 style="font-size:var(--t-h2);margin-top:16px;max-width:12ch"><span class="r">Perguntas que sempre chegam.</span></h2>
+    </div>
+    <div style="margin-top:8px">
+      <div class="faq-item" style="border-top:0">
+        <div>
+          <p class="faq-q r">Como funciona a cobrança?</p>
+          <p class="sm r" style="margin-top:12px;line-height:1.6">Projeto fechado tem valor combinado na proposta. Manutenção é mensalidade. Tudo aparece no portal, com vencimento todo dia <span class="ph">dia do vencimento</span>.</p>
+        </div>
+        <svg class="sign" viewBox="0 0 24 24" fill="none" stroke="#191919" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14"></path></svg>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q r">Quais formas de pagamento?</p>
+        <svg class="sign" viewBox="0 0 24 24" fill="none" stroke="#737373" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M12 5v14"></path></svg>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q r">Você emite nota fiscal?</p>
+        <svg class="sign" viewBox="0 0 24 24" fill="none" stroke="#737373" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M12 5v14"></path></svg>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q r">Em quanto tempo fica pronto?</p>
+        <svg class="sign" viewBox="0 0 24 24" fill="none" stroke="#737373" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M12 5v14"></path></svg>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q r">E se eu já tiver um site?</p>
+        <svg class="sign" viewBox="0 0 24 24" fill="none" stroke="#737373" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14M12 5v14"></path></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section class="wrap" style="padding-bottom:clamp(56px,6vw,110px)">
+  <div style="border-radius:var(--rc);background:var(--acc);color:#fff;padding:clamp(32px,4vw,80px)">
+    <h2 style="font-size:var(--t-h2);max-width:14ch"><span class="r" style="text-decoration-color:rgba(255,255,255,.45)">Tem um projeto? Me conte.</span></h2>
+    <p class="r" style="font-size:var(--t-lead);color:rgba(255,255,255,.82);margin-top:20px;max-width:42ch;text-decoration-color:rgba(255,255,255,.35)">
+      Resposta em <span class="ph ph-d">prazo de resposta</span>. Sem formulário de dez campos: me diga o que você precisa.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(28px,3vw,44px)">
+      <a class="btn btn-lg btn-on-acc" href="#">Falar comigo</a>
+      
+    </div>
+  </div>
+</section>
+
+<!-- ============ RODAPÉ ============ -->
+<footer style="background:var(--dark);color:#fff">
+  <div class="wrap" style="padding-top:clamp(48px,5vw,80px);padding-bottom:clamp(32px,3vw,48px)">
+    <div class="fcols">
+      <div>
+        <span class="logo logo-d">courte<i>.</i></span>
+        <p class="r" style="color:#a3a3a3;font-size:15px;margin-top:16px;max-width:30ch;line-height:1.55;text-decoration-color:#3a3a3a">
+          Sites e sistemas sob medida, feitos e mantidos por uma pessoa só.
+        </p>
+      </div>
+      <div>
+        <p class="xs" style="letter-spacing:.16em;text-transform:uppercase;color:#737373">Serviços</p>
+        <div style="margin-top:12px">
+          <a class="flink r" href="#">Sites</a>
+          <a class="flink r" href="#">Sistemas</a>
+          <a class="flink r" href="#">Manutenção</a>
+        </div>
+      </div>
+      <div>
+        <p class="xs" style="letter-spacing:.16em;text-transform:uppercase;color:#737373">Portal</p>
+        <div style="margin-top:12px">
+          <a class="flink r" href="#">Entrar</a>
+          <a class="flink r" href="#">Primeiro acesso</a>
+          <a class="flink r" href="#">Faturas</a>
+        </div>
+      </div>
+      <div>
+        <p class="xs" style="letter-spacing:.16em;text-transform:uppercase;color:#737373">Contato</p>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+          <span class="ph ph-d">e-mail</span>
+          <span class="ph ph-d">telefone / whatsapp</span>
+          <span class="ph ph-d">cidade / UF</span>
+        </div>
+      </div>
+    </div>
+    <hr class="divider" style="background:#242424;margin:clamp(36px,3.5vw,56px) 0 24px">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;color:#737373;font-size:13px">
+      <span>© 2026 courte.com.br</span>
+      
+    </div>
+  </div>
+</footer>
+</x-dc>
+</body>
+</html>

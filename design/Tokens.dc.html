@@ -1,0 +1,340 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap">
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#191919; --dark:#080808; --n1:#737373; --n2:#a3a3a3;
+      --acc:#4F2BFF; --acc-h:#4123D1;
+      --line:#EAEAEA; --wash:#F5F5F5; --danger:#E0301F; --danger-w:#FDECEA;
+      --rc:32px; --rb:8px; --rp:999px;
+      --t-hero:clamp(44px,11.5vw,132px);
+      --t-h2:clamp(32px,5.2vw,64px);
+      --t-h3:clamp(20px,1.7vw,28px);
+      --t-lead:clamp(17px,1.4vw,21px);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);
+      font-family:'Jost','Century Gothic',Futura,system-ui,sans-serif;
+      font-weight:400;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+    a{color:var(--acc);text-decoration:none}
+    a:hover{color:var(--acc-h)}
+    h1,h2,h3,h4,p,ul,figure{margin:0;padding:0}
+    ul{list-style:none}
+    h1,h2,h3{font-weight:500;letter-spacing:-0.035em;line-height:1.03;text-wrap:balance}
+    p{text-wrap:pretty}
+    svg{display:block}
+
+    /* marcadores de rascunho */
+    .r{text-decoration:underline;text-decoration-style:dotted;text-decoration-color:#DCDCDC;text-decoration-thickness:1px;text-underline-offset:5px}
+    .ph{display:inline-block;padding:0 6px;border-radius:6px;background:var(--wash);border:1px dashed var(--n2);color:var(--n1);font-size:.92em;line-height:1.4;white-space:nowrap}
+    .ph-d{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.26);color:#a3a3a3}
+
+    /* layout */
+    .wrap{width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,3.5vw,56px)}
+    .sec{padding:clamp(56px,6.5vw,120px) 0}
+    .stack{display:flex;flex-direction:column}
+    .row{display:flex;align-items:center}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(1,minmax(0,1fr))}
+    @media (min-width:900px){ .grid{gap:24px;grid-template-columns:repeat(3,minmax(0,1fr))} }
+
+    /* tipografia */
+    .eyebrow{font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--n1)}
+    .lead{font-size:var(--t-lead);color:var(--n1);line-height:1.45}
+    .sm{font-size:14px;color:var(--n1)}
+    .xs{font-size:12px;color:var(--n2)}
+    .mono-n{font-variant-numeric:tabular-nums}
+
+    /* marca */
+    .logo{display:inline-flex;align-items:baseline;font-weight:600;font-size:22px;letter-spacing:-0.04em;color:var(--ink)}
+    .logo i{font-style:normal;color:var(--acc)}
+    .logo-d{color:#fff}
+
+    /* botões */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;
+      border-radius:var(--rb);background:var(--acc);color:#fff;font-weight:500;font-size:16px;border:1px solid var(--acc);
+      font-family:inherit;cursor:pointer;text-align:center}
+    .btn:hover{background:var(--acc-h);border-color:var(--acc-h);color:#fff}
+    .btn-lg{min-height:56px;padding:0 30px;font-size:17px}
+    .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+    .btn-ghost:hover{background:var(--wash);color:var(--ink);border-color:var(--n2)}
+    .btn-dark{background:#fff;color:var(--dark);border-color:#fff}
+    .btn-dark:hover{background:#EDEAFF;color:var(--dark);border-color:#EDEAFF}
+    .btn-danger{background:var(--danger);border-color:var(--danger)}
+    .btn-danger:hover{background:#B5251A;border-color:#B5251A}
+    .btn-sm{min-height:44px;padding:0 18px;font-size:15px}
+    .btn-block{width:100%}
+
+    /* pílulas / chips */
+    .pill{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border-radius:var(--rp);
+      font-size:13px;font-weight:500;line-height:1;white-space:nowrap}
+    .pill-acc{background:#EDEAFF;color:var(--acc)}
+    .pill-neutral{background:var(--wash);color:var(--n1)}
+    .pill-danger{background:var(--danger-w);color:var(--danger)}
+    .pill-dark{background:var(--dark);color:#fff}
+    .dot{width:7px;height:7px;border-radius:var(--rp);background:currentColor;flex:none}
+
+    /* cards */
+    .card{border:1px solid var(--line);border-radius:var(--rc);background:#fff}
+    .card-wash{background:var(--wash);border-color:transparent}
+    .card-dark{background:var(--dark);border-color:var(--dark);color:#fff}
+    .pad{padding:clamp(22px,2.2vw,32px)}
+
+    /* formulário */
+    .field{display:flex;flex-direction:column;gap:8px}
+    .label{font-size:14px;font-weight:500;color:var(--ink)}
+    .input{min-height:52px;border:1px solid var(--line);border-radius:var(--rb);padding:0 14px;
+      display:flex;align-items:center;gap:8px;color:var(--n2);font-size:16px;background:#fff}
+    .input-focus{border-color:var(--acc);box-shadow:0 0 0 3px #EDEAFF}
+    .hint{font-size:13px;color:var(--n2)}
+
+    /* abas */
+    .tabs{display:flex;gap:6px;padding:5px;background:var(--wash);border-radius:var(--rp)}
+    .tab{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 10px;
+      border-radius:var(--rp);font-size:15px;font-weight:500;color:var(--n1)}
+    .tab-on{background:#fff;color:var(--ink)}
+
+    /* topo do portal */
+    .topbar{position:sticky;top:0;z-index:9;display:flex;align-items:center;justify-content:space-between;
+      gap:16px;padding:14px clamp(20px,3.5vw,56px);background:rgba(255,255,255,.94);border-bottom:1px solid var(--line)}
+    .avatar{width:40px;height:40px;border-radius:var(--rp);background:var(--wash);display:flex;align-items:center;justify-content:center;color:var(--n1);flex:none}
+    .navlinks{display:none;gap:28px;font-size:16px;color:var(--n1)}
+    @media (min-width:900px){ .navlinks{display:flex} .hide-d{display:none!important} }
+    .segbar{display:flex;gap:8px;overflow:hidden}
+    .seg{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:var(--rp);
+      font-size:15px;font-weight:500;color:var(--n1);background:var(--wash);white-space:nowrap}
+    .seg-on{background:var(--dark);color:#fff}
+
+    .divider{height:1px;background:var(--line);border:0}
+    .kv{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0}
+    .kv + .kv{border-top:1px solid var(--line)}
+    .kv dt{font-size:15px;color:var(--n1)}
+    .kv dd{margin:0;font-size:15px;font-weight:500;text-align:right}
+  </style>
+</helmet>
+<style>
+  .sheet{padding:56px}
+  .block{margin-top:52px}
+  .btitle{font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--n1);padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .sw{display:grid;gap:16px;grid-template-columns:repeat(4,minmax(0,1fr))}
+  .chip{height:96px;border-radius:18px;border:1px solid var(--line)}
+  .swname{font-size:15px;font-weight:500;margin-top:12px}
+  .swhex{font-size:13px;color:var(--n1);margin-top:3px;font-variant-numeric:tabular-nums}
+  .swrole{font-size:13px;color:var(--n2);margin-top:6px;line-height:1.4}
+  .mine{display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);
+    background:#EDEAFF;border-radius:var(--rp);padding:3px 9px}
+  .scale-row{display:flex;align-items:baseline;gap:24px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .scale-meta{flex:none;width:210px;font-size:13px;color:var(--n1);line-height:1.5}
+  .rad{display:grid;gap:20px;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .radbox{height:120px;background:var(--wash);display:flex;align-items:center;justify-content:center;color:var(--n1);font-size:14px}
+</style>
+
+<div class="sheet">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+    <div>
+      <span class="logo" style="font-size:30px">courte<i>.</i></span>
+      <h1 style="font-size:46px;margin-top:18px">Sistema visual</h1>
+      <p class="lead" style="margin-top:12px">Tokens usados em todas as telas deste canvas.</p>
+    </div>
+    <span class="pill pill-danger" style="height:36px">Rascunho — aguardando aprovação</span>
+  </div>
+
+  <!-- LEGENDA DOS MARCADORES -->
+  <div class="card card-wash pad" style="margin-top:40px;display:grid;gap:20px;grid-template-columns:1fr 1fr">
+    <div>
+      <p style="font-size:16px;font-weight:500">Marcadores usados nas telas</p>
+      <p class="sm" style="margin-top:10px;line-height:1.6">
+        <span class="r">Texto com sublinhado pontilhado</span> = texto que eu escrevi de rascunho. Tudo isso é provisório e pode ser reescrito.
+      </p>
+      <p class="sm" style="margin-top:10px;line-height:1.6">
+        <span class="ph" style="background:#fff">assim</span> = dado que eu não tenho. Nenhum valor, data, nome de cliente, número ou case foi inventado.
+      </p>
+    </div>
+    <div>
+      <p style="font-size:16px;font-weight:500">Fonte</p>
+      <p class="sm" style="margin-top:10px;line-height:1.6">
+        Jost (Google Fonts), pesos 400 / 500 / 600.<br>
+        Fallback: Century Gothic, Futura, system-ui.
+      </p>
+      <div style="display:flex;gap:28px;margin-top:16px;align-items:baseline">
+        <span style="font-size:34px;font-weight:400">Aa <span style="font-size:13px;color:var(--n1)">400</span></span>
+        <span style="font-size:34px;font-weight:500">Aa <span style="font-size:13px;color:var(--n1)">500</span></span>
+        <span style="font-size:34px;font-weight:600">Aa <span style="font-size:13px;color:var(--n1)">600</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORES -->
+  <div class="block">
+    <p class="btitle">Cores</p>
+    <div class="sw" style="margin-top:22px">
+      <div>
+        <div class="chip" style="background:#4F2BFF;border-color:#4F2BFF"></div>
+        <p class="swname">Destaque</p><p class="swhex">#4F2BFF</p>
+        <p class="swrole">Botões, links, ênfase. Texto em cima sempre branco.</p>
+      </div>
+      <div>
+        <div class="chip" style="background:#4123D1;border-color:#4123D1"></div>
+        <p class="swname">Destaque · hover</p><p class="swhex">#4123D1</p>
+        <p class="swrole">Derivado do destaque, 18% mais escuro.</p>
+        <span class="mine">decidido por mim</span>
+      </div>
+      <div>
+        <div class="chip" style="background:#080808;border-color:#080808"></div>
+        <p class="swname">Superfície escura</p><p class="swhex">#080808</p>
+        <p class="swrole">Rodapé, painel do login, pílula ativa.</p>
+      </div>
+      <div>
+        <div class="chip" style="background:#191919;border-color:#191919"></div>
+        <p class="swname">Texto</p><p class="swhex">#191919</p>
+        <p class="swrole">Títulos e corpo sobre fundo claro.</p>
+      </div>
+
+      <div>
+        <div class="chip" style="background:#737373;border-color:#737373"></div>
+        <p class="swname">Neutro 1</p><p class="swhex">#737373</p>
+        <p class="swrole">Texto de apoio, rótulos.</p>
+      </div>
+      <div>
+        <div class="chip" style="background:#a3a3a3;border-color:#a3a3a3"></div>
+        <p class="swname">Neutro 2</p><p class="swhex">#a3a3a3</p>
+        <p class="swrole">Placeholder, texto terciário.</p>
+      </div>
+      <div>
+        <div class="chip" style="background:#ffffff"></div>
+        <p class="swname">Fundo</p><p class="swhex">#ffffff</p>
+        <p class="swrole">Fundo de tudo.</p>
+      </div>
+      <div>
+        <div class="chip" style="background:#F5F5F5;border-color:#F5F5F5"></div>
+        <p class="swname">Superfície clara</p><p class="swhex">#F5F5F5</p>
+        <p class="swrole">Cards secundários, campos, abas.</p>
+        <span class="mine">decidido por mim</span>
+      </div>
+
+      <div>
+        <div class="chip" style="background:#EAEAEA;border-color:#EAEAEA"></div>
+        <p class="swname">Linha</p><p class="swhex">#EAEAEA</p>
+        <p class="swrole">Bordas de card, divisórias, campos.</p>
+        <span class="mine">decidido por mim</span>
+      </div>
+      <div>
+        <div class="chip" style="background:#EDEAFF;border-color:#EDEAFF"></div>
+        <p class="swname">Destaque claro</p><p class="swhex">#EDEAFF</p>
+        <p class="swrole">Pílula "em aberto", ícones, foco de campo.</p>
+        <span class="mine">decidido por mim</span>
+      </div>
+      <div>
+        <div class="chip" style="background:#E0301F;border-color:#E0301F"></div>
+        <p class="swname">Atraso</p><p class="swhex">#E0301F</p>
+        <p class="swrole">Só para fatura atrasada. Única cor fora da sua lista.</p>
+        <span class="mine">decidido por mim</span>
+      </div>
+      <div>
+        <div class="chip" style="background:#FDECEA;border-color:#FDECEA"></div>
+        <p class="swname">Atraso · fundo</p><p class="swhex">#FDECEA</p>
+        <p class="swrole">Fundo do card de fatura atrasada.</p>
+        <span class="mine">decidido por mim</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPOGRAFIA -->
+  <div class="block">
+    <p class="btitle">Escala tipográfica (fluida)</p>
+    <div style="margin-top:8px">
+      <div class="scale-row">
+        <span class="scale-meta">Hero<br>44px no 390 → 132px no desktop</span>
+        <span style="font-size:var(--t-hero);font-weight:500;letter-spacing:-0.035em;line-height:1">Aa</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-meta">Título de seção<br>32px → 64px</span>
+        <span style="font-size:var(--t-h2);font-weight:500;letter-spacing:-0.035em;line-height:1">Sites e sistemas</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-meta">Título de card<br>20px → 28px</span>
+        <span style="font-size:var(--t-h3);font-weight:500;letter-spacing:-0.03em">Sistemas sob medida</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-meta">Linha de apoio<br>17px → 21px</span>
+        <span style="font-size:var(--t-lead);color:var(--n1)">Texto de apoio abaixo do título.</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-meta">Corpo · 16px</span>
+        <span style="font-size:16px">Parágrafo comum do site e do portal.</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-meta">Apoio · 14px</span>
+        <span style="font-size:14px;color:var(--n1)">Rótulo de campo, meta de fatura.</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-meta">Miúdo · 12px</span>
+        <span style="font-size:12px;color:var(--n2)">Nota de rodapé, aviso.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAIOS -->
+  <div class="block">
+    <p class="btitle">Raios</p>
+    <div class="rad" style="margin-top:22px">
+      <div>
+        <div class="radbox" style="border-radius:32px">32px</div>
+        <p class="swname">Cards</p>
+        <p class="swrole">Card de serviço, produto, fatura, blocos de CTA.</p>
+      </div>
+      <div>
+        <div class="radbox" style="border-radius:8px">8px</div>
+        <p class="swname">Botões e campos</p>
+        <p class="swrole">Botão, input, caixa de código.</p>
+      </div>
+      <div>
+        <div class="radbox" style="border-radius:999px">999px</div>
+        <p class="swname">Pílulas</p>
+        <p class="swrole">Status, filtros, abas, avatar.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENTES -->
+  <div class="block">
+    <p class="btitle">Componentes base</p>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:24px">
+      <button class="btn">Botão primário</button>
+      <button class="btn" style="background:#4123D1;border-color:#4123D1">Primário · hover</button>
+      <button class="btn btn-ghost">Botão secundário</button>
+      <button class="btn btn-danger">Ação de atraso</button>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px">
+      <span class="pill pill-acc"><span class="dot"></span>Em aberto</span>
+      <span class="pill pill-neutral">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>
+        Paga
+      </span>
+      <span class="pill pill-danger">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 7v6M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg>
+        Atrasada
+      </span>
+      <span class="pill pill-dark">Filtro ativo</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;margin-top:26px">
+      <div class="field" style="width:280px">
+        <label class="label">Campo em repouso</label>
+        <div class="input"><span class="ph">placeholder</span></div>
+      </div>
+      <div class="field" style="width:280px">
+        <label class="label">Campo em foco</label>
+        <div class="input input-focus" style="color:var(--ink)">texto digitado</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

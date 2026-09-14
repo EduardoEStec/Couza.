@@ -1,0 +1,180 @@
+import {
+  comoFunciona,
+  hero,
+  servicos,
+  trabalhos,
+} from "@/content/site";
+import {
+  Botao,
+  Check,
+  Falta,
+  icones,
+  Seta,
+  SetaDiagonal,
+  Sobretitulo,
+  Texto,
+} from "@/components/ui";
+import { Entrar, Revelar } from "@/components/movimento";
+
+const secao = "mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-14";
+
+/* ------------------------------------------------------------------ */
+
+export function Hero() {
+  return (
+    <section className={`${secao} pt-10 pb-14 lg:pt-18 lg:pb-30`}>
+      <Sobretitulo>{hero.sobretitulo}</Sobretitulo>
+
+      <h1 className="mt-5 max-w-[14ch] text-hero lg:mt-8">
+        <Revelar>{hero.titulo[0]}</Revelar>
+        <br />
+        <Revelar className="text-acc" atraso={0.12}>
+          {hero.titulo[1]}
+        </Revelar>
+      </h1>
+
+      <div className="mt-7 grid gap-6 lg:mt-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-end lg:gap-14">
+        <Entrar atraso={0.2}>
+          <p className="max-w-[46ch] text-lead text-n1">{hero.texto}</p>
+        </Entrar>
+        <Entrar atraso={0.28} className="flex flex-wrap gap-3">
+          <Botao href={hero.acaoPrincipal.href} grande>
+            {hero.acaoPrincipal.texto}
+            <Seta />
+          </Botao>
+          <Botao href={hero.acaoSecundaria.href} variante="contorno" grande>
+            {hero.acaoSecundaria.texto}
+          </Botao>
+        </Entrar>
+      </div>
+
+      <Entrar atraso={0.36}>
+        <div className="mt-8 flex min-h-70 flex-col justify-between gap-10 rounded-card bg-acc p-6 text-white lg:mt-14 lg:min-h-105 lg:p-10">
+          <div className="flex items-start justify-between gap-4">
+            <span className="inline-flex h-8 items-center gap-1.5 rounded-pill bg-white/15 px-3.5 text-[13px] font-medium">
+              <span className="h-[7px] w-[7px] rounded-pill bg-current" />
+              {hero.destaque.etiqueta}
+            </span>
+            <SetaDiagonal tamanho={28} className="text-white" />
+          </div>
+          <div>
+            <Falta o={hero.destaque.imagem} tom="escuro" />
+            <p className="mt-4 text-[26px] font-medium leading-[1.1] tracking-[-0.035em] lg:text-[44px]">
+              <Falta o={hero.destaque.nome} tom="escuro" />
+            </p>
+          </div>
+        </div>
+      </Entrar>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
+export function Servicos() {
+  return (
+    <section id="servicos" className={`${secao} py-14 lg:py-30`}>
+      <Sobretitulo>{servicos.sobretitulo}</Sobretitulo>
+      <h2 className="mt-4 max-w-[18ch] text-h2">
+        <Revelar>{servicos.titulo}</Revelar>
+      </h2>
+
+      <div className="mt-7 grid gap-4 lg:mt-12 lg:grid-cols-3 lg:gap-6">
+        {servicos.itens.map((item, i) => {
+          const Icone = icones[item.icone];
+          return (
+            <Entrar
+              key={item.titulo}
+              atraso={i * 0.08}
+              className="rounded-card border border-line bg-white p-[22px] transition-[transform,box-shadow,border-color] duration-200 ease-out-soft hover:-translate-y-1.5 hover:border-[#dcdcdc] hover:shadow-[0_18px_40px_rgba(25,25,25,0.10)] lg:p-8"
+            >
+              <Icone className="text-acc" />
+              <h3 className="mt-5 text-h3">{item.titulo}</h3>
+              <p className="mt-3 text-sm leading-[1.55] text-n1">{item.texto}</p>
+              <ul className="mt-5 flex flex-col gap-2.5">
+                {item.pontos.map((p) => (
+                  <li key={p} className="flex items-center gap-2.5 text-sm">
+                    <Check className="shrink-0 text-acc" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </Entrar>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
+export function ComoFunciona() {
+  return (
+    <section id="como-funciona" className={`${secao} py-14 lg:py-30`}>
+      <Sobretitulo>{comoFunciona.sobretitulo}</Sobretitulo>
+      <h2 className="mt-4 max-w-[16ch] text-h2">
+        <Revelar>{comoFunciona.titulo}</Revelar>
+      </h2>
+
+      <div className="mt-7 grid gap-4 lg:mt-12 lg:grid-cols-4 lg:gap-6">
+        {comoFunciona.passos.map((p, i) => (
+          <Entrar
+            key={p.numero}
+            atraso={i * 0.08}
+            className="rounded-card bg-wash p-[22px] lg:p-8"
+          >
+            <span className="text-[40px] font-medium leading-none tracking-[-0.04em] text-acc lg:text-[56px]">
+              {p.numero}
+            </span>
+            <h3 className="mt-4.5 text-xl font-medium tracking-[-0.03em]">
+              {p.titulo}
+            </h3>
+            <p className="mt-2.5 text-sm leading-[1.55] text-n1">{p.texto}</p>
+          </Entrar>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
+export function Trabalhos() {
+  return (
+    <section id="trabalhos" className={`${secao} py-14 lg:py-30`}>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <Sobretitulo>{trabalhos.sobretitulo}</Sobretitulo>
+          <h2 className="mt-4 max-w-[16ch] text-h2">
+            <Revelar>{trabalhos.titulo}</Revelar>
+          </h2>
+        </div>
+        <Falta o={trabalhos.aviso} />
+      </div>
+
+      <div className="mt-7 grid gap-4 lg:mt-12 lg:grid-cols-3 lg:gap-6">
+        {trabalhos.itens.map((item, i) => (
+          <Entrar
+            key={i}
+            atraso={i * 0.08}
+            className="group rounded-card border border-line bg-white p-[22px] transition-[transform,box-shadow,border-color] duration-200 ease-out-soft hover:-translate-y-1.5 hover:border-[#dcdcdc] hover:shadow-[0_18px_40px_rgba(25,25,25,0.10)] lg:p-8"
+          >
+            <div className="flex aspect-[4/3] items-center justify-center rounded-[20px] border border-dashed border-n2 bg-wash text-sm text-n1">
+              <Texto v={item.imagem} />
+            </div>
+            <div className="mt-5 flex items-center justify-between gap-3">
+              <h3 className="text-xl font-medium tracking-[-0.03em]">
+                <Texto v={item.nome} />
+              </h3>
+              <SetaDiagonal className="text-n2 transition-colors duration-200 ease-out-soft group-hover:text-acc" />
+            </div>
+            <p className="mt-2.5 text-sm text-n1">
+              <Texto v={item.tipo} />
+            </p>
+          </Entrar>
+        ))}
+      </div>
+    </section>
+  );
+}
