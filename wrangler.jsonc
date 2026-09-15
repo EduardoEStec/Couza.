@@ -2,6 +2,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "courte",
 
+  // Fixo de proposito: a conta do Guilherme tem quatro (courte, financeiro,
+  // promo e a pessoal). Sem isto, um deploy poderia ir parar na errada.
+  "account_id": "5baf1f70cf56e2ac6ebaf6217b4afedc",
+
   // Aponta para o worker CUSTOMIZADO, não para o gerado. O gerado só sabe
   // responder a requisições HTTP; o nosso acrescenta o handler `scheduled`,
   // que é como o Cron Trigger chega — Cron Trigger não é uma rota.
@@ -27,17 +31,20 @@
   // Nao sao segredo: podem ficar no repositorio. Tudo que e sigiloso entra
   // como secret do Worker (`npx wrangler secret put`), nunca aqui.
   "vars": {
-    "ASAAS_AMBIENTE": "producao",
+    // SANDBOX ate o teste ponta a ponta terminar. A troca para
+    // "producao" e o ULTIMO passo do deploy, e so com o aval do Guilherme
+    // na hora — exigencia do ETAPAS.md.
+    "ASAAS_AMBIENTE": "sandbox",
     "URL_BASE": "https://courte.com.br",
     "SMS_ATIVO": "false"
   },
 
-  "routes": [
-    {
-      "pattern": "courte.com.br",
-      "custom_domain": true
-    }
-  ],
+  // PENDENTE: a zona courte.com.br nao esta nesta conta (o deploy falha com
+  // "Could not find zone"). Religar assim que o Guilherme disser em qual
+  // conta ela mora — ou o Worker muda de conta, ou a zona muda.
+  // "routes": [
+  //   { "pattern": "courte.com.br", "custom_domain": true }
+  // ],
 
   /**
    * Logs do Worker, LIGADOS de propósito e declarados aqui em vez de

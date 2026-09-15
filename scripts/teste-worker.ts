@@ -33,10 +33,24 @@ const dia = (n: number) => {
   return d.toISOString().slice(0, 10);
 };
 
+/**
+ * Apaga na ORDEM das dependencias, e sem engolir erro.
+ *
+ * `faturas.cliente_id` e `onDelete: restrict` de proposito — ninguem apaga
+ * um cliente que tem fatura por acidente. Isso vale para o sistema e vale
+ * aqui: a primeira versao deste script mandava um `delete from clientes`
+ * solto com `.catch(() => {})`, o banco recusava, e ele imprimia "dados
+ * removidos" mesmo assim. Limpeza que mente e pior do que limpeza nenhuma.
+ */
 async function limpar() {
-  await consultar(sql`
-    delete from clientes where email = ${EMAIL}
-  `).catch(() => {});
+  const alvo = sql`(select id from clientes where email = ${EMAIL})`;
+  await consultar(sql`delete from sessoes where usuario_id in (select id from usuarios where cliente_id in ${alvo})`);
+  await consultar(sql`delete from emails_enviados where cliente_id in ${alvo}`);
+  await consultar(sql`delete from tokens_acesso where cliente_id in ${alvo}`);
+  await consultar(sql`delete from faturas where cliente_id in ${alvo}`);
+  await consultar(sql`delete from produtos where cliente_id in ${alvo}`);
+  await consultar(sql`delete from usuarios where cliente_id in ${alvo}`);
+  await consultar(sql`delete from clientes where email = ${EMAIL}`);
 }
 
 (async () => {
