@@ -136,7 +136,7 @@ export function FormCliente({
     id: string;
     nome: string;
     email: string;
-    documento: string | null;
+    documento: string;
     telefone: string | null;
   };
 }) {
@@ -152,7 +152,8 @@ export function FormCliente({
           nome="documento"
           texto="CPF ou CNPJ"
           valor={cliente?.documento}
-          dica="Vai impresso no recibo"
+          obrigatorio
+          dica="O Asaas exige. Vai impresso no recibo."
         />
         <Campo nome="telefone" texto="Telefone" valor={cliente?.telefone} />
       </div>

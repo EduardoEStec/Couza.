@@ -50,7 +50,7 @@ async function limpar() {
   await limpar();
 
   const idA = await criarCliente({ nome: "Cliente A", email: A, documento: "11111111111", telefone: null });
-  const idB = await criarCliente({ nome: "Cliente B", email: B, documento: null, telefone: null });
+  const idB = await criarCliente({ nome: "Cliente B", email: B, documento: "24971563792", telefone: null });
 
   await criarProduto(idA, {
     nome: "Site do A", descricao: "landing", tipo: "site", endereco: "a.com.br",
@@ -129,7 +129,7 @@ async function limpar() {
   ok((await faturaDoCliente(idA, "id-inventado")) === null, "id inventado nao abre nada");
 
   console.log("\n8) cliente novo, sem nada");
-  const idVazio = await criarCliente({ nome: "Cliente Vazio", email: "vazio@exemplo.invalido", documento: null, telefone: null });
+  const idVazio = await criarCliente({ nome: "Cliente Vazio", email: "vazio@exemplo.invalido", documento: "24971563792", telefone: null });
   ok((await produtosDoCliente(idVazio)).length === 0, "sem produto, lista vazia — nao inventa exemplo");
   ok((await faturasDoCliente(idVazio, "todas")).length === 0, "sem fatura, lista vazia");
   const rv = await resumoDoCliente(idVazio);

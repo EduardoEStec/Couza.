@@ -71,8 +71,16 @@ export const clientes = pgTable(
     nome: text("nome").notNull(),
     /** E-mail de contato e cobranca. Pode diferir do e-mail de login. */
     email: text("email").notNull(),
-    /** CPF ou CNPJ, so digitos. Vai impresso no recibo. Opcional. */
-    documento: text("documento"),
+    /**
+     * CPF ou CNPJ. OBRIGATORIO — decidido em 15/09/2026, invertendo a
+     * decisao anterior de deixar opcional.
+     *
+     * O motivo: o Asaas exige cpfCnpj para criar cliente. Deixar opcional
+     * aqui so adiava o problema — o cadastro nascia e a sincronizacao
+     * falhava depois, com o Guilherme achando que estava tudo certo.
+     * A regra geral que saiu disso: o que o Asaas obriga, a gente obriga.
+     */
+    documento: text("documento").notNull(),
     telefone: text("telefone"),
 
     /** Id do mesmo cliente do lado do Asaas, preenchido na etapa 6. */

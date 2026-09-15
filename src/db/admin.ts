@@ -34,7 +34,8 @@ export type Cliente = {
   id: string;
   nome: string;
   email: string;
-  documento: string | null;
+  /** Obrigatorio: o Asaas exige. Ver o comentario em db/schema.ts. */
+  documento: string;
   telefone: string | null;
 };
 
@@ -48,7 +49,7 @@ export async function lerCliente(id: string): Promise<Cliente | null> {
 export type DadosCliente = {
   nome: string;
   email: string;
-  documento: string | null;
+  documento: string;
   telefone: string | null;
 };
 

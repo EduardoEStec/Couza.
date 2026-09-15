@@ -88,8 +88,14 @@ devolve algo inesperado.
 - **Mensalidade e cobrança avulsa vivem na mesma tabela** (`faturas`),
   separadas por `tipo`.
 - **`dia_vencimento` fica no produto**, não no cliente e não global.
-- **`documento` do cliente (CPF/CNPJ) é opcional** — o recibo lida com a
-  ausência, não force obrigatório.
+- **`documento` do cliente (CPF/CNPJ) é OBRIGATÓRIO** (revertido em
+  15/09/2026: antes era opcional). O Asaas exige `cpfCnpj` para criar
+  cliente, e deixar opcional aqui só adiava o erro.
+- **REGRA GERAL que saiu disso: o que o Asaas obriga, a gente obriga.**
+  Campo obrigatório lá vira obrigatório aqui, validado na tela. É melhor a
+  tela recusar do que o cadastro nascer e a sincronização falhar calada.
+  Já aplicado: CPF/CNPJ do cliente; e produto com mensalidade exige dia de
+  vencimento, porque a assinatura no Asaas precisa do primeiro vencimento.
 - **Id na URL é uuid aleatório**; o número da fatura que o cliente lê é
   sequencial e separado do id.
 - **Token nunca em claro no banco** — sessão e link de acesso guardam só o hash.

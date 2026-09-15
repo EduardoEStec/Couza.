@@ -15,6 +15,13 @@
       "when": 1789445538833,
       "tag": "0001_eventos-asaas",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789446468709,
+      "tag": "0002_documento-obrigatorio",
+      "breakpoints": true
     }
   ]
 }

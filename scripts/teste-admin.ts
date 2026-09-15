@@ -56,10 +56,12 @@ const ok = (c: boolean, m: string) => {
   const c = await lerCliente(clienteId);
   ok(c?.email === EMAIL, "e-mail gravado em minuscula mesmo digitado em MAIUSCULA");
   await atualizarCliente(clienteId, {
-    nome: "Cliente Renomeado", email: EMAIL, documento: null, telefone: null,
+    nome: "Cliente Renomeado", email: EMAIL, documento: "24971563792", telefone: null,
   });
   const c2 = await lerCliente(clienteId);
-  ok(c2?.nome === "Cliente Renomeado" && c2.documento === null, "edicao grava e limpa campo");
+  ok(c2?.nome === "Cliente Renomeado", "edicao grava o nome novo");
+  ok(c2?.documento === "24971563792", "documento continua preenchido — agora e obrigatorio");
+  ok(c2?.telefone === null, "campo opcional pode ser limpo");
 
   console.log("\n4) produto");
   await criarProduto(clienteId, {

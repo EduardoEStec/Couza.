@@ -64,10 +64,19 @@ export async function salvarCliente(
     return { erro: "E-mail inválido." };
   }
 
+  // Obrigatorio porque o Asaas obriga. Recusar aqui e melhor do que deixar
+  // o cadastro nascer e a sincronizacao falhar depois, calada.
+  const documento = String(dados.get("documento") ?? "").replace(/\D/g, "");
+  if (documento.length !== 11 && documento.length !== 14) {
+    return {
+      erro: "Informe um CPF (11 dígitos) ou CNPJ (14 dígitos). O Asaas exige.",
+    };
+  }
+
   const d = {
     nome,
     email,
-    documento: textoOuNulo(dados.get("documento")),
+    documento,
     telefone: textoOuNulo(dados.get("telefone")),
   };
 
@@ -119,6 +128,12 @@ export async function salvarProduto(
     // Ate 28 de proposito: dia 29, 30 e 31 nao existem em todo mes, e a
     // regra de "empurra para o ultimo dia" e decisao do Guilherme, nao minha.
     return { erro: "Dia de vencimento deve ser de 1 a 28." };
+  }
+
+  // Mesma logica: para criar a assinatura, o Asaas precisa do primeiro
+  // vencimento. Mensalidade sem dia seria um produto que nunca cobra.
+  if (mensalidadeCentavos !== null && diaVencimento === null) {
+    return { erro: "Produto com mensalidade precisa do dia do vencimento." };
   }
 
   const d = {
