@@ -1,5 +1,5 @@
 {
-  "id": "6e9110f7-18cf-4d20-975e-9886a3398b45",
+  "id": "5ce4be79-db44-466b-b3c3-0d9540bfc638",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -455,11 +455,19 @@
           "primaryKey": false,
           "notNull": true
         },
-        "tipo": {
-          "name": "tipo",
+        "descricao": {
+          "name": "descricao",
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "tipo": {
+          "name": "tipo",
+          "type": "tipo_produto",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'site'"
         },
         "endereco": {
           "name": "endereco",
@@ -479,12 +487,13 @@
           "primaryKey": false,
           "notNull": false
         },
-        "ativo": {
-          "name": "ativo",
-          "type": "boolean",
+        "status": {
+          "name": "status",
+          "type": "status_produto",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
-          "default": true
+          "default": "'ativo'"
         },
         "ativo_desde": {
           "name": "ativo_desde",
@@ -892,6 +901,15 @@
         "cancelada"
       ]
     },
+    "public.status_produto": {
+      "name": "status_produto",
+      "schema": "public",
+      "values": [
+        "ativo",
+        "pausado",
+        "encerrado"
+      ]
+    },
     "public.tipo_email": {
       "name": "tipo_email",
       "schema": "public",
@@ -908,6 +926,15 @@
       "values": [
         "mensalidade",
         "avulsa"
+      ]
+    },
+    "public.tipo_produto": {
+      "name": "tipo_produto",
+      "schema": "public",
+      "values": [
+        "site",
+        "sistema",
+        "manutencao"
       ]
     },
     "public.tipo_token": {

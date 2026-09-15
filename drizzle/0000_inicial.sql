@@ -1,13 +1,13 @@
 -- pgcrypto: o bcrypt das senhas roda AQUI, no Postgres, nao no Worker.
--- A Cloudflare limita o PBKDF2 da Web Crypto a 100 mil iteracoes, abaixo do
--- que a OWASP recomenda, e o hash ainda gastaria o orcamento de CPU do Worker
--- justamente no login. Ver src/lib/senha.ts e src/db/usuarios.ts
+-- Ver src/lib/senha.ts e src/db/usuarios.ts
 CREATE EXTENSION IF NOT EXISTS pgcrypto;--> statement-breakpoint
 CREATE TYPE "public"."forma_pagamento" AS ENUM('cartao', 'pix', 'boleto');--> statement-breakpoint
 CREATE TYPE "public"."status_email" AS ENUM('enviado', 'falhou');--> statement-breakpoint
 CREATE TYPE "public"."status_fatura" AS ENUM('aberta', 'paga', 'cancelada');--> statement-breakpoint
+CREATE TYPE "public"."status_produto" AS ENUM('ativo', 'pausado', 'encerrado');--> statement-breakpoint
 CREATE TYPE "public"."tipo_email" AS ENUM('primeiro_acesso', 'recuperar_senha', 'cobranca', 'pagamento_confirmado');--> statement-breakpoint
 CREATE TYPE "public"."tipo_fatura" AS ENUM('mensalidade', 'avulsa');--> statement-breakpoint
+CREATE TYPE "public"."tipo_produto" AS ENUM('site', 'sistema', 'manutencao');--> statement-breakpoint
 CREATE TYPE "public"."tipo_token" AS ENUM('primeiro_acesso', 'recuperar_senha');--> statement-breakpoint
 CREATE TABLE "clientes" (
 	"id" text PRIMARY KEY NOT NULL,
@@ -53,11 +53,12 @@ CREATE TABLE "produtos" (
 	"id" text PRIMARY KEY NOT NULL,
 	"cliente_id" text NOT NULL,
 	"nome" text NOT NULL,
-	"tipo" text,
+	"descricao" text,
+	"tipo" "tipo_produto" DEFAULT 'site' NOT NULL,
 	"endereco" text,
 	"mensalidade_centavos" integer,
 	"dia_vencimento" integer,
-	"ativo" boolean DEFAULT true NOT NULL,
+	"status" "status_produto" DEFAULT 'ativo' NOT NULL,
 	"ativo_desde" date,
 	"criado_em" timestamp with time zone DEFAULT now() NOT NULL
 );

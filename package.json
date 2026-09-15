@@ -12,7 +12,9 @@
     "db:estudio": "drizzle-kit studio",
     "teste:fluxo": "tsx scripts/teste-fluxo.ts",
     "teste:sessao": "tsx scripts/teste-sessao.ts",
-    "teste:recuperar": "tsx scripts/teste-recuperar.ts"
+    "teste:recuperar": "tsx scripts/teste-recuperar.ts",
+    "admin:credenciais": "tsx scripts/gerar-admin.ts",
+    "teste:admin": "tsx scripts/teste-admin.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

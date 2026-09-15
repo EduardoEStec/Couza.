@@ -36,6 +36,12 @@ const criadoEm = () =>
  * Enums
  * ------------------------------------------------------------------ */
 
+/** ETAPAS.md etapa 4: site, sistema, manutencao. */
+export const tipoProduto = pgEnum("tipo_produto", ["site", "sistema", "manutencao"]);
+
+/** Tres estados, nao um booleano: "pausado" nao e nem ativo nem encerrado. */
+export const statusProduto = pgEnum("status_produto", ["ativo", "pausado", "encerrado"]);
+
 /**
  * "atrasada" NAO e um status guardado — e derivado: aberta + vencimento
  * no passado. Guardar exigiria um cron so para virar a chave, e ficaria
@@ -160,8 +166,8 @@ export const produtos = pgTable(
       .references(() => clientes.id, { onDelete: "restrict" }),
 
     nome: text("nome").notNull(),
-    /** "site institucional", "sistema de pedidos"… texto livre por ora. */
-    tipo: text("tipo"),
+    descricao: text("descricao"),
+    tipo: tipoProduto("tipo").notNull().default("site"),
     /** Dominio ou endereco onde o produto vive, quando houver. */
     endereco: text("endereco"),
 
@@ -170,7 +176,8 @@ export const produtos = pgTable(
     /** Dia do mes em que a mensalidade vence. null quando nao ha mensalidade. */
     diaVencimento: integer("dia_vencimento"),
 
-    ativo: boolean("ativo").notNull().default(true),
+    status: statusProduto("status").notNull().default("ativo"),
+    /** Data de inicio do contrato. */
     ativoDesde: date("ativo_desde"),
 
     criadoEm: criadoEm(),
