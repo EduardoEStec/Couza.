@@ -1,0 +1,57 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "courte",
+
+  // Aponta para o worker CUSTOMIZADO, não para o gerado. O gerado só sabe
+  // responder a requisições HTTP; o nosso acrescenta o handler `scheduled`,
+  // que é como o Cron Trigger chega — Cron Trigger não é uma rota.
+  "main": "custom-worker.ts",
+
+  "compatibility_date": "2025-09-01",
+  // nodejs_compat: o adaptador precisa das APIs de Node.
+  // global_fetch_strictly_public: faz fetch() para o próprio domínio sair
+  // pela internet pública em vez de ser interceptado internamente.
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+
+  // 12:00 UTC = 09:00 em São Paulo (UTC−3 fixo, sem horário de verão desde
+  // 2019). O Cron Trigger da Cloudflare só entende UTC.
+  "triggers": {
+    "crons": ["0 12 * * *"]
+  },
+
+  // Nao sao segredo: podem ficar no repositorio. Tudo que e sigiloso entra
+  // como secret do Worker (`npx wrangler secret put`), nunca aqui.
+  "vars": {
+    "ASAAS_AMBIENTE": "producao",
+    "URL_BASE": "https://courte.com.br",
+    "SMS_ATIVO": "false"
+  },
+
+  "routes": [
+    {
+      "pattern": "courte.com.br",
+      "custom_domain": true
+    }
+  ],
+
+  /**
+   * Logs do Worker, LIGADOS de propósito e declarados aqui em vez de
+   * herdados do padrão.
+   *
+   * Eles guardam a saída de console.* e metadados de invocação — não o
+   * corpo da requisição. É por isso que manter ligado não conflita com a
+   * regra de nunca registrar dado de cartão: o dado do cartão viaja no
+   * corpo, que não entra aqui. Quem protege isso é a disciplina em
+   * src/app/portal/pagamento/[id]/acoes.ts, não este botão.
+   *
+   * Desligar cegaria a produção sem somar nenhuma segurança.
+   */
+  "observability": {
+    "enabled": true
+  }
+}
