@@ -24,6 +24,7 @@
     "teste:checkout": "tsx scripts/teste-checkout.ts",
     "teste:emails": "tsx scripts/teste-emails.ts",
     "teste:worker": "tsx scripts/teste-worker.ts",
+    "teste:ponta": "tsx scripts/teste-ponta-a-ponta.ts",
     "emails:gerar": "tsx scripts/gerar-emails.ts",
     "semear:webhook": "tsx scripts/semear-webhook.ts"
   },
