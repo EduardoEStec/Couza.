@@ -62,15 +62,50 @@ export const clientes = pgTable(
   {
     id: id(),
     nome: text("nome").notNull(),
+    /** E-mail de contato e cobranca. Pode diferir do e-mail de login. */
     email: text("email").notNull(),
-    /** CPF ou CNPJ, so digitos. Vai impresso no recibo. */
+    /** CPF ou CNPJ, so digitos. Vai impresso no recibo. Opcional. */
     documento: text("documento"),
     telefone: text("telefone"),
+
+    /** Id do mesmo cliente do lado do Asaas, preenchido na etapa 6. */
+    asaasClienteId: text("asaas_cliente_id"),
+
+    criadoEm: criadoEm(),
+    atualizadoEm: timestamp("atualizado_em", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("clientes_email_idx").on(t.email),
+    uniqueIndex("clientes_asaas_idx").on(t.asaasClienteId),
+  ],
+);
+
+/* ------------------------------------------------------------------ *
+ * Usuarios — quem entra no portal
+ *
+ * Separado de `clientes` de proposito: um cliente e uma empresa ou uma
+ * pessoa que contrata; um usuario e quem digita e-mail e senha. Um dia
+ * um cliente pode ter dois (o dono e o contador) sem duplicar cadastro.
+ * ------------------------------------------------------------------ */
+
+export const usuarios = pgTable(
+  "usuarios",
+  {
+    id: id(),
+    clienteId: text("cliente_id")
+      .notNull()
+      .references(() => clientes.id, { onDelete: "cascade" }),
+
+    /** E-mail de login. Unico no sistema inteiro. */
+    email: text("email").notNull(),
 
     /**
      * PBKDF2 via Web Crypto (Workers nao aceita bcrypt/argon2 nativos).
      * As iteracoes ficam gravadas junto para poder aumentar o custo no
      * futuro e re-hashear no proximo login, sem invalidar senha antiga.
+     * null enquanto o usuario ainda nao criou senha.
      */
     senhaHash: text("senha_hash"),
     senhaSalt: text("senha_salt"),
@@ -81,7 +116,10 @@ export const clientes = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (t) => [uniqueIndex("clientes_email_idx").on(t.email)],
+  (t) => [
+    uniqueIndex("usuarios_email_idx").on(t.email),
+    index("usuarios_cliente_idx").on(t.clienteId),
+  ],
 );
 
 /* ------------------------------------------------------------------ *
@@ -168,9 +206,9 @@ export const sessoes = pgTable(
   "sessoes",
   {
     id: id(),
-    clienteId: text("cliente_id")
+    usuarioId: text("usuario_id")
       .notNull()
-      .references(() => clientes.id, { onDelete: "cascade" }),
+      .references(() => usuarios.id, { onDelete: "cascade" }),
     /** Hash do token do cookie. O valor cru nunca entra no banco. */
     tokenHash: text("token_hash").notNull(),
     expiraEm: timestamp("expira_em", { withTimezone: true }).notNull(),
@@ -178,7 +216,7 @@ export const sessoes = pgTable(
   },
   (t) => [
     uniqueIndex("sessoes_token_idx").on(t.tokenHash),
-    index("sessoes_cliente_idx").on(t.clienteId),
+    index("sessoes_usuario_idx").on(t.usuarioId),
   ],
 );
 
@@ -190,9 +228,18 @@ export const tokensAcesso = pgTable(
   "tokens_acesso",
   {
     id: id(),
+    /**
+     * Sempre aponta para o cliente. No PRIMEIRO acesso o usuario ainda
+     * nao existe — ele nasce quando a senha e criada —, entao `usuarioId`
+     * fica null. Em "esqueci a senha" o usuario ja existe e vai preenchido,
+     * para o link mexer na conta certa quando o cliente tiver mais de uma.
+     */
     clienteId: text("cliente_id")
       .notNull()
       .references(() => clientes.id, { onDelete: "cascade" }),
+    usuarioId: text("usuario_id").references(() => usuarios.id, {
+      onDelete: "cascade",
+    }),
     tokenHash: text("token_hash").notNull(),
     tipo: tipoToken("tipo").notNull(),
     expiraEm: timestamp("expira_em", { withTimezone: true }).notNull(),
@@ -247,10 +294,18 @@ export const emailsEnviados = pgTable(
  * ------------------------------------------------------------------ */
 
 export const clientesRelacoes = relations(clientes, ({ many }) => ({
+  usuarios: many(usuarios),
   produtos: many(produtos),
   faturas: many(faturas),
-  sessoes: many(sessoes),
   tokensAcesso: many(tokensAcesso),
+}));
+
+export const usuariosRelacoes = relations(usuarios, ({ one, many }) => ({
+  cliente: one(clientes, {
+    fields: [usuarios.clienteId],
+    references: [clientes.id],
+  }),
+  sessoes: many(sessoes),
 }));
 
 export const produtosRelacoes = relations(produtos, ({ one, many }) => ({
@@ -273,9 +328,9 @@ export const faturasRelacoes = relations(faturas, ({ one }) => ({
 }));
 
 export const sessoesRelacoes = relations(sessoes, ({ one }) => ({
-  cliente: one(clientes, {
-    fields: [sessoes.clienteId],
-    references: [clientes.id],
+  usuario: one(usuarios, {
+    fields: [sessoes.usuarioId],
+    references: [usuarios.id],
   }),
 }));
 
@@ -283,5 +338,9 @@ export const tokensAcessoRelacoes = relations(tokensAcesso, ({ one }) => ({
   cliente: one(clientes, {
     fields: [tokensAcesso.clienteId],
     references: [clientes.id],
+  }),
+  usuario: one(usuarios, {
+    fields: [tokensAcesso.usuarioId],
+    references: [usuarios.id],
   }),
 }));

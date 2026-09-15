@@ -1,5 +1,5 @@
 {
-  "id": "52933ac5-94fc-47f4-a317-6ee34c44bd8d",
+  "id": "40f1d890-b0e7-4955-969f-3837796c12af",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -38,21 +38,9 @@
           "primaryKey": false,
           "notNull": false
         },
-        "senha_hash": {
-          "name": "senha_hash",
+        "asaas_cliente_id": {
+          "name": "asaas_cliente_id",
           "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "senha_salt": {
-          "name": "senha_salt",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "senha_iteracoes": {
-          "name": "senha_iteracoes",
-          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
@@ -77,6 +65,21 @@
           "columns": [
             {
               "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "clientes_asaas_idx": {
+          "name": "clientes_asaas_idx",
+          "columns": [
+            {
+              "expression": "asaas_cliente_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -545,8 +548,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "cliente_id": {
-          "name": "cliente_id",
+        "usuario_id": {
+          "name": "usuario_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -587,11 +590,11 @@
           "method": "btree",
           "with": {}
         },
-        "sessoes_cliente_idx": {
-          "name": "sessoes_cliente_idx",
+        "sessoes_usuario_idx": {
+          "name": "sessoes_usuario_idx",
           "columns": [
             {
-              "expression": "cliente_id",
+              "expression": "usuario_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -604,12 +607,12 @@
         }
       },
       "foreignKeys": {
-        "sessoes_cliente_id_clientes_id_fk": {
-          "name": "sessoes_cliente_id_clientes_id_fk",
+        "sessoes_usuario_id_usuarios_id_fk": {
+          "name": "sessoes_usuario_id_usuarios_id_fk",
           "tableFrom": "sessoes",
-          "tableTo": "clientes",
+          "tableTo": "usuarios",
           "columnsFrom": [
-            "cliente_id"
+            "usuario_id"
           ],
           "columnsTo": [
             "id"
@@ -639,6 +642,12 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "token_hash": {
           "name": "token_hash",
@@ -709,6 +718,127 @@
         "tokens_acesso_cliente_id_clientes_id_fk": {
           "name": "tokens_acesso_cliente_id_clientes_id_fk",
           "tableFrom": "tokens_acesso",
+          "tableTo": "clientes",
+          "columnsFrom": [
+            "cliente_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "tokens_acesso_usuario_id_usuarios_id_fk": {
+          "name": "tokens_acesso_usuario_id_usuarios_id_fk",
+          "tableFrom": "tokens_acesso",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "usuario_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.usuarios": {
+      "name": "usuarios",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "cliente_id": {
+          "name": "cliente_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "senha_hash": {
+          "name": "senha_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "senha_salt": {
+          "name": "senha_salt",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "senha_iteracoes": {
+          "name": "senha_iteracoes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "atualizado_em": {
+          "name": "atualizado_em",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "usuarios_email_idx": {
+          "name": "usuarios_email_idx",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "usuarios_cliente_idx": {
+          "name": "usuarios_cliente_idx",
+          "columns": [
+            {
+              "expression": "cliente_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "usuarios_cliente_id_clientes_id_fk": {
+          "name": "usuarios_cliente_id_clientes_id_fk",
+          "tableFrom": "usuarios",
           "tableTo": "clientes",
           "columnsFrom": [
             "cliente_id"
