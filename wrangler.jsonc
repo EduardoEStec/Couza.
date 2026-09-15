@@ -2,9 +2,24 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "courte",
 
-  // Fixo de proposito: a conta do Guilherme tem quatro (courte, financeiro,
-  // promo e a pessoal). Sem isto, um deploy poderia ir parar na errada.
-  "account_id": "5baf1f70cf56e2ac6ebaf6217b4afedc",
+  /**
+   * A conta PESSOAL, e nao a chamada "courte" — de proposito.
+   *
+   * Uma zona vive numa conta so na Cloudflare, e courte.com.br esta nesta
+   * aqui. Deixar o Worker numa conta e o dominio noutra nao funciona: o
+   * deploy recusa com "Could not find zone".
+   *
+   * A alternativa seria mudar a zona de conta, mas mudar de conta apaga os
+   * registros de DNS — inclusive os que verificam envio.courte.com.br na
+   * Resend. Ate recria-los e reverificar, e-mail nenhum sairia.
+   *
+   * Compartilhar a conta com outros Workers custa o seguinte, conferido em
+   * 15/09/2026: a cota de 100 mil requisicoes/dia do plano free e por
+   * CONTA, e o teto de 5 Cron Triggers tambem. Aqui ja havia 2 crons, o
+   * nosso e o terceiro. E o grosso do trafego do site sai por assets
+   * estaticos, que nao invocam o Worker e nao contam para cota nenhuma.
+   */
+  "account_id": "dd0e28e28c430023c4bd6dea71852100",
 
   // Aponta para o worker CUSTOMIZADO, não para o gerado. O gerado só sabe
   // responder a requisições HTTP; o nosso acrescenta o handler `scheduled`,
@@ -39,12 +54,10 @@
     "SMS_ATIVO": "false"
   },
 
-  // PENDENTE: a zona courte.com.br nao esta nesta conta (o deploy falha com
-  // "Could not find zone"). Religar assim que o Guilherme disser em qual
-  // conta ela mora — ou o Worker muda de conta, ou a zona muda.
-  // "routes": [
-  //   { "pattern": "courte.com.br", "custom_domain": true }
-  // ],
+  // custom_domain cria o registro de DNS sozinho, na zona courte.com.br.
+  "routes": [
+    { "pattern": "courte.com.br", "custom_domain": true }
+  ],
 
   /**
    * Logs do Worker, LIGADOS de propósito e declarados aqui em vez de
