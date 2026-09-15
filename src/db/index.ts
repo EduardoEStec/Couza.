@@ -35,3 +35,22 @@ export function db(): Db {
 }
 
 export * as schema from "./schema";
+
+/**
+ * Roda SQL cru e devolve SEMPRE um array de linhas.
+ *
+ * Existe porque o `execute()` do drizzle devolve formatos diferentes conforme
+ * o driver: o neon-http entrega `{ rows: [...] }`, outros entregam o array
+ * direto. Tratar o objeto como array passa despercebido — `obj.length` e
+ * undefined, `undefined === 0` e falso, e o codigo segue achando que achou
+ * linha quando nao achou. Foi exatamente esse o bug. Normalizar aqui, uma
+ * vez, e mais seguro do que lembrar disso em cada consulta.
+ */
+export async function consultar<T>(
+  comando: Parameters<ReturnType<typeof db>["execute"]>[0],
+): Promise<T[]> {
+  const r = (await db().execute(comando)) as unknown;
+  if (Array.isArray(r)) return r as T[];
+  const linhas = (r as { rows?: unknown }).rows;
+  return Array.isArray(linhas) ? (linhas as T[]) : [];
+}

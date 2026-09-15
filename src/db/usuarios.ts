@@ -11,7 +11,7 @@
  */
 
 import { sql } from "drizzle-orm";
-import { db } from "./index";
+import { consultar, db } from "./index";
 import { preHash, normalizarEmail } from "@/lib/senha";
 
 /** Custo do bcrypt. 12 leva ~250ms no Neon: irrelevante para um login por
@@ -47,7 +47,13 @@ export async function verificarLogin(
   const alvo = normalizarEmail(email);
   const ph = await preHash(senha);
 
-  const linhas = (await db().execute(sql`
+  const linhas = await consultar<{
+    id: string;
+    cliente_id: string;
+    tem_senha: boolean;
+    travada: boolean;
+    confere: boolean | null;
+  }>(sql`
     select u.id,
            u.cliente_id,
            u.senha_hash is not null as tem_senha,
@@ -59,13 +65,7 @@ export async function verificarLogin(
            end as confere
       from usuarios u
      where u.email = ${alvo} and u.ativo
-  `)) as unknown as Array<{
-    id: string;
-    cliente_id: string;
-    tem_senha: boolean;
-    travada: boolean;
-    confere: boolean | null;
-  }>;
+  `);
 
   if (linhas.length === 0) {
     /**

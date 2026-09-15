@@ -8,7 +8,13 @@ export const metadata: Metadata = {
   title: "Verifique seu e-mail — Portal do Cliente | courte",
 };
 
-export default function VerifiqueEmail() {
+export default async function VerifiqueEmail(
+  props: PageProps<"/portal/verifique-email">,
+) {
+  // O e-mail vem de quem acabou de digitar, so para a tela repetir de volta.
+  const { e } = await props.searchParams;
+  const email = typeof e === "string" ? e : null;
+
   return (
     <CascaAuth voltar={{ texto: "Voltar ao login", href: "/portal/login" }}>
       <span className="flex h-16 w-16 items-center justify-center rounded-pill bg-acc-soft">
@@ -21,7 +27,11 @@ export default function VerifiqueEmail() {
       </p>
       <p className="mt-3 text-lead text-n1">
         {t.apoio.antes}
-        <Falta o={t.apoio.email} />
+        {email ? (
+          <strong className="font-medium text-ink">{email}</strong>
+        ) : (
+          <Falta o={t.apoio.email} />
+        )}
         {t.apoio.depois}
       </p>
 
