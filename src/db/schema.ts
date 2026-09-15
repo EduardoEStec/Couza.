@@ -17,6 +17,7 @@ import {
   date,
   index,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   text,
@@ -180,9 +181,15 @@ export const produtos = pgTable(
     /** Data de inicio do contrato. */
     ativoDesde: date("ativo_desde"),
 
+    /** Id da assinatura recorrente do lado do Asaas (etapa 6). */
+    asaasAssinaturaId: text("asaas_assinatura_id"),
+
     criadoEm: criadoEm(),
   },
-  (t) => [index("produtos_cliente_idx").on(t.clienteId)],
+  (t) => [
+    index("produtos_cliente_idx").on(t.clienteId),
+    uniqueIndex("produtos_asaas_idx").on(t.asaasAssinaturaId),
+  ],
 );
 
 /* ------------------------------------------------------------------ *
@@ -318,6 +325,45 @@ export const emailsEnviados = pgTable(
   (t) => [
     index("emails_cliente_idx").on(t.clienteId),
     index("emails_fatura_idx").on(t.faturaId),
+  ],
+);
+
+/* ------------------------------------------------------------------ *
+ * Eventos do Asaas — log CRU
+ *
+ * O ETAPAS.md pede o evento gravado cru "para eu depurar depois". Mas ele
+ * serve para mais do que isso: a entrega do Asaas e "pelo menos uma vez", e
+ * a documentacao deles diz, com todas as letras, que "o mesmo evento pode
+ * ser enviado mais de uma vez". O indice unico em `evento_id` e o que
+ * impede a mesma confirmacao de pagamento de ser processada duas vezes.
+ * ------------------------------------------------------------------ */
+
+export const eventosAsaas = pgTable(
+  "eventos_asaas",
+  {
+    id: id(),
+    /** O id do EVENTO no Asaas. Unico: e a chave da idempotencia. */
+    eventoId: text("evento_id").notNull(),
+    tipo: text("tipo").notNull(),
+    /** O corpo inteiro, como chegou. Nada e descartado. */
+    payload: jsonb("payload").notNull(),
+
+    /** Preenchidos quando da para casar o evento com uma fatura nossa. */
+    faturaId: text("fatura_id").references(() => faturas.id, {
+      onDelete: "set null",
+    }),
+    asaasCobrancaId: text("asaas_cobranca_id"),
+
+    /** null enquanto nao processado; com erro, guarda o motivo. */
+    processadoEm: timestamp("processado_em", { withTimezone: true }),
+    erro: text("erro"),
+
+    criadoEm: criadoEm(),
+  },
+  (t) => [
+    uniqueIndex("eventos_asaas_evento_idx").on(t.eventoId),
+    index("eventos_asaas_cobranca_idx").on(t.asaasCobrancaId),
+    index("eventos_asaas_pendentes_idx").on(t.processadoEm),
   ],
 );
 

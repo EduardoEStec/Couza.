@@ -78,12 +78,29 @@ function Escolha({
 }
 
 function Erro({ estado }: { estado: Estado }) {
-  if (!estado.erro) return null;
-  return (
-    <p role="alert" className="rounded-btn bg-danger-wash px-3 py-2 text-sm text-danger">
-      {estado.erro}
-    </p>
-  );
+  if (estado.erro) {
+    return (
+      <p role="alert" className="rounded-btn bg-danger-wash px-3 py-2 text-sm text-danger">
+        {estado.erro}
+      </p>
+    );
+  }
+  // Aviso: o registro FOI salvo, mas a sincronizacao com o Asaas nao foi.
+  if (estado.aviso) {
+    return (
+      <p role="alert" className="rounded-btn bg-wash px-3 py-2 text-sm text-ink">
+        {estado.aviso}
+      </p>
+    );
+  }
+  if (estado.ok) {
+    return (
+      <p className="rounded-btn bg-acc-soft px-3 py-2 text-sm text-acc">
+        Salvo e sincronizado com o Asaas.
+      </p>
+    );
+  }
+  return null;
 }
 
 /* --- login ---------------------------------------------------------- */

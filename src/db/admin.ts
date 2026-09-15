@@ -112,14 +112,16 @@ export type DadosProduto = {
 export async function criarProduto(
   clienteId: string,
   d: DadosProduto,
-): Promise<void> {
-  await db().execute(sql`
+): Promise<string> {
+  const r = await consultar<{ id: string }>(sql`
     insert into produtos (id, cliente_id, nome, descricao, tipo, endereco,
                           mensalidade_centavos, dia_vencimento, status, ativo_desde)
     values (gen_random_uuid()::text, ${clienteId}, ${d.nome}, ${d.descricao},
             ${d.tipo}, ${d.endereco}, ${d.mensalidadeCentavos},
             ${d.diaVencimento}, ${d.status}, ${d.ativoDesde})
+    returning id
   `);
+  return r[0].id;
 }
 
 export async function atualizarProduto(
@@ -167,11 +169,13 @@ export async function criarCobrancaAvulsa(d: {
   descricao: string;
   valorCentavos: number;
   vencimento: string;
-}): Promise<void> {
-  await db().execute(sql`
+}): Promise<string> {
+  const r = await consultar<{ id: string }>(sql`
     insert into faturas (id, cliente_id, produto_id, tipo, descricao,
                          valor_centavos, vencimento)
     values (gen_random_uuid()::text, ${d.clienteId}, ${d.produtoId}, 'avulsa',
             ${d.descricao}, ${d.valorCentavos}, ${d.vencimento})
+    returning id
   `);
+  return r[0].id;
 }

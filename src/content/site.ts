@@ -35,7 +35,7 @@ export const marca = {
   pessoa: "Guilherme Courte",
   cpf: falta("CPF"),
   email: falta("e-mail"),
-  telefone: falta("telefone / whatsapp"),
+  telefone: "(11) 94230-7211",
   cidade: falta("cidade / UF"),
 };
 

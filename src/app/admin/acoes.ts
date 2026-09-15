@@ -13,8 +13,13 @@ import {
 } from "@/db/admin";
 import { abrirSessaoAdmin, conferirAdmin, exigirAdmin, sairAdmin } from "@/lib/admin";
 import { paraCentavos } from "@/lib/dinheiro";
+import {
+  sincronizarAssinatura,
+  sincronizarCliente,
+  sincronizarCobranca,
+} from "@/db/asaas-sync";
 
-export type Estado = { erro?: string };
+export type Estado = { erro?: string; aviso?: string; ok?: boolean };
 
 /* --- acesso -------------------------------------------------------- */
 
@@ -69,10 +74,12 @@ export async function salvarCliente(
   try {
     if (id) {
       await atualizarCliente(id, d);
+      const s = await sincronizarCliente(id);
       revalidatePath(`/admin/clientes/${id}`);
-      return {};
+      return s.ok ? { ok: true } : { aviso: s.aviso };
     }
     const novo = await criarCliente(d);
+    await sincronizarCliente(novo);
     redirect(`/admin/clientes/${novo}`);
   } catch (e) {
     // O unico erro esperado aqui e e-mail repetido, que tem indice unico.
@@ -125,11 +132,13 @@ export async function salvarProduto(
     ativoDesde: textoOuNulo(dados.get("ativoDesde")),
   };
 
+  let produtoId = id;
   if (id) await atualizarProduto(id, d);
-  else await criarProduto(clienteId, d);
+  else produtoId = await criarProduto(clienteId, d);
 
+  const s = await sincronizarAssinatura(produtoId!);
   revalidatePath(`/admin/clientes/${clienteId}`);
-  return {};
+  return s.ok ? { ok: true } : { aviso: s.aviso };
 }
 
 /* --- cobranca avulsa ----------------------------------------------- */
@@ -156,7 +165,7 @@ export async function lancarCobranca(
     return { erro: "Valor inválido. Use 40,00 por exemplo." };
   }
 
-  await criarCobrancaAvulsa({
+  const faturaId = await criarCobrancaAvulsa({
     clienteId,
     produtoId,
     descricao,
@@ -164,6 +173,7 @@ export async function lancarCobranca(
     vencimento,
   });
 
+  const s = await sincronizarCobranca(faturaId);
   revalidatePath(`/admin/clientes/${clienteId}`);
-  return {};
+  return s.ok ? { ok: true } : { aviso: s.aviso };
 }
