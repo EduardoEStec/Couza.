@@ -6,17 +6,35 @@ import { login as t } from "@/content/portal";
 import { Botao } from "@/components/ui";
 import { entrarNoPortal, type EstadoForm } from "./acoes";
 
-export function FormularioLogin({ voltar }: { voltar: string }) {
+export function FormularioLogin() {
   const [estado, acao, enviando] = useActionState<EstadoForm, FormData>(
     entrarNoPortal,
     {},
   );
 
+  /**
+   * De onde a pessoa veio, para voltar para la depois de entrar — o botao
+   * "Pagar agora" do e-mail de cobranca aponta para uma fatura.
+   *
+   * Lido da URL aqui, no envio, e nao na pagina pelo servidor: usar
+   * `searchParams` na pagina a tornaria dinamica, e esta e a tela deslogada
+   * mais visitada do portal. Estatica, ela nem invoca o Worker.
+   *
+   * Nao vira estado nem efeito: o valor so precisa existir no instante do
+   * envio, entao e lido no instante do envio.
+   *
+   * Quem decide se o destino presta continua sendo a acao, no servidor.
+   */
+  const enviar = (dados: FormData) => {
+    const v = new URLSearchParams(window.location.search).get("voltar");
+    if (v) dados.set("voltar", v);
+    return acao(dados);
+  };
+
   const borda = estado.erro ? "border-danger" : "border-line";
 
   return (
-    <form action={acao} className="mt-8 flex flex-col gap-4.5">
-      <input type="hidden" name="voltar" value={voltar} />
+    <form action={enviar} className="mt-8 flex flex-col gap-4.5">
       <div className="flex flex-col gap-2">
         <label htmlFor="email" className="text-sm font-medium text-ink">
           {t.campos.email}

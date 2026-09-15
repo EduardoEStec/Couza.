@@ -3,18 +3,18 @@ import Link from "next/link";
 import { verifiqueEmail as t } from "@/content/portal";
 import { CascaAuth, TituloAcesso } from "@/components/portal/casca-auth";
 import { Botao, Envelope, Falta, Relogio, SetaDiagonal } from "@/components/ui";
+import { EmailDigitado } from "./email-digitado";
 
 export const metadata: Metadata = {
   title: "Verifique seu e-mail — Portal do Cliente | courte",
 };
 
-export default async function VerifiqueEmail(
-  props: PageProps<"/portal/verifique-email">,
-) {
-  // O e-mail vem de quem acabou de digitar, so para a tela repetir de volta.
-  const { e } = await props.searchParams;
-  const email = typeof e === "string" ? e : null;
-
+/**
+ * Estatica de proposito. O e-mail digitado e lido da URL pelo navegador
+ * (ver ./email-digitado): ler `searchParams` aqui tornaria a pagina inteira
+ * dinamica, e no Cloudflare pagina estatica nem invoca o Worker.
+ */
+export default function VerifiqueEmail() {
   return (
     <CascaAuth voltar={{ texto: "Voltar ao login", href: "/portal/login" }}>
       <span className="flex h-16 w-16 items-center justify-center rounded-pill bg-acc-soft">
@@ -27,11 +27,7 @@ export default async function VerifiqueEmail(
       </p>
       <p className="mt-3 text-lead text-n1">
         {t.apoio.antes}
-        {email ? (
-          <strong className="font-medium text-ink">{email}</strong>
-        ) : (
-          <Falta o={t.apoio.email} />
-        )}
+        <EmailDigitado />
         {t.apoio.depois}
       </p>
 

@@ -12,10 +12,13 @@ export const metadata: Metadata = {
 
 const iconesPainel = [Caixa, Nota, Cartao];
 
-export default async function Login(props: PageProps<"/portal/login">) {
-  // Vem do e-mail de cobranca: /portal/login?voltar=/portal/pagamento/<id>.
-  // Quem decide se o destino presta e a acao de login, nao esta tela.
-  const { voltar } = await props.searchParams;
+/**
+ * Estatica de proposito. O `?voltar=` do e-mail de cobranca e lido da URL
+ * pelo navegador, dentro do formulario: ler `searchParams` aqui tornaria a
+ * tela de login inteira dinamica — e ela e a pagina deslogada mais visitada
+ * do portal. Estatica, nem chega a invocar o Worker.
+ */
+export default function Login() {
   return (
     <CascaAuth
       voltar={{ texto: "Voltar ao site", href: "/" }}
@@ -51,7 +54,7 @@ export default async function Login(props: PageProps<"/portal/login">) {
       <TituloAcesso linhas={login.titulo} />
       <p className="mt-4 text-lead text-n1">{login.apoio}</p>
 
-      <FormularioLogin voltar={typeof voltar === "string" ? voltar : ""} />
+      <FormularioLogin />
 
       <hr className="my-8 border-0 border-t border-line" />
 
