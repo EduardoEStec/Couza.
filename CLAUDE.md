@@ -69,6 +69,23 @@ devolve algo inesperado.
 6. Cobranças também saem por e-mail com a minha marca (e SMS, se eu ligar).
 7. Um admin só meu para cadastrar cliente, produto, mensalidade e cobrança avulsa.
 
+## Decisões já tomadas (não reabrir sem falar comigo)
+- **Admin**: entra por usuário e senha em variável de ambiente. **Não existe
+  tabela de admin** e nem coluna de privilégio no cliente. É uma pessoa só.
+- **"Atrasada" não é status guardado.** O banco guarda `aberta`, `paga`,
+  `cancelada`. Atrasada é derivada: aberta + vencimento no passado.
+- **Mensalidade e cobrança avulsa vivem na mesma tabela** (`faturas`),
+  separadas por `tipo`.
+- **`dia_vencimento` fica no produto**, não no cliente e não global.
+- **`documento` do cliente (CPF/CNPJ) é opcional** — o recibo lida com a
+  ausência, não force obrigatório.
+- **Id na URL é uuid aleatório**; o número da fatura que o cliente lê é
+  sequencial e separado do id.
+- **Token nunca em claro no banco** — sessão e link de acesso guardam só o hash.
+- **Pagar pelo e-mail leva ao login**, não a link com token.
+- **Boleto vai por link para o portal, nunca anexado** — anexo impede o envio
+  em lote da Resend, e o portal sempre tem o código atual.
+
 ## Design aprovado
 O mockup aprovado vive em `design/` e no canvas publicado. Tokens, telas e a
 especificação de movimento saíram de lá — não improvise valor de cor, raio,
