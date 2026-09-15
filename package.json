@@ -14,7 +14,8 @@
     "teste:sessao": "tsx scripts/teste-sessao.ts",
     "teste:recuperar": "tsx scripts/teste-recuperar.ts",
     "admin:credenciais": "tsx scripts/gerar-admin.ts",
-    "teste:admin": "tsx scripts/teste-admin.ts"
+    "teste:admin": "tsx scripts/teste-admin.ts",
+    "teste:portal": "tsx scripts/teste-portal.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

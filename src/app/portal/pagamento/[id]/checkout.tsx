@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { emDataBr, emReais } from "@/lib/dinheiro";
 import { checkout as t } from "@/content/portal";
 import { TopbarCheckout } from "@/components/portal/topbar";
 import {
@@ -59,8 +60,35 @@ function Aviso({
   );
 }
 
-export function Checkout() {
+export type CheckoutProps = {
+  descricao: string;
+  valorCentavos: number;
+  vencimento: string;
+  jaPaga: boolean;
+  faturaId: string;
+};
+
+export function Checkout({ descricao, valorCentavos, vencimento, jaPaga, faturaId }: CheckoutProps) {
   const [aba, setAba] = useState<Aba>("cartao");
+
+  if (jaPaga) {
+    return (
+      <>
+        <TopbarCheckout>
+          <Link
+            href={`/portal/faturas/${faturaId}/recibo`}
+            className="text-sm text-acc hover:text-acc-hover"
+          >
+            Ver recibo
+          </Link>
+        </TopbarCheckout>
+        <main className="mx-auto w-full max-w-[560px] px-5 py-16 text-center sm:px-8">
+          <p className="text-[17px] font-medium">Esta fatura já está paga.</p>
+          <p className="mt-2 text-sm text-n1">Não há nada a pagar aqui.</p>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>
@@ -83,17 +111,13 @@ export function Checkout() {
           <p className="text-xs uppercase tracking-[0.14em] text-n1">
             {t.resumo.rotulo}
           </p>
-          <p className="mt-2.5 text-[17px] font-medium">
-            <Falta o={t.resumo.descricao} />
-          </p>
+          <p className="mt-2.5 text-[17px] font-medium">{descricao}</p>
           <p className="mt-3.5 text-[clamp(34px,3.4vw,46px)] leading-[1.05] font-medium tracking-[-0.035em]">
-            R$ <Falta o={t.resumo.valor} />
+            R$ {emReais(valorCentavos)}
           </p>
           <div className="mt-4 flex items-center justify-between gap-4 border-t border-[#E4E4E4] pt-3.5">
             <span className="text-[15px] text-n1">Vencimento</span>
-            <span className="text-[15px] font-medium">
-              <Falta o={t.resumo.vencimento} />
-            </span>
+            <span className="text-[15px] font-medium">{emDataBr(vencimento)}</span>
           </div>
         </div>
 
@@ -156,7 +180,7 @@ export function Checkout() {
 
             <Botao grande bloco className="mt-1.5">
               {t.cartao.pagar}
-              <Falta o={t.resumo.valor} tom="escuro" />
+  {emReais(valorCentavos)}
             </Botao>
 
             <Aviso icone={Escudo}>{t.cartao.seguranca}</Aviso>
