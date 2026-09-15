@@ -209,8 +209,128 @@ export function mensagemDoErro(e: unknown): string {
     if (e.status === 401) {
       return "A chave do Asaas foi recusada. Confira ASAAS_API_KEY e ASAAS_AMBIENTE.";
     }
+    if (e.status === 429) {
+      return "O Asaas pediu para esperar um pouco. Tente de novo em alguns segundos.";
+    }
+    /**
+     * Erro do lado deles. A descricao que mandam nesse caso e literalmente
+     * "Ocorreu um erro desconhecido", que nao ajuda ninguem. O que a pessoa
+     * precisa saber e outra coisa: NAO foi cobrado. Sem isso ela paga de
+     * novo com medo de ter ficado pela metade.
+     */
+    if (e.status >= 500 || e.erros.some((x) => x.code === "unknow.error")) {
+      return (
+        "O Asaas teve uma falha interna e não processou o pagamento — nada " +
+        "foi cobrado. Tente de novo ou use outro cartão."
+      );
+    }
     return `Asaas recusou: ${e.message}`;
   }
   if (e instanceof Error) return e.message;
   return "Falha ao falar com o Asaas.";
+}
+
+/* ------------------------------------------------------------------ *
+ * Pagamento — etapa 7
+ * ------------------------------------------------------------------ */
+
+export type PixDaCobranca = {
+  /** PNG em base64, SEM o prefixo "data:". */
+  encodedImage: string;
+  /** O copia e cola. */
+  payload: string;
+  expirationDate: string;
+};
+
+export async function obterPix(asaasCobrancaId: string): Promise<PixDaCobranca> {
+  return chamar<PixDaCobranca>("GET", `/payments/${asaasCobrancaId}/pixQrCode`);
+}
+
+export type BoletoDaCobranca = {
+  identificationField: string;
+  nossoNumero: string;
+  barCode: string;
+};
+
+export async function obterBoleto(
+  asaasCobrancaId: string,
+): Promise<BoletoDaCobranca> {
+  return chamar<BoletoDaCobranca>(
+    "GET",
+    `/payments/${asaasCobrancaId}/identificationField`,
+  );
+}
+
+/**
+ * Dados do cartao.
+ *
+ * ESTE OBJETO NUNCA PODE SER REGISTRADO EM LOG, nem inteiro nem em parte,
+ * nem dentro de uma mensagem de erro. Ele existe pelo tempo de uma
+ * requisicao e morre. Decisao do Guilherme, com o risco explicado: o dado
+ * transita pelo servidor, e o que impede vazamento e disciplina, nao o
+ * banco de dados.
+ */
+export type DadosCartao = {
+  numero: string;
+  nomeImpresso: string;
+  mesValidade: string;
+  anoValidade: string;
+  cvv: string;
+};
+
+/** O Asaas exige TODOS estes campos do titular. */
+export type TitularCartao = {
+  nome: string;
+  email: string;
+  cpfCnpj: string;
+  cep: string;
+  numeroEndereco: string;
+  telefone: string;
+};
+
+export type ResultadoCartao = {
+  id: string;
+  status: StatusCobrancaAsaas;
+  creditCard?: {
+    creditCardNumber?: string;
+    creditCardBrand?: string;
+    creditCardToken?: string;
+  };
+};
+
+/**
+ * Paga uma cobranca JA EXISTENTE com cartao.
+ *
+ * `remoteIp` e o IP do PAGADOR, nao o do servidor — a documentacao do Asaas
+ * e explicita: "Informe em remoteIp o IP do dispositivo do pagador, nao o
+ * IP do servidor da sua aplicacao". Eles usam isso na analise de fraude.
+ */
+export async function pagarComCartao(
+  asaasCobrancaId: string,
+  cartao: DadosCartao,
+  titular: TitularCartao,
+  ipDoPagador: string,
+): Promise<ResultadoCartao> {
+  return chamar<ResultadoCartao>(
+    "POST",
+    `/payments/${asaasCobrancaId}/payWithCreditCard`,
+    {
+      creditCard: {
+        holderName: cartao.nomeImpresso,
+        number: soDigitos(cartao.numero),
+        expiryMonth: cartao.mesValidade,
+        expiryYear: cartao.anoValidade,
+        ccv: cartao.cvv,
+      },
+      creditCardHolderInfo: {
+        name: titular.nome,
+        email: titular.email,
+        cpfCnpj: soDigitos(titular.cpfCnpj),
+        postalCode: soDigitos(titular.cep),
+        addressNumber: titular.numeroEndereco,
+        phone: soDigitos(titular.telefone),
+      },
+      remoteIp: ipDoPagador,
+    },
+  );
 }

@@ -17,6 +17,7 @@
     "teste:admin": "tsx scripts/teste-admin.ts",
     "teste:portal": "tsx scripts/teste-portal.ts",
     "teste:asaas": "tsx scripts/teste-asaas.ts",
+    "teste:checkout": "tsx scripts/teste-checkout.ts",
     "semear:webhook": "tsx scripts/semear-webhook.ts"
   },
   "dependencies": {
