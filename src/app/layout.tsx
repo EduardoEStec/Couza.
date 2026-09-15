@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
-import { ScrollSuave } from "@/components/movimento";
 import "./globals.css";
 
 // Jost 400/500/600, como no quadro "Tokens". O next/font baixa e serve local,
@@ -23,7 +22,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className={jost.variable}>
       <body>
-        <ScrollSuave />
+        {/*
+          O ScrollSuave NAO mora aqui.
+          Ele vive em src/app/page.tsx, so na landing. Importar
+          @/components/movimento neste layout puxava o modulo inteiro —
+          Motion junto — para o pacote compartilhado, e ai toda tela do
+          portal baixava 44 KB de biblioteca de animacao sem ter animacao
+          nenhuma. Medido em 15/09/2026.
+        */}
         {children}
       </body>
     </html>

@@ -1,4 +1,5 @@
 import { Nav } from "@/components/landing/nav";
+import { ScrollSuave } from "@/components/movimento";
 import {
   ComoFunciona,
   Hero,
@@ -11,6 +12,9 @@ import { CtaFinal, Rodape } from "@/components/landing/rodape";
 export default function Home() {
   return (
     <>
+      {/* Scroll suave so aqui: a landing e a unica tela longa. No portal
+          ele custaria 44 KB de JS para nao fazer diferenca nenhuma. */}
+      <ScrollSuave />
       <Nav />
       <main>
         <Hero />
