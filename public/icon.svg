@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="courte">
+  <!--
+    ESTE ARQUIVO E A FONTE. public/favicon.ico deriva dele (16, 32 e 48 px,
+    PNG dentro do container ICO) e existe so porque o Safari nao le favicon
+    em SVG. Mexeu na geometria ou nas cores aqui? O .ico continua com o
+    desenho velho ate ser refeito a partir deste SVG.
+
+    Favicon: o "c." recortado do logotipo "courte." (src/components/ui.tsx),
+    na versao <Marca escuro />: fundo escuro, letra branca, ponto no acento.
+    Cores do quadro "Tokens": color-dark (#080808) e color-acc (#4F2BFF).
+    Fundo solido de proposito — aba de navegador tem tema claro e escuro, e
+    um "c" #191919 sobre transparente sumiria no escuro.
+
+    A letra e desenhada como arco, nao como texto: favicon e lido por
+    navegador, leitor de feed e sistema operacional, e nenhum deles garante
+    ter a Jost instalada. Com font-family a forma mudaria de maquina para
+    maquina. A Jost e geometrica: o "c" dela e um circulo com um corte
+    radial, entao o arco reproduz a forma.
+
+    Geometria, em unidades do viewBox de 64:
+      circulo   centro 27.80, 32,00   raio 18.64   traco 6.32
+      abertura  52 graus para cada lado do eixo, terminais cortados no
+                raio (stroke-linecap butt, o corte do tipo geometrico)
+      base      y 52.52 — o "c" desce 1.28 abaixo dela, o overshoot que
+                toda letra redonda tem
+      ponto     centro 53.70, 48.22   raio 4.30, assentado na base
+      espaco    entre o terminal do "c" e o ponto fica na largura do traco,
+                que e o apertado do tracking -0.04em da marca
+      margem    6 nas laterais, 10.2 em cima e embaixo
+  -->
+  <rect width="64" height="64" rx="14" fill="#080808"/>
+  <path d="M 39.27 17.31 A 18.64 18.64 0 1 0 39.27 46.68"
+        fill="none" stroke="#ffffff" stroke-width="6.32"/>
+  <circle cx="53.70" cy="48.22" r="4.30" fill="#4F2BFF"/>
+</svg>
