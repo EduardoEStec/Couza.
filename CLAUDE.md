@@ -106,9 +106,14 @@ devolve algo inesperado.
 - **Confirmacao de pagamento sai pelo webhook, nao pelo cron** — quem acabou
   de pagar nao pode esperar ate a manha seguinte para saber.
 - **Envio duplicado e barrado por indice unico parcial**
-  (`emails_uma_vez_idx (fatura_id, tipo) where status = 'enviado'`), nunca
-  por um `if`. A linha e gravada ANTES de chamar a Resend, para reservar a
-  vaga; se o envio falhar de vez ela vira `falhou` e libera a vaga.
+  (`emails_uma_vez_idx (fatura_id, tipo)`, cobrindo `enviando` e `enviado`),
+  nunca por um `if`. A linha e gravada ANTES de chamar a Resend, como
+  `enviando`, para reservar a vaga; vira `enviado` ou `falhou` depois.
+- **`enviando` e um estado de verdade, nao um detalhe**: ele separa
+  "reservei a vaga" de "a Resend confirmou". `liberarTravadas()` solta o que
+  ficar em `enviando` por mais de 15 minutos — isso e um processo que
+  morreu, e sem soltar a fatura ficaria marcada como avisada sem nunca ter
+  sido avisada. Soltar e seguro por causa da Idempotency-Key.
 - **Todo envio tenta 3 vezes** (400ms e 1200ms de espera), com
   `Idempotency-Key` da Resend para a repeticao nunca virar e-mail duplicado.
   Erro permanente (400/401/403/404/405/422 e cota do dia estourada) nao e

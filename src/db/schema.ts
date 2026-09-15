@@ -62,7 +62,18 @@ export const tipoEmail = pgEnum("tipo_email", [
   "cobranca_vencida",
   "pagamento_confirmado",
 ]);
-export const statusEmail = pgEnum("status_email", ["enviado", "falhou"]);
+/**
+ * `enviando` e a vaga RESERVADA, com o resultado ainda desconhecido.
+ *
+ * Ele existe porque, sem ele, `enviado` significaria duas coisas — "reservei"
+ * e "a Resend confirmou" — e um processo que morresse no meio deixaria a
+ * fatura marcada como avisada para sempre, sem nunca ter avisado.
+ */
+export const statusEmail = pgEnum("status_email", [
+  "enviando",
+  "enviado",
+  "falhou",
+]);
 
 /* ------------------------------------------------------------------ *
  * Clientes
@@ -338,13 +349,19 @@ export const emailsEnviados = pgTable(
     index("emails_cliente_idx").on(t.clienteId),
     index("emails_fatura_idx").on(t.faturaId),
     /**
-     * A trava de envio duplicado. PARCIAL de proposito: so cobre o que
-     * saiu de verdade, entao uma linha 'falhou' nao ocupa a vaga e a
-     * execucao do dia seguinte pode tentar de novo.
+     * A trava de envio duplicado.
+     *
+     * Cobre `enviando` TAMBEM, nao so `enviado`: e a reserva da vaga que
+     * impede duas execucoes simultaneas de mandarem o mesmo e-mail. Se
+     * cobrisse so o confirmado, as duas passariam pelo insert e as duas
+     * chamariam a Resend.
+     *
+     * PARCIAL de proposito: linha `falhou` fica de fora e nao ocupa vaga,
+     * entao a execucao do dia seguinte pode tentar de novo.
      */
     uniqueIndex("emails_uma_vez_idx")
       .on(t.faturaId, t.tipo)
-      .where(sql`status = 'enviado'`),
+      .where(sql`status in ('enviando', 'enviado')`),
   ],
 );
 

@@ -15,7 +15,7 @@ import {
   faturaPaga,
   type FaturaParaEmail,
 } from "@/db/cobrancas-email";
-import { enviarUmaVez, urlBase } from "@/lib/email";
+import { enviarUmaVez, liberarTravadas, urlBase } from "@/lib/email";
 import { Cobranca, type MomentoCobranca } from "@/emails/cobranca";
 import { PagamentoConfirmado } from "@/emails/pagamento-confirmado";
 import { emReais } from "@/lib/dinheiro";
@@ -91,6 +91,16 @@ async function mandarLote(
 export async function rodarCobrancas(simular = false): Promise<Resumo> {
   const resumo: Resumo = { enviados: 0, pulados: 0, falhas: 0, detalhes: [] };
 
+  // Antes de qualquer coisa: solta o que ficou preso de uma execucao que
+  // morreu no meio. Sem isso a fatura ficaria marcada como avisada sem
+  // nunca ter sido avisada.
+  const soltas = await liberarTravadas();
+  if (soltas > 0) {
+    resumo.detalhes.push(
+      `${soltas} envio(s) presos de uma execucao anterior foram liberados.`,
+    );
+  }
+
   const [aNovas, aLembrar, aVencidas] = await Promise.all([
     novas(),
     lembretes(),
@@ -120,6 +130,8 @@ export async function rodarCobrancas(simular = false): Promise<Resumo> {
  * tem as três tentativas por dentro.
  */
 export async function mandarConfirmacao(faturaId: string): Promise<void> {
+  await liberarTravadas();
+
   const f = await faturaPaga(faturaId);
   if (!f) return;
 

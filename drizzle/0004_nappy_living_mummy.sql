@@ -1,0 +1,1 @@
+ALTER TYPE "public"."status_email" ADD VALUE 'enviando' BEFORE 'enviado';

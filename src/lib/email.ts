@@ -166,7 +166,7 @@ export async function enviarEmail(e: Enviar): Promise<ResultadoEnvio> {
  * Manda UMA vez por fatura e por tipo, custe o que custar.
  *
  * Quem garante isso e o indice unico parcial
- * `emails_uma_vez_idx (fatura_id, tipo) where status = 'enviado'`, no banco
+ * `emails_uma_vez_idx`, no banco
  * — nao um `if`. Mesma regra que ja vale para o webhook do Asaas.
  *
  * A ordem importa e e o contrario da intuicao: a linha e gravada ANTES de
@@ -177,9 +177,12 @@ export async function enviarEmail(e: Enviar): Promise<ResultadoEnvio> {
  * Se o envio falhar de vez, a linha vira 'falhou', o que a tira do indice e
  * LIBERA a vaga: a execucao de amanha tenta de novo.
  *
- * Buraco conhecido e aceito: se a Resend falhar e o Worker morrer antes do
- * update, a linha fica 'enviado' e aquele e-mail nunca sai. E um e-mail a
- * menos, nunca um e-mail repetido — o erro cai para o lado certo.
+ * A vaga e reservada como 'enviando', nao como 'enviado'. A diferenca
+ * importa: 'enviando' quer dizer "reservei, ainda nao sei o resultado", e e
+ * o que permite a `liberarTravadas()` distinguir um processo que morreu no
+ * meio de um envio que realmente deu certo. Sem essa separacao, o Worker
+ * morrer entre a chamada e o update deixaria a fatura marcada como avisada
+ * para sempre, sem nunca ter avisado.
  */
 export async function enviarUmaVez(
   e: Enviar & { faturaId: string },
@@ -195,7 +198,7 @@ export async function enviarUmaVez(
         ${e.tipo},
         ${e.para},
         ${e.assunto},
-        'enviado'
+        'enviando'
       )
       on conflict do nothing
       returning id
@@ -216,10 +219,46 @@ export async function enviarUmaVez(
        where id = ${linha}
     `);
   } catch {
-    // ver o "buraco conhecido" no comentario acima
+    // A linha fica presa em 'enviando'. Nao e perda: `liberarTravadas()`
+    // solta ela na proxima execucao, e a Idempotency-Key impede que a nova
+    // tentativa vire e-mail repetido.
   }
 
   return resultado;
+}
+
+/**
+ * Solta as vagas que ficaram presas porque o processo morreu no meio.
+ *
+ * Uma linha em 'enviando' ha mais de 15 minutos nao e um envio demorado: o
+ * envio inteiro tem teto de tres tentativas com 1,6s de espera somada. E um
+ * Worker que foi derrubado entre chamar a Resend e anotar o resultado.
+ *
+ * Soltar e seguro por causa da `Idempotency-Key`: no pior caso — a Resend
+ * ACEITOU e nos morremos antes de anotar — a nova tentativa manda a mesma
+ * chave `<tipo>/<fatura>`, e a Resend devolve a resposta original sem mandar
+ * outro e-mail. A chave vale 24h, e esta varredura roda no comeco de cada
+ * execucao do cron e a cada confirmacao de pagamento, muito antes disso.
+ *
+ * O motivo fica escrito na linha para dar para diferenciar, olhando a
+ * tabela, "a Resend recusou" de "o processo morreu".
+ */
+export async function liberarTravadas(): Promise<number> {
+  try {
+    const soltas = await consultar<{ id: string }>(sql`
+      update emails_enviados
+         set status = 'falhou',
+             erro = 'processo interrompido antes de confirmar o envio'
+       where status = 'enviando'
+         and criado_em < now() - interval '15 minutes'
+      returning id
+    `);
+    return soltas.length;
+  } catch {
+    // Nao pode derrubar a remessa do dia: no pior caso a vaga fica presa
+    // mais um dia e a proxima execucao tenta soltar de novo.
+    return 0;
+  }
 }
 
 /** Endereco base do site, para montar links de e-mail. */

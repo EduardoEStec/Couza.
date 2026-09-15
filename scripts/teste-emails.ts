@@ -9,7 +9,7 @@ config({ path: ".env.local" });
 
 import { sql } from "drizzle-orm";
 import { consultar } from "@/db";
-import { enviarUmaVez } from "@/lib/email";
+import { enviarUmaVez, liberarTravadas } from "@/lib/email";
 import { ErroDefinitivo, tentar, TENTATIVAS } from "@/lib/tentar";
 import { rodarCobrancas } from "@/lib/cobranca-email";
 import { destinoDoLogin } from "@/lib/destino-login";
@@ -135,6 +135,46 @@ const daquiA = (dias: number) => {
   ok(outroTipo.ok !== "pulou", "outro TIPO na mesma fatura nao e bloqueado");
 
   if (chaveReal) process.env.RESEND_API_KEY = chaveReal;
+
+  console.log("");
+  console.log("3b) processo que morre no meio nao perde o e-mail para sempre");
+  await consultar(sql`delete from emails_enviados where fatura_id = ${fatura}`);
+
+  // Simula exatamente o caso: a vaga foi reservada e ninguem nunca voltou
+  // para anotar o resultado. 20 minutos atras, acima do corte de 15.
+  await consultar(sql`
+    insert into emails_enviados
+      (id, cliente_id, fatura_id, tipo, destinatario, assunto, status, criado_em)
+    values (gen_random_uuid()::text, ${cliente}, ${fatura}, 'cobranca_nova',
+            'teste-emails@exemplo.invalido', 'Teste', 'enviando',
+            now() - interval '20 minutes')
+  `);
+
+  const travada = await enviarUmaVez(carta);
+  ok(travada.ok === "pulou", "enquanto presa, a vaga continua ocupada (nao duplica)");
+
+  const soltas = await liberarTravadas();
+  ok(soltas === 1, `a varredura soltou ${soltas} vaga presa`);
+
+  const depois = await consultar<{ status: string; erro: string | null }>(sql`
+    select status, erro from emails_enviados where fatura_id = ${fatura}
+  `);
+  ok(depois[0].status === "falhou", "virou 'falhou', liberando a vaga");
+  ok((depois[0].erro ?? "").includes("interrompido"),
+     "o motivo fica escrito: da para diferenciar de recusa da Resend");
+
+  const retomado = await enviarUmaVez(carta);
+  ok(retomado.ok !== "pulou", "agora sim tenta de novo — o e-mail nao se perdeu");
+
+  // Uma reserva RECENTE nao pode ser solta: ela pode ser um envio em curso.
+  await consultar(sql`delete from emails_enviados where fatura_id = ${fatura}`);
+  await consultar(sql`
+    insert into emails_enviados
+      (id, cliente_id, fatura_id, tipo, destinatario, assunto, status)
+    values (gen_random_uuid()::text, ${cliente}, ${fatura}, 'cobranca_nova',
+            'teste-emails@exemplo.invalido', 'Teste', 'enviando')
+  `);
+  ok((await liberarTravadas()) === 0, "reserva recente NAO e solta — pode estar em curso");
 
   console.log("\n4) as listas do cron, em modo simulacao (nao manda nada)");
   const resumo = await rodarCobrancas(true);
