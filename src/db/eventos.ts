@@ -112,3 +112,21 @@ export async function marcarCancelada(faturaId: string): Promise<boolean> {
   `);
   return r.length === 1;
 }
+
+/**
+ * Devolve a fatura para "em aberto".
+ *
+ * Usada quando um recebimento e desfeito ou uma cobranca removida e
+ * restaurada: a divida volta a existir. Limpa a data e a forma de
+ * pagamento, senao a tela mostraria "aberta" com data de pagamento —
+ * contradicao que o cliente ve.
+ */
+export async function marcarAberta(faturaId: string): Promise<boolean> {
+  const r = await consultar<{ id: string }>(sql`
+    update faturas
+       set status = 'aberta', pago_em = null, forma_pagamento = null
+     where id = ${faturaId} and status <> 'aberta'
+     returning id
+  `);
+  return r.length === 1;
+}

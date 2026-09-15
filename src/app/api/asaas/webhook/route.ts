@@ -2,6 +2,7 @@ import { after } from "next/server";
 import {
   faturaPelaCobranca,
   gravarEvento,
+  marcarAberta,
   marcarCancelada,
   marcarPaga,
   marcarProcessado,
@@ -30,18 +31,58 @@ import {
  *    Quem garante e o indice unico de evento_id, no banco, nao um `if`.
  */
 
-/** Eventos que significam "o cliente pagou". */
+/**
+ * Mapeamento evento -> status da fatura.
+ *
+ * A lista de eventos veio da documentacao oficial. ATENCAO ao que NAO esta
+ * aqui: quase todo evento so vai para o log. Mexer no status de fatura por
+ * palpite e pior do que nao mexer — o cliente ve, e ele confia na tela.
+ */
+
+/** O cliente pagou. */
 const PAGOU = new Set([
-  "PAYMENT_CONFIRMED", // pago; o dinheiro ainda nao caiu na conta
-  "PAYMENT_RECEIVED", // recebido, dinheiro creditado
-  "PAYMENT_RECEIVED_IN_CASH", // baixa manual em dinheiro
+  "PAYMENT_CONFIRMED", // "Pagamento efetuado, mas com saldo ainda nao disponibilizado"
+  "PAYMENT_RECEIVED", // "Cobranca recebida, com valor disponivel na conta Asaas"
 ]);
 
-/** Eventos que desfazem a cobranca. */
-const DESFEZ = new Set([
+/**
+ * A cobranca volta a ser devida: ela existe e o cliente ainda deve.
+ *
+ * `RECEIVED_IN_CASH_UNDONE` e "recebimento em dinheiro desfeito" — alguem
+ * deu baixa manual por engano e voltou atras. Cancelar seria errado: a
+ * divida continua de pe.
+ *
+ * `RESTORED` e "cobranca restaurada" — uma cobranca removida voltou.
+ */
+const VOLTOU_A_DEVER = new Set([
+  "PAYMENT_RECEIVED_IN_CASH_UNDONE",
+  "PAYMENT_RESTORED",
+]);
+
+/** A cobranca deixou de existir do lado do Asaas. */
+const CANCELOU = new Set([
+  "PAYMENT_DELETED", // "Cobranca removida"
+]);
+
+/**
+ * Eventos que NAO mudam status sozinhos — precisam do Guilherme olhar.
+ *
+ * Estorno e chargeback mexem em dinheiro que ja entrou, e o que fazer
+ * depende do motivo: estornar porque o servico nao foi entregue (cancelar)
+ * e diferente de estornar e continuar cobrando. Decidir por palpite aqui
+ * seria inventar regra de negocio.
+ *
+ * Ficam gravados com o motivo, para ele resolver no admin.
+ */
+const PRECISA_DE_HUMANO = new Set([
   "PAYMENT_REFUNDED",
-  "PAYMENT_DELETED",
+  "PAYMENT_PARTIALLY_REFUNDED",
+  "PAYMENT_REFUND_IN_PROGRESS",
   "PAYMENT_CHARGEBACK_REQUESTED",
+  "PAYMENT_CHARGEBACK_DISPUTE",
+  "PAYMENT_AWAITING_CHARGEBACK_REVERSAL",
+  "PAYMENT_REPROVED_BY_RISK_ANALYSIS",
+  "PAYMENT_CREDIT_CARD_CAPTURE_REFUSED",
 ]);
 
 type CorpoWebhook = {
@@ -149,11 +190,22 @@ async function processar(
       (corpo.payment?.billingType ?? null) as FormaAsaas,
       quando,
     );
-  } else if (DESFEZ.has(tipo)) {
+  } else if (VOLTOU_A_DEVER.has(tipo)) {
+    await marcarAberta(fatura.id);
+  } else if (CANCELOU.has(tipo)) {
     await marcarCancelada(fatura.id);
+  } else if (PRECISA_DE_HUMANO.has(tipo)) {
+    // De proposito nao mexe no status. Fica marcado para o Guilherme ver.
+    await marcarProcessado(
+      eventoLinhaId,
+      fatura.id,
+      "precisa de decisão manual: o status da fatura não foi alterado",
+    );
+    return;
   }
   // PAYMENT_OVERDUE nao muda nada: "atrasada" e derivada do vencimento,
-  // nunca gravada. PAYMENT_CREATED e PAYMENT_UPDATED so ficam no log.
+  // nunca gravada. PAYMENT_CREATED, PAYMENT_UPDATED, os de visualizacao e
+  // os de split so ficam no log.
 
   await marcarProcessado(eventoLinhaId, fatura.id);
 }
