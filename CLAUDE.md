@@ -47,7 +47,18 @@ devolve algo inesperado.
 
 ## Restrições que vêm do ambiente (importantes)
 - Roda em Cloudflare Workers: **sem dependências nativas**. bcrypt/argon2 nativos
-  estão fora. Hash de senha com scrypt ou PBKDF2 via Web Crypto API.
+  estão fora.
+- **Hash de senha roda no POSTGRES, não no Worker** (decidido em 14/09/2026,
+  seguindo o padrão do urblab-dashboard). Antes esta linha dizia "scrypt ou
+  PBKDF2 via Web Crypto"; mudou porque a Cloudflare limita o PBKDF2 da Web
+  Crypto a 100 mil iterações — abaixo do que a OWASP recomenda — e o hash
+  ainda gastaria o orçamento de CPU do Worker justamente no login.
+  - O Worker calcula um **pré-hash SHA-256** e manda só isso. O banco nunca vê
+    a senha real, então nem o Neon nem quem roubar a `DATABASE_URL` aprende a
+    senha que o cliente talvez repita no e-mail dele.
+  - O Postgres aplica `crypt(prehash, gen_salt('bf', 12))` via pgcrypto.
+  - **A senha nunca entra em log, nunca é interpolada na string de SQL e nunca
+    sai numa mensagem de erro. Sempre parâmetro.**
 - Sem `fs`, sem processo de longa duração, sem cron interno: tarefa agendada é
   Cloudflare Cron Trigger.
 - Acesso ao Postgres pelo driver serverless da Neon (HTTP), não TCP.

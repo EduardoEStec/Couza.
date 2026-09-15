@@ -1,3 +1,8 @@
+-- pgcrypto: o bcrypt das senhas roda AQUI, no Postgres, nao no Worker.
+-- A Cloudflare limita o PBKDF2 da Web Crypto a 100 mil iteracoes, abaixo do
+-- que a OWASP recomenda, e o hash ainda gastaria o orcamento de CPU do Worker
+-- justamente no login. Ver src/lib/senha.ts e src/db/usuarios.ts
+CREATE EXTENSION IF NOT EXISTS pgcrypto;--> statement-breakpoint
 CREATE TYPE "public"."forma_pagamento" AS ENUM('cartao', 'pix', 'boleto');--> statement-breakpoint
 CREATE TYPE "public"."status_email" AS ENUM('enviado', 'falhou');--> statement-breakpoint
 CREATE TYPE "public"."status_fatura" AS ENUM('aberta', 'paga', 'cancelada');--> statement-breakpoint
@@ -81,8 +86,9 @@ CREATE TABLE "usuarios" (
 	"cliente_id" text NOT NULL,
 	"email" text NOT NULL,
 	"senha_hash" text,
-	"senha_salt" text,
-	"senha_iteracoes" integer,
+	"ativo" boolean DEFAULT true NOT NULL,
+	"tentativas" integer DEFAULT 0 NOT NULL,
+	"bloqueado_ate" timestamp with time zone,
 	"criado_em" timestamp with time zone DEFAULT now() NOT NULL,
 	"atualizado_em" timestamp with time zone DEFAULT now() NOT NULL
 );

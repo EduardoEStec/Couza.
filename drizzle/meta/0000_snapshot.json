@@ -1,5 +1,5 @@
 {
-  "id": "40f1d890-b0e7-4955-969f-3837796c12af",
+  "id": "6e9110f7-18cf-4d20-975e-9886a3398b45",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -776,15 +776,23 @@
           "primaryKey": false,
           "notNull": false
         },
-        "senha_salt": {
-          "name": "senha_salt",
-          "type": "text",
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": true
         },
-        "senha_iteracoes": {
-          "name": "senha_iteracoes",
+        "tentativas": {
+          "name": "tentativas",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "bloqueado_ate": {
+          "name": "bloqueado_ate",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
         },

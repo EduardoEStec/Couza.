@@ -98,18 +98,43 @@ export const usuarios = pgTable(
       .notNull()
       .references(() => clientes.id, { onDelete: "cascade" }),
 
-    /** E-mail de login. Unico no sistema inteiro. */
+    /**
+     * E-mail de login, unico no sistema inteiro.
+     * SEMPRE gravado e consultado em lower(): senao "Guilherme@x.com" e
+     * "guilherme@x.com" viram duas contas, e a segunda so aparece no dia
+     * em que alguem nao conseguir entrar.
+     */
     email: text("email").notNull(),
 
     /**
-     * PBKDF2 via Web Crypto (Workers nao aceita bcrypt/argon2 nativos).
-     * As iteracoes ficam gravadas junto para poder aumentar o custo no
-     * futuro e re-hashear no proximo login, sem invalidar senha antiga.
-     * null enquanto o usuario ainda nao criou senha.
+     * bcrypt com sal embutido, gerado pelo pgcrypto DENTRO do Postgres:
+     * crypt(prehash, gen_salt('bf', 12)).
+     *
+     * O hash nao roda no Worker porque a Cloudflare limita o PBKDF2 da
+     * Web Crypto a 100 mil iteracoes — abaixo do que a OWASP recomenda — e
+     * ainda gastaria o orcamento de CPU justamente no login. No banco o
+     * bcrypt custo 12 roda sem teto.
+     *
+     * `prehash` e o SHA-256 que o Worker calcula antes de mandar: o banco
+     * nunca ve a senha real. Ver src/lib/senha.ts.
+     *
+     * TEXT e nao varchar: o formato do pgcrypto tem 60 caracteres hoje,
+     * mas prender o tamanho nao compra nada e quebra calado se o custo ou
+     * o algoritmo mudar. null enquanto o usuario ainda nao criou senha.
      */
     senhaHash: text("senha_hash"),
-    senhaSalt: text("senha_salt"),
-    senhaIteracoes: integer("senha_iteracoes"),
+
+    /** Desliga o acesso sem apagar a linha — apagar levaria as sessoes junto. */
+    ativo: boolean("ativo").notNull().default(true),
+
+    /**
+     * Trava anti-forca-bruta na propria linha: contador e prazo decididos
+     * num UPDATE que le a coluna, nunca um valor vindo do JavaScript. Dois
+     * logins errados ao mesmo tempo leriam ambos "3" e gravariam ambos "4",
+     * e a trava nunca chegaria.
+     */
+    tentativas: integer("tentativas").notNull().default(0),
+    bloqueadoAte: timestamp("bloqueado_ate", { withTimezone: true }),
 
     criadoEm: criadoEm(),
     atualizadoEm: timestamp("atualizado_em", { withTimezone: true })

@@ -1,94 +1,43 @@
 /**
- * Hash de senha com PBKDF2 pela Web Crypto.
+ * Senha — a parte que roda no Worker.
  *
- * Por que PBKDF2 e nao scrypt/argon2: o ETAPAS.md pedia scrypt, mas a Web
- * Crypto padrao nao implementa scrypt — so PBKDF2. E bcrypt/argon2 nativos
- * estao fora porque o Workers nao carrega dependencia nativa. Decisao do
- * Guilherme: fica PBKDF2 e testamos scrypt depois.
+ * O hash caro (bcrypt custo 12) NAO esta aqui: ele roda no Postgres, via
+ * pgcrypto. Ver src/db/usuarios.ts. Dois motivos, nesta ordem:
  *
- * As iteracoes ficam gravadas junto do hash. Isso permite subir o custo no
- * futuro e re-hashear no proximo login, sem invalidar senha de ninguem.
+ * 1. A Cloudflare limita o PBKDF2 da Web Crypto a 100 mil iteracoes —
+ *    abaixo das 210 mil que a OWASP recomenda para SHA-512. Hashear no
+ *    Worker seria aceitar de saida um hash mais fraco do que o recomendado,
+ *    sem poder corrigir depois.
+ * 2. O plano gratuito do Workers da 10ms de CPU por requisicao. Qualquer
+ *    hash aceitavel estoura isso justamente no login.
  *
- * ATENCAO ao custo: 210 mil iteracoes de SHA-512 gastam MUITO mais que os
- * 10ms de CPU do plano gratuito do Workers. O login exige o plano pago.
+ * O que roda aqui e o PRE-HASH: um SHA-256 barato (microssegundos) aplicado
+ * antes de mandar para o banco. Nao substitui o bcrypt — ele e que segura o
+ * ataque de forca bruta. O pre-hash existe para outra coisa:
+ *
+ * - O banco nunca ve a senha real. Nem o Neon, nem quem roubar a
+ *   DATABASE_URL, nem um log de statements mal configurado. Isso protege o
+ *   cliente que repete a mesma senha no e-mail dele.
+ * - Some a limitacao de 72 bytes do bcrypt, que trunca em silencio.
  */
-
-/** OWASP para PBKDF2-HMAC-SHA512. */
-const ITERACOES = 210_000;
-const BYTES_SAL = 16;
-const BYTES_CHAVE = 32;
 
 export const MIN_SENHA = 8;
 
-export type SenhaGuardada = {
-  hash: string;
-  salt: string;
-  iteracoes: number;
-};
-
-function paraBase64(bytes: Uint8Array): string {
-  let s = "";
-  for (const b of bytes) s += String.fromCharCode(b);
-  return btoa(s);
-}
-
-function deBase64(texto: string): Uint8Array {
-  const bin = atob(texto);
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return bytes;
-}
-
-async function derivar(
-  senha: string,
-  salt: Uint8Array,
-  iteracoes: number,
-): Promise<Uint8Array> {
-  const material = await crypto.subtle.importKey(
-    "raw",
+/**
+ * SHA-256 da senha, em base64 (44 caracteres — bem dentro dos 72 bytes que
+ * o bcrypt aceita). NFKC antes de tudo: acento digitado de dois jeitos
+ * diferentes tem que virar a mesma senha.
+ *
+ * Este valor e o que viaja ate o Postgres. A senha crua morre aqui.
+ */
+export async function preHash(senha: string): Promise<string> {
+  const bits = await crypto.subtle.digest(
+    "SHA-256",
     new TextEncoder().encode(senha.normalize("NFKC")),
-    "PBKDF2",
-    false,
-    ["deriveBits"],
   );
-  const bits = await crypto.subtle.deriveBits(
-    { name: "PBKDF2", salt: salt as BufferSource, iterations: iteracoes, hash: "SHA-512" },
-    material,
-    BYTES_CHAVE * 8,
-  );
-  return new Uint8Array(bits);
-}
-
-/** Comparacao de tempo constante: nunca sai mais cedo por diferenca. */
-function iguaisEmTempoConstante(a: Uint8Array, b: Uint8Array): boolean {
-  if (a.length !== b.length) return false;
-  let diferenca = 0;
-  for (let i = 0; i < a.length; i++) diferenca |= a[i] ^ b[i];
-  return diferenca === 0;
-}
-
-export async function criarHash(senha: string): Promise<SenhaGuardada> {
-  const salt = crypto.getRandomValues(new Uint8Array(BYTES_SAL));
-  const chave = await derivar(senha, salt, ITERACOES);
-  return {
-    hash: paraBase64(chave),
-    salt: paraBase64(salt),
-    iteracoes: ITERACOES,
-  };
-}
-
-export async function conferirSenha(
-  senha: string,
-  guardada: Partial<SenhaGuardada> | null | undefined,
-): Promise<boolean> {
-  if (!guardada?.hash || !guardada.salt || !guardada.iteracoes) return false;
-  const chave = await derivar(senha, deBase64(guardada.salt), guardada.iteracoes);
-  return iguaisEmTempoConstante(chave, deBase64(guardada.hash));
-}
-
-/** true quando o hash foi feito com custo menor que o atual. */
-export function precisaRehash(guardada: Pick<SenhaGuardada, "iteracoes">): boolean {
-  return guardada.iteracoes < ITERACOES;
+  let s = "";
+  for (const b of new Uint8Array(bits)) s += String.fromCharCode(b);
+  return btoa(s);
 }
 
 export function senhaInvalida(senha: string): string | null {
@@ -96,4 +45,9 @@ export function senhaInvalida(senha: string): string | null {
     return `A senha precisa de pelo menos ${MIN_SENHA} caracteres.`;
   }
   return null;
+}
+
+/** E-mail sempre em minusculo, dos dois lados: gravacao e consulta. */
+export function normalizarEmail(email: string): string {
+  return email.trim().toLowerCase();
 }
