@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap">
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#191919; --dark:#080808; --n1:#737373; --n2:#a3a3a3;
+      --acc:#4F2BFF; --acc-h:#4123D1;
+      --line:#EAEAEA; --wash:#F5F5F5; --danger:#E0301F; --danger-w:#FDECEA;
+      --rc:32px; --rb:8px; --rp:999px;
+      --t-hero:clamp(44px,11.5vw,132px);
+      --t-h2:clamp(32px,5.2vw,64px);
+      --t-h3:clamp(20px,1.7vw,28px);
+      --t-lead:clamp(17px,1.4vw,21px);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);
+      font-family:'Jost','Century Gothic',Futura,system-ui,sans-serif;
+      font-weight:400;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+    a{color:var(--acc);text-decoration:none}
+    a:hover{color:var(--acc-h)}
+    h1,h2,h3,h4,p,ul,figure{margin:0;padding:0}
+    ul{list-style:none}
+    h1,h2,h3{font-weight:500;letter-spacing:-0.035em;line-height:1.03;text-wrap:balance}
+    p{text-wrap:pretty}
+    svg{display:block}
+
+    /* marcadores de rascunho */
+    .r{text-decoration:underline;text-decoration-style:dotted;text-decoration-color:#DCDCDC;text-decoration-thickness:1px;text-underline-offset:5px}
+    .ph{display:inline-block;padding:0 6px;border-radius:6px;background:var(--wash);border:1px dashed var(--n2);color:var(--n1);font-size:.92em;line-height:1.4;white-space:nowrap}
+    .ph-d{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.26);color:#a3a3a3}
+
+    /* layout */
+    .wrap{width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,3.5vw,56px)}
+    .sec{padding:clamp(56px,6.5vw,120px) 0}
+    .stack{display:flex;flex-direction:column}
+    .row{display:flex;align-items:center}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(1,minmax(0,1fr))}
+    @media (min-width:900px){ .grid{gap:24px;grid-template-columns:repeat(3,minmax(0,1fr))} }
+
+    /* tipografia */
+    .eyebrow{font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--n1)}
+    .lead{font-size:var(--t-lead);color:var(--n1);line-height:1.45}
+    .sm{font-size:14px;color:var(--n1)}
+    .xs{font-size:12px;color:var(--n2)}
+    .mono-n{font-variant-numeric:tabular-nums}
+
+    /* marca */
+    .logo{display:inline-flex;align-items:baseline;font-weight:600;font-size:22px;letter-spacing:-0.04em;color:var(--ink)}
+    .logo i{font-style:normal;color:var(--acc)}
+    .logo-d{color:#fff}
+
+    /* botões */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;
+      border-radius:var(--rb);background:var(--acc);color:#fff;font-weight:500;font-size:16px;border:1px solid var(--acc);
+      font-family:inherit;cursor:pointer;text-align:center}
+    .btn:hover{background:var(--acc-h);border-color:var(--acc-h);color:#fff}
+    .btn-lg{min-height:56px;padding:0 30px;font-size:17px}
+    .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+    .btn-ghost:hover{background:var(--wash);color:var(--ink);border-color:var(--n2)}
+    .btn-dark{background:#fff;color:var(--dark);border-color:#fff}
+    .btn-dark:hover{background:#EDEAFF;color:var(--dark);border-color:#EDEAFF}
+    .btn-danger{background:var(--danger);border-color:var(--danger)}
+    .btn-danger:hover{background:#B5251A;border-color:#B5251A}
+    .btn-sm{min-height:44px;padding:0 18px;font-size:15px}
+    .btn-block{width:100%}
+
+    /* pílulas / chips */
+    .pill{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border-radius:var(--rp);
+      font-size:13px;font-weight:500;line-height:1;white-space:nowrap}
+    .pill-acc{background:#EDEAFF;color:var(--acc)}
+    .pill-neutral{background:var(--wash);color:var(--n1)}
+    .pill-danger{background:var(--danger-w);color:var(--danger)}
+    .pill-dark{background:var(--dark);color:#fff}
+    .dot{width:7px;height:7px;border-radius:var(--rp);background:currentColor;flex:none}
+
+    /* cards */
+    .card{border:1px solid var(--line);border-radius:var(--rc);background:#fff}
+    .card-wash{background:var(--wash);border-color:transparent}
+    .card-dark{background:var(--dark);border-color:var(--dark);color:#fff}
+    .pad{padding:clamp(22px,2.2vw,32px)}
+
+    /* formulário */
+    .field{display:flex;flex-direction:column;gap:8px}
+    .label{font-size:14px;font-weight:500;color:var(--ink)}
+    .input{min-height:52px;border:1px solid var(--line);border-radius:var(--rb);padding:0 14px;
+      display:flex;align-items:center;gap:8px;color:var(--n2);font-size:16px;background:#fff}
+    .input-focus{border-color:var(--acc);box-shadow:0 0 0 3px #EDEAFF}
+    .hint{font-size:13px;color:var(--n2)}
+
+    /* abas */
+    .tabs{display:flex;gap:6px;padding:5px;background:var(--wash);border-radius:var(--rp)}
+    .tab{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 10px;
+      border-radius:var(--rp);font-size:15px;font-weight:500;color:var(--n1)}
+    .tab-on{background:#fff;color:var(--ink)}
+
+    /* topo do portal */
+    .topbar{position:sticky;top:0;z-index:9;display:flex;align-items:center;justify-content:space-between;
+      gap:16px;padding:14px clamp(20px,3.5vw,56px);background:rgba(255,255,255,.94);border-bottom:1px solid var(--line)}
+    .avatar{width:40px;height:40px;border-radius:var(--rp);background:var(--wash);display:flex;align-items:center;justify-content:center;color:var(--n1);flex:none}
+    .navlinks{display:none;gap:28px;font-size:16px;color:var(--n1)}
+    @media (min-width:900px){ .navlinks{display:flex} .hide-d{display:none!important} }
+    .segbar{display:flex;gap:8px;overflow:hidden}
+    .seg{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:var(--rp);
+      font-size:15px;font-weight:500;color:var(--n1);background:var(--wash);white-space:nowrap}
+    .seg-on{background:var(--dark);color:#fff}
+
+    .divider{height:1px;background:var(--line);border:0}
+    .kv{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0}
+    .kv + .kv{border-top:1px solid var(--line)}
+    .kv dt{font-size:15px;color:var(--n1)}
+    .kv dd{margin:0;font-size:15px;font-weight:500;text-align:right}
+  </style>
+</helmet>
+<style>
+  /* Folha A4 a 96 px/pol: 794 x 1123. Corpo nunca abaixo de 16px (12pt). */
+  body{background:#fff}
+  .folha{width:794px;min-height:1123px;padding:72px 64px;display:flex;flex-direction:column}
+  .topo{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
+  .wordmark{font-size:24px;font-weight:600;letter-spacing:-0.04em;color:#191919}
+  .wordmark i{font-style:normal;color:#4F2BFF}
+  .emitente{text-align:right;font-size:14px;line-height:1.6;color:#737373}
+  .faixa{margin-top:56px;display:flex;justify-content:space-between;align-items:baseline;
+    border-bottom:2px solid #191919;padding-bottom:14px}
+  .titulo{font-size:34px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#191919}
+  .numero{font-size:16px;color:#737373}
+  .valorcaixa{margin-top:36px;background:#F5F5F5;padding:24px 28px}
+  .valorrot{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#737373}
+  .valor{font-size:42px;font-weight:500;letter-spacing:-0.035em;line-height:1.05;color:#191919;margin-top:8px}
+  .extenso{font-size:16px;color:#737373;margin-top:8px}
+  .corpo{margin-top:36px;font-size:17px;line-height:1.85;color:#191919}
+  .dados{margin-top:36px}
+  .linha{display:flex;justify-content:space-between;gap:24px;padding:13px 0;font-size:16px}
+  .linha + .linha{border-top:1px solid #EAEAEA}
+  .linha dt{color:#737373}
+  .linha dd{margin:0;font-weight:500;text-align:right;color:#191919}
+  .assinatura{margin-top:auto;padding-top:64px}
+  .local{font-size:16px;color:#191919}
+  .risco-ass{margin-top:56px;width:320px;border-top:1px solid #191919;padding-top:10px;
+    font-size:16px;line-height:1.5;color:#191919}
+  .aviso{margin-top:40px;padding-top:18px;border-top:1px solid #EAEAEA;font-size:13px;line-height:1.6;color:#737373}
+  .r{text-decoration:underline;text-decoration-style:dotted;text-decoration-color:#DCDCDC;
+    text-decoration-thickness:1px;text-underline-offset:5px}
+  .ph{display:inline-block;padding:0 6px;border-radius:5px;background:#F5F5F5;
+    border:1px dashed #a3a3a3;color:#737373;font-size:.92em;line-height:1.4}
+</style>
+
+<div class="folha">
+  <div class="topo">
+    <span class="wordmark">courte<i>.</i></span>
+    <div class="emitente">
+      Guilherme Courte<br>
+      CPF <span class="ph">CPF</span><br>
+      <span class="ph">cidade / UF</span><br>
+      <span class="ph">e-mail</span>
+    </div>
+  </div>
+
+  <div class="faixa">
+    <span class="titulo">Recibo</span>
+    <span class="numero">Nº <span class="ph">nº</span></span>
+  </div>
+
+  <div class="valorcaixa">
+    <p class="valorrot">Valor recebido</p>
+    <p class="valor">R$ <span class="ph">valor</span></p>
+    <p class="extenso"><span class="ph">valor por extenso</span></p>
+  </div>
+
+  <p class="corpo r">
+    Recebi de <span class="ph">nome do cliente</span>, inscrito sob o
+    CPF/CNPJ <span class="ph">documento do cliente</span>, a importância acima,
+    referente a <span class="ph">descrição do serviço</span>, dando plena
+    quitação do valor.
+  </p>
+
+  <dl class="dados">
+    <div class="linha"><dt>Fatura</dt><dd><span class="ph">nº</span></dd></div>
+    <div class="linha"><dt>Produto</dt><dd><span class="ph">nome do produto</span></dd></div>
+    <div class="linha"><dt>Forma de pagamento</dt><dd><span class="ph">cartão / Pix / boleto</span></dd></div>
+    <div class="linha"><dt>Data do pagamento</dt><dd><span class="ph">dd/mm/aaaa</span></dd></div>
+  </dl>
+
+  <div class="assinatura">
+    <p class="local"><span class="ph">cidade</span>, <span class="ph">dd/mm/aaaa</span>.</p>
+    <div class="risco-ass">
+      Guilherme Courte<br>
+      <span style="color:#737373">CPF <span class="ph">CPF</span></span>
+    </div>
+    <p class="aviso r">
+      Este documento é um recibo de pagamento de serviço prestado por pessoa física.
+      Não é nota fiscal.
+    </p>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

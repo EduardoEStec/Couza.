@@ -143,6 +143,52 @@
       "y": 0,
       "w": 1200,
       "h": 2000
+    },
+    {
+      "file": "EmailAcesso.dc.html",
+      "title": "E-mail · primeiro acesso",
+      "page": "page-4",
+      "x": 0,
+      "y": 0,
+      "w": 680,
+      "h": 820
+    },
+    {
+      "file": "EmailCobranca.dc.html",
+      "title": "E-mail · cobrança",
+      "page": "page-4",
+      "x": 800,
+      "y": 0,
+      "w": 680,
+      "h": 1180
+    },
+    {
+      "file": "EmailPagamento.dc.html",
+      "title": "E-mail · pagamento confirmado",
+      "page": "page-4",
+      "x": 1600,
+      "y": 0,
+      "w": 680,
+      "h": 900
+    },
+    {
+      "file": "Recibo.dc.html",
+      "title": "Portal · Recibo · 390",
+      "page": "page-1",
+      "x": 1530,
+      "y": 2940,
+      "w": 390,
+      "h": 1400
+    },
+    {
+      "file": "ReciboImpresso.dc.html",
+      "title": "Recibo impresso · A4",
+      "page": "page-1",
+      "x": 2040,
+      "y": 2940,
+      "w": 794,
+      "h": 1123,
+      "print": "fixed"
     }
   ],
   "annotations": [
@@ -185,11 +231,27 @@
       "y": -220,
       "w": 1000,
       "text": "MOVIMENTO — proposta\n\nUnico quadro do canvas que se mexe. Os seis exemplos funcionam de verdade: passe o mouse, clique no acordeao, clique no campo.\n\nO que depende de scroll de verdade (Lenis e entrada de secao) esta escrito, nao demonstrado — quadro de altura fixa nao reproduz rolagem com honestidade."
+    },
+    {
+      "id": "nota-emails",
+      "page": "page-4",
+      "x": 0,
+      "y": -300,
+      "w": 1000,
+      "text": "E-MAILS — proposta, aguardando aprovacao\n\nColuna de 600px, que e a largura util de e-mail. A marca aqui e uma traducao simplificada das telas, nao uma copia: sem raio de 32px (o Outlook do Windows renderiza com o motor do Word e ignora border-radius) e sem Jost (Gmail e Outlook nao carregam fonte externa — cai no fallback).\n\nTudo que importa e TEXTO, nunca imagem: valor, vencimento, codigos e o botao. Imagem pode vir bloqueada.\n\nO QR do Pix vai embutido em base64 — funciona em Gmail, Apple Mail, Yahoo e Outlook (menos GIF). Mas quem le no celular nao escaneia a propria tela, por isso o copia-e-cola em texto esta sempre do lado.\n\nPendente de decisao sua: o botao \"Pagar agora\" leva ao login, ou direto ao checkout com token no link?"
+    },
+    {
+      "id": "nota-recibo",
+      "page": "page-1",
+      "x": 2040,
+      "y": 4200,
+      "w": 794,
+      "text": "RECIBO IMPRESSO — A4 (794x1123 a 96 px/pol)\n\nEste quadro e o que sai da impressora. Exportar PDF daqui gera uma pagina no tamanho certo.\n\nNa tela do portal, a nav e o botao somem no @media print — imprime so o documento.\n\nCorpo em 17px (acima do minimo de 12pt), fundo branco, nada de bloco escuro que bebe tinta.\n\nO texto do recibo e RASCUNHO meu, formula comum de recibo de pessoa fisica. Confirme com seu contador o que ele precisa conter antes de valer."
     }
   ],
   "launch": {
     "view": "canvas",
-    "page": "page-3"
+    "page": "page-1"
   },
   "pages": [
     {
@@ -203,6 +265,10 @@
     {
       "id": "page-3",
       "name": "Tokens e movimento"
+    },
+    {
+      "id": "page-4",
+      "name": "E-mails"
     }
   ]
 }

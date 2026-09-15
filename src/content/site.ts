@@ -14,6 +14,21 @@ export const falta = (oQue: string): Falta => ({ __falta: oQue });
 export const ehFalta = (v: unknown): v is Falta =>
   typeof v === "object" && v !== null && "__falta" in v;
 
+/**
+ * ===================================================================
+ *  GUILHERME: seus dados vao AQUI. Troque o `falta(...)` pelo valor.
+ *
+ *  antes:   email: falta("e-mail"),
+ *  depois:  email: "contato@courte.com.br",
+ *
+ *  O que ainda esta como falta() aparece no site como caixinha
+ *  tracejada — nada quebra se voce preencher um de cada vez.
+ *
+ *  Sobre o CPF: ele e impresso no recibo, entao o cliente ve de
+ *  qualquer jeito. O repositorio e privado, entao aqui esta ok. Se um
+ *  dia ele virar publico, mova o CPF para variavel de ambiente.
+ * ===================================================================
+ */
 export const marca = {
   nome: "courte",
   dominio: "courte.com.br",
@@ -130,21 +145,51 @@ export const trabalhos = {
   ],
 };
 
+/**
+ * A resposta e uma lista de pedacos: string = texto, falta() = caixinha.
+ * Assim um dado que falta pode aparecer no MEIO da frase.
+ *
+ * GUILHERME: estes textos sao rascunho meu, escritos a seu pedido.
+ * Reescreva a vontade — e a sua voz que tem que sair daqui, nao a minha.
+ */
 export const duvidas = {
   sobretitulo: "Dúvidas",
   titulo: "Perguntas que sempre chegam.",
-  /** `resposta: null` = pergunta aprovada no mockup, resposta ainda nao escrita. */
   itens: [
     {
       pergunta: "Como funciona a cobrança?",
-      resposta:
-        "Projeto fechado tem valor combinado na proposta. Manutenção é mensalidade. Tudo aparece no portal, com vencimento todo dia ",
-      respostaFalta: falta("dia do vencimento"),
+      resposta: [
+        "Projeto fechado tem o valor combinado na proposta, antes de começar. Manutenção é mensalidade. Tudo aparece no portal, com vencimento todo dia ",
+        falta("dia do vencimento"),
+        ". O aviso de cobrança também chega por e-mail.",
+      ],
     },
-    { pergunta: "Quais formas de pagamento?", resposta: null, respostaFalta: falta("resposta") },
-    { pergunta: "Você emite nota fiscal?", resposta: null, respostaFalta: falta("resposta") },
-    { pergunta: "Em quanto tempo fica pronto?", resposta: null, respostaFalta: falta("resposta") },
-    { pergunta: "E se eu já tiver um site?", resposta: null, respostaFalta: falta("resposta") },
+    {
+      pergunta: "Quais formas de pagamento?",
+      resposta: [
+        "Cartão, Pix ou boleto, direto no portal. O Pix cai em segundos e a fatura muda para paga sozinha — você não precisa mandar comprovante. Boleto leva alguns dias úteis para compensar, então se estiver em cima do vencimento, prefira Pix.",
+      ],
+    },
+    {
+      pergunta: "Você emite nota fiscal?",
+      resposta: [
+        "Não. Presto serviço como pessoa física, então emito recibo. Ele fica no portal assim que o pagamento é confirmado, e você pode imprimir ou salvar em PDF na hora que quiser.",
+      ],
+    },
+    {
+      pergunta: "Em quanto tempo fica pronto?",
+      resposta: [
+        "Depende do tamanho do projeto. O prazo vai por escrito na proposta, antes de começar — e eu não fecho prazo que não consigo cumprir. Para você ter uma ideia: ",
+        falta("faixa de prazo típica"),
+        ".",
+      ],
+    },
+    {
+      pergunta: "E se eu já tiver um site?",
+      resposta: [
+        "Dá para assumir a manutenção do que já existe ou refazer do zero. Eu olho o que você tem e digo qual dos dois faz mais sentido — inclusive se a resposta for deixar como está.",
+      ],
+    },
   ],
 };
 

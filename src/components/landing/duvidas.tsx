@@ -67,13 +67,12 @@ export function Duvidas() {
                 >
                   <div className="overflow-hidden">
                     <p className="pb-5.5 text-sm leading-[1.6] text-n1">
-                      {item.resposta ? (
-                        <>
-                          {item.resposta}
-                          <Falta o={item.respostaFalta} />.
-                        </>
-                      ) : (
-                        <Falta o={item.respostaFalta} />
+                      {item.resposta.map((pedaco, j) =>
+                        typeof pedaco === "string" ? (
+                          pedaco
+                        ) : (
+                          <Falta key={j} o={pedaco} />
+                        ),
                       )}
                     </p>
                   </div>
