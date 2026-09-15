@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { esqueciSenha as t } from "@/content/portal";
-import { Campo, CascaAuth, TituloAcesso } from "@/components/portal/casca-auth";
-import { Botao, Envelope } from "@/components/ui";
+import { CascaAuth, TituloAcesso } from "@/components/portal/casca-auth";
+import { FormularioEsqueciSenha } from "./formulario";
 
 export const metadata: Metadata = {
   title: "Esqueci minha senha — Portal do Cliente | courte",
@@ -27,16 +27,7 @@ export default function EsqueciSenha() {
       </p>
       <p className="mt-3 text-lead text-n1">{t.apoio}</p>
 
-      <div className="mt-8 flex flex-col gap-4.5">
-        <Campo rotulo={t.campo} foco dica={t.dica}>
-          <Envelope tamanho={19} className="shrink-0 text-n1" />
-          <span className="text-n2">seu@email.com</span>
-        </Campo>
-
-        <Botao grande bloco className="mt-1.5">
-          {t.enviar}
-        </Botao>
-      </div>
+      <FormularioEsqueciSenha />
     </CascaAuth>
   );
 }

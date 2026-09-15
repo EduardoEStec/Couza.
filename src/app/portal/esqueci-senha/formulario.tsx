@@ -1,13 +1,13 @@
 "use client";
 
 import { useActionState } from "react";
-import { primeiroAcesso as t } from "@/content/portal";
+import { esqueciSenha as t } from "@/content/portal";
 import { Botao, Envelope } from "@/components/ui";
-import { pedirLinkAcesso, type EstadoForm } from "../acoes-acesso";
+import { pedirNovaSenha, type EstadoForm } from "../acoes-acesso";
 
-export function FormularioPrimeiroAcesso() {
+export function FormularioEsqueciSenha() {
   const [estado, acao, enviando] = useActionState<EstadoForm, FormData>(
-    pedirLinkAcesso,
+    pedirNovaSenha,
     {},
   );
 

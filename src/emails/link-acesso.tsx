@@ -1,5 +1,9 @@
 /**
- * E-mail de primeiro acesso — quadro "E-mail · primeiro acesso" do canvas.
+ * E-mail com link de acesso — quadro "E-mail · primeiro acesso" do canvas.
+ *
+ * Serve aos dois casos, primeiro acesso e recuperacao de senha: a peca e a
+ * mesma, muda so a copy. Dois arquivos quase iguais divergiriam no dia em
+ * que alguem mexesse num so.
  *
  * Restricoes de e-mail respeitadas, e elas explicam o que parece feio aqui:
  * - sem Jost: Gmail e Outlook nao carregam fonte externa
@@ -27,17 +31,36 @@ import {
 import { pixelBasedPreset } from "@react-email/components";
 import { cor, temaEmail } from "@/lib/tokens";
 
-export type PrimeiroAcessoProps = {
+export type TipoLink = "primeiro_acesso" | "recuperar_senha";
+
+export type LinkAcessoProps = {
   nome: string;
   url: string;
   validadeTexto: string;
+  tipo: TipoLink;
 };
 
-export function PrimeiroAcesso({ nome, url, validadeTexto }: PrimeiroAcessoProps) {
+const copy = {
+  primeiro_acesso: {
+    preview: "Seu acesso ao Portal do Cliente da courte",
+    titulo: "Seu acesso ao portal",
+    corpo: "Clique no botão abaixo para criar a sua senha e entrar no Portal do Cliente.",
+    botao: "Criar minha senha",
+  },
+  recuperar_senha: {
+    preview: "Criar uma senha nova no Portal do Cliente da courte",
+    titulo: "Criar uma senha nova",
+    corpo: "Você pediu para trocar a senha do Portal do Cliente. Clique no botão abaixo para escolher uma nova.",
+    botao: "Criar senha nova",
+  },
+} as const;
+
+export function LinkAcesso({ nome, url, validadeTexto, tipo }: LinkAcessoProps) {
+  const t = copy[tipo];
   return (
     <Html lang="pt-BR">
       <Head />
-      <Preview>Seu acesso ao Portal do Cliente da courte</Preview>
+      <Preview>{t.preview}</Preview>
       <Tailwind config={{ presets: [pixelBasedPreset], ...temaEmail }}>
         <Body style={{ backgroundColor: "#e9e9e9", margin: 0, padding: 0 }}>
           <Container
@@ -66,7 +89,7 @@ export function PrimeiroAcesso({ nome, url, validadeTexto }: PrimeiroAcessoProps
                 color: cor.ink,
               }}
             >
-              Seu acesso ao portal
+              {t.titulo}
             </Heading>
 
             <Text
@@ -77,8 +100,7 @@ export function PrimeiroAcesso({ nome, url, validadeTexto }: PrimeiroAcessoProps
                 color: cor.ink,
               }}
             >
-              Olá, {nome}. Clique no botão abaixo para criar a sua senha e entrar
-              no Portal do Cliente.
+              Olá, {nome}. {t.corpo}
             </Text>
 
             <Section style={{ marginTop: "28px" }}>
@@ -95,7 +117,7 @@ export function PrimeiroAcesso({ nome, url, validadeTexto }: PrimeiroAcessoProps
                   display: "inline-block",
                 }}
               >
-                Criar minha senha
+                {t.botao}
               </Link>
             </Section>
 
@@ -176,4 +198,4 @@ export function PrimeiroAcesso({ nome, url, validadeTexto }: PrimeiroAcessoProps
   );
 }
 
-export default PrimeiroAcesso;
+export default LinkAcesso;

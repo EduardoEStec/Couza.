@@ -19,7 +19,7 @@ import {
 } from "@/db/tokens";
 import { hashToken } from "@/lib/token";
 import { enviarEmail, urlBase } from "@/lib/email";
-import { PrimeiroAcesso } from "@/emails/primeiro-acesso";
+import { LinkAcesso } from "@/emails/link-acesso";
 
 const EMAIL = "fluxo-teste@exemplo.invalido";
 let falhas = 0;
@@ -98,10 +98,11 @@ async function limpar() {
 
   console.log("\n10) e-mail de verdade pela Resend");
   const html = await render(
-    PrimeiroAcesso({
+    LinkAcesso({
       nome: d!.nome,
       url: `${urlBase()}/portal/criar-senha/${token2}`,
       validadeTexto: "1 hora",
+      tipo: "primeiro_acesso",
     }),
   );
   ok(html.includes("<table"), "o React Email gerou tabela (compativel com Outlook)");

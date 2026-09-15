@@ -11,7 +11,8 @@
     "db:aplicar": "drizzle-kit migrate",
     "db:estudio": "drizzle-kit studio",
     "teste:fluxo": "tsx scripts/teste-fluxo.ts",
-    "teste:sessao": "tsx scripts/teste-sessao.ts"
+    "teste:sessao": "tsx scripts/teste-sessao.ts",
+    "teste:recuperar": "tsx scripts/teste-recuperar.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
