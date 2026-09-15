@@ -15,6 +15,9 @@ const eslintConfig = defineConfig([
     // Gerado por `opennextjs-cloudflare build`. Nao e nosso codigo e nao
     // adianta corrigir: some e volta a cada build.
     ".open-next/**",
+    // Estado do `wrangler dev`. Chegou a 32 MB e estourava a memoria do
+    // eslint (heap de 2 GB) antes de ele reportar qualquer coisa.
+    ".wrangler/**",
   ]),
   {
     rules: {
