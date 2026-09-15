@@ -72,6 +72,25 @@
   }
 }
 
+/* Impressao — tela de recibo. No papel some tudo que e navegacao e a
+   folha perde borda, arredondado e margem. */
+@media print {
+  .nao-imprimir {
+    display: none !important;
+  }
+
+  .folha {
+    max-width: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+
+  body {
+    background: #fff;
+  }
+}
+
 /* Risco do link — quadro Movimento: scaleX 0 -> 1, 200ms, entra pela
    esquerda e sai pela direita (a origem troca no hover). */
 @utility risco {
