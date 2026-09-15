@@ -18,6 +18,7 @@
     "teste:portal": "tsx scripts/teste-portal.ts",
     "teste:asaas": "tsx scripts/teste-asaas.ts",
     "teste:checkout": "tsx scripts/teste-checkout.ts",
+    "teste:emails": "tsx scripts/teste-emails.ts",
     "semear:webhook": "tsx scripts/semear-webhook.ts"
   },
   "dependencies": {

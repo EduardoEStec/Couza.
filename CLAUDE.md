@@ -100,6 +100,22 @@ devolve algo inesperado.
   sequencial e separado do id.
 - **Token nunca em claro no banco** — sessão e link de acesso guardam só o hash.
 - **Pagar pelo e-mail leva ao login**, não a link com token.
+- **E-mails de cobranca rodam 09:00 de Brasilia** (`0 12 * * *`, porque o
+  Cron Trigger da Cloudflare conta em UTC). Uma execucao por dia.
+- **Aviso de vencido sai UMA vez por fatura**, nao repete (15/09/2026).
+- **Confirmacao de pagamento sai pelo webhook, nao pelo cron** — quem acabou
+  de pagar nao pode esperar ate a manha seguinte para saber.
+- **Envio duplicado e barrado por indice unico parcial**
+  (`emails_uma_vez_idx (fatura_id, tipo) where status = 'enviado'`), nunca
+  por um `if`. A linha e gravada ANTES de chamar a Resend, para reservar a
+  vaga; se o envio falhar de vez ela vira `falhou` e libera a vaga.
+- **Todo envio tenta 3 vezes** (400ms e 1200ms de espera), com
+  `Idempotency-Key` da Resend para a repeticao nunca virar e-mail duplicado.
+  Erro permanente (400/401/403/404/405/422 e cota do dia estourada) nao e
+  repetido.
+- **Destino pos-login vem de lista fechada** (`/portal/...`), nunca da URL
+  crua: aceitar destino arbitrario transformaria courte.com.br em trampolim
+  de golpe.
 - **Boleto vai por link para o portal, nunca anexado** — anexo impede o envio
   em lote da Resend, e o portal sempre tem o código atual.
 

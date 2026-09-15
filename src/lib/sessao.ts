@@ -70,9 +70,19 @@ export async function sessaoAtual(): Promise<Sessao | null> {
  * nao deduzida do caminho. Deduzir erraria calado no dia em que uma rota
  * fugisse do padrao, e erraria para o lado de deixar aberto.
  */
-export async function exigirSessao(): Promise<Sessao> {
+export async function exigirSessao(voltarPara?: string): Promise<Sessao> {
   const sessao = await sessaoAtual();
-  if (!sessao) redirect("/portal/login");
+  if (!sessao) {
+    // `voltarPara` existe por causa do botao "Pagar agora" do e-mail: ele
+    // aponta para a fatura, e sem isso a pessoa cairia no login e depois na
+    // home do portal, tendo que procurar a fatura de novo. Quem valida o
+    // valor e o login, nao aqui.
+    redirect(
+      voltarPara
+        ? `/portal/login?voltar=${encodeURIComponent(voltarPara)}`
+        : "/portal/login",
+    );
+  }
   return sessao;
 }
 

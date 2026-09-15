@@ -23,8 +23,10 @@ export const metadata: Metadata = {
 export default async function Pagamento(
   props: PageProps<"/portal/pagamento/[id]">,
 ) {
-  const sessao = await exigirSessao();
   const { id } = await props.params;
+  // Quem chega pelo botao do e-mail de cobranca nao esta logado. Passar o
+  // caminho faz o login devolver a pessoa para ESTA fatura, nao para a home.
+  const sessao = await exigirSessao(`/portal/pagamento/${id}`);
 
   const fatura = await faturaDoCliente(sessao.clienteId, id);
   if (!fatura) notFound();

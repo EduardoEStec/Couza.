@@ -11,7 +11,7 @@
  *   cliente, no e-mail dele.
  */
 
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   boolean,
   date,
@@ -55,7 +55,11 @@ export const tipoToken = pgEnum("tipo_token", ["primeiro_acesso", "recuperar_sen
 export const tipoEmail = pgEnum("tipo_email", [
   "primeiro_acesso",
   "recuperar_senha",
+  /** Mantido so por causa das linhas antigas. Nada novo usa. */
   "cobranca",
+  "cobranca_nova",
+  "cobranca_lembrete",
+  "cobranca_vencida",
   "pagamento_confirmado",
 ]);
 export const statusEmail = pgEnum("status_email", ["enviado", "falhou"]);
@@ -333,6 +337,14 @@ export const emailsEnviados = pgTable(
   (t) => [
     index("emails_cliente_idx").on(t.clienteId),
     index("emails_fatura_idx").on(t.faturaId),
+    /**
+     * A trava de envio duplicado. PARCIAL de proposito: so cobre o que
+     * saiu de verdade, entao uma linha 'falhou' nao ocupa a vaga e a
+     * execucao do dia seguinte pode tentar de novo.
+     */
+    uniqueIndex("emails_uma_vez_idx")
+      .on(t.faturaId, t.tipo)
+      .where(sql`status = 'enviado'`),
   ],
 );
 

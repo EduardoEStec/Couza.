@@ -13,6 +13,17 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    rules: {
+      // O codigo ja marca parametro de proposito nao usado com "_"
+      // (`_anterior` nas server actions). Isto so torna a convencao
+      // explicita, em vez de depender do "after-used" padrao da regra.
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+    },
+  },
 ]);
 
 export default eslintConfig;

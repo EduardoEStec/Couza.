@@ -6,7 +6,7 @@ import { login as t } from "@/content/portal";
 import { Botao } from "@/components/ui";
 import { entrarNoPortal, type EstadoForm } from "./acoes";
 
-export function FormularioLogin() {
+export function FormularioLogin({ voltar }: { voltar: string }) {
   const [estado, acao, enviando] = useActionState<EstadoForm, FormData>(
     entrarNoPortal,
     {},
@@ -16,6 +16,7 @@ export function FormularioLogin() {
 
   return (
     <form action={acao} className="mt-8 flex flex-col gap-4.5">
+      <input type="hidden" name="voltar" value={voltar} />
       <div className="flex flex-col gap-2">
         <label htmlFor="email" className="text-sm font-medium text-ink">
           {t.campos.email}

@@ -8,6 +8,7 @@ import {
 } from "@/db/usuarios";
 import { entrar, sair } from "@/lib/sessao";
 import { normalizarEmail } from "@/lib/senha";
+import { destinoDoLogin } from "@/lib/destino-login";
 
 export type EstadoForm = { erro?: string };
 
@@ -21,6 +22,7 @@ const FORMATO_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
  * resolve o caso legitimo de "ainda nao tenho senha".
  */
 const GENERICA = "E-mail ou senha incorretos.";
+
 
 export async function entrarNoPortal(
   _anterior: EstadoForm,
@@ -39,7 +41,7 @@ export async function entrarNoPortal(
     case "ok":
       await limparTentativas(r.usuarioId);
       await entrar(r.usuarioId);
-      redirect("/portal");
+      redirect(destinoDoLogin(String(dados.get("voltar") ?? "")));
 
     case "bloqueada":
       /**

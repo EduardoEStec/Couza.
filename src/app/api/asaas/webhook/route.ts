@@ -8,6 +8,7 @@ import {
   marcarProcessado,
   type FormaAsaas,
 } from "@/db/eventos";
+import { mandarConfirmacao } from "@/lib/cobranca-email";
 
 /**
  * Endpoint de webhook do Asaas.
@@ -190,6 +191,22 @@ async function processar(
       (corpo.payment?.billingType ?? null) as FormaAsaas,
       quando,
     );
+
+    /**
+     * A confirmacao sai AQUI, nao no cron das 9h: a pessoa acabou de pagar
+     * e quer saber agora. No intervalo ela fica na duvida, e as vezes paga
+     * de novo.
+     *
+     * Envolvido em try porque e-mail que falha nao pode marcar o evento
+     * como nao processado — a baixa da fatura, que e o que importa, ja
+     * aconteceu na linha de cima. `enviarUmaVez` impede repeticao mesmo
+     * que o Asaas reentregue CONFIRMED e depois RECEIVED da mesma cobranca.
+     */
+    try {
+      await mandarConfirmacao(fatura.id);
+    } catch {
+      // ver comentario acima
+    }
   } else if (VOLTOU_A_DEVER.has(tipo)) {
     await marcarAberta(fatura.id);
   } else if (CANCELOU.has(tipo)) {
