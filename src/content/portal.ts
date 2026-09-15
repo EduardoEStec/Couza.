@@ -13,7 +13,7 @@ import { falta, type Falta } from "./site";
 /* ------------------------------------------------------------------ */
 
 export const navPortal = [
-  { texto: "Meus Produtos", href: "/portal/produtos", icone: "caixa" as const },
+  { texto: "Meus Produtos", href: "/portal", icone: "caixa" as const },
   { texto: "Faturas", href: "/portal/faturas", icone: "nota" as const },
 ];
 
@@ -66,6 +66,34 @@ export const verifiqueEmail = {
   reenviar: "Reenviar link",
   outroEmail: "Usar outro e-mail",
   spam: { antes: "Não chegou em alguns minutos? Procure na caixa de spam ou me chame em ", email: falta("e-mail de contato") },
+};
+
+export const esqueciSenha = {
+  titulo: ["Portal do", "Cliente."],
+  assunto: "Esqueci minha senha",
+  apoio:
+    "Informe o seu e-mail e eu envio um link para você criar uma senha nova.",
+  campo: "E-mail",
+  dica: "Precisa ser o e-mail com que você entra no portal.",
+  enviar: "Enviar link",
+  lembrei: { antes: "Lembrou a senha?", link: "Entrar" },
+};
+
+export const criarSenha = {
+  titulo: ["Portal do", "Cliente."],
+  assunto: "Criar sua senha",
+  apoio:
+    "Escolha uma senha para entrar no portal. Depois de criar, você já entra direto.",
+  campos: { senha: "Nova senha", confirmar: "Repita a senha" },
+  regra: "Mínimo de 8 caracteres.",
+  enviar: "Criar senha e entrar",
+  /** Estado de erro: link vencido ou ja usado. Mesma tela, outro conteudo. */
+  invalido: {
+    assunto: "Link inválido",
+    texto:
+      "Este link vale por 1 hora e só pode ser usado uma vez. Se ele expirou ou já foi usado, peça um novo — leva um minuto.",
+    botao: "Pedir um link novo",
+  },
 };
 
 /* --- meus produtos ------------------------------------------------ */

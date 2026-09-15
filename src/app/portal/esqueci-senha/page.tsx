@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { primeiroAcesso as t } from "@/content/portal";
+import { esqueciSenha as t } from "@/content/portal";
 import { Campo, CascaAuth, TituloAcesso } from "@/components/portal/casca-auth";
 import { Botao, Envelope } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Primeiro acesso — Portal do Cliente | courte",
+  title: "Esqueci minha senha — Portal do Cliente | courte",
 };
 
-export default function PrimeiroAcesso() {
+export default function EsqueciSenha() {
   return (
     <CascaAuth
       voltar={{ texto: "Voltar ao login", href: "/portal/login" }}
       rodape={
         <>
-          {t.jaTenho.antes}{" "}
+          {t.lembrei.antes}{" "}
           <Link href="/portal/login" className="text-acc hover:text-acc-hover">
-            {t.jaTenho.link}
+            {t.lembrei.link}
           </Link>
         </>
       }
@@ -36,22 +36,6 @@ export default function PrimeiroAcesso() {
         <Botao grande bloco className="mt-1.5">
           {t.enviar}
         </Botao>
-      </div>
-
-      <div className="mt-8 rounded-card bg-wash p-5.5">
-        <p className="text-xs uppercase tracking-[0.14em] text-n1">
-          O que acontece agora
-        </p>
-        <ol className="mt-4 flex flex-col gap-3.5">
-          {t.passos.map((passo, i) => (
-            <li key={passo} className="flex items-start gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-dark text-xs font-medium text-white">
-                {i + 1}
-              </span>
-              <span className="text-sm text-ink">{passo}</span>
-            </li>
-          ))}
-        </ol>
       </div>
     </CascaAuth>
   );

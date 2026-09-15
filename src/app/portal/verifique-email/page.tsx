@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function VerifiqueEmail() {
   return (
-    <CascaAuth voltar={{ texto: "Voltar ao login", href: "/portal" }}>
+    <CascaAuth voltar={{ texto: "Voltar ao login", href: "/portal/login" }}>
       <span className="flex h-16 w-16 items-center justify-center rounded-pill bg-acc-soft">
         <Envelope className="text-acc" />
       </span>

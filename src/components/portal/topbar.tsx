@@ -8,11 +8,11 @@ const icones = { caixa: Caixa, nota: Nota };
  * Topo do portal. Em telas largas os links ficam no proprio topo; no
  * celular eles viram a fileira de pilulas logo abaixo, como no mockup.
  */
-export function TopbarPortal({ ativo }: { ativo: "/portal/produtos" | "/portal/faturas" }) {
+export function TopbarPortal({ ativo }: { ativo: "/portal" | "/portal/faturas" }) {
   return (
     <>
       <header className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-line bg-white/94 px-5 py-3.5 backdrop-blur-[8px] sm:px-8 lg:px-14">
-        <Link href="/portal/produtos" aria-label="Portal do Cliente">
+        <Link href="/portal" aria-label="Portal do Cliente">
           <Marca />
         </Link>
 

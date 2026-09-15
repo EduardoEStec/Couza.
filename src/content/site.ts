@@ -46,7 +46,7 @@ export const nav = {
     { texto: "Trabalhos", href: "#trabalhos" },
     { texto: "Dúvidas", href: "#duvidas" },
   ],
-  portal: { texto: "Portal do Cliente", href: "/portal" },
+  portal: { texto: "Portal do Cliente", href: "/portal/login" },
 };
 
 export const hero = {
@@ -215,7 +215,7 @@ export const rodape = {
     {
       titulo: "Portal",
       links: [
-        { texto: "Entrar", href: "/portal" },
+        { texto: "Entrar", href: "/portal/login" },
         { texto: "Primeiro acesso", href: "/portal/primeiro-acesso" },
         { texto: "Faturas", href: "/portal/faturas" },
       ],

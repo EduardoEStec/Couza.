@@ -129,14 +129,14 @@ export default function Faturas() {
                   <div className="shrink-0">
                     {fatura.estado === "atrasada" && (
                       <Botao
-                        href={`/portal/faturas/${fatura.id}/pagar`}
+                        href={`/portal/pagamento/${fatura.id}`}
                         className="border-danger bg-danger hover:border-[#B5251A] hover:bg-[#B5251A]"
                       >
                         Pagar agora
                       </Botao>
                     )}
                     {fatura.estado === "aberta" && (
-                      <Botao href={`/portal/faturas/${fatura.id}/pagar`}>Pagar</Botao>
+                      <Botao href={`/portal/pagamento/${fatura.id}`}>Pagar</Botao>
                     )}
                     {fatura.estado === "paga" && (
                       <Botao
