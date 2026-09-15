@@ -118,6 +118,24 @@ devolve algo inesperado.
   `Idempotency-Key` da Resend para a repeticao nunca virar e-mail duplicado.
   Erro permanente (400/401/403/404/405/422 e cota do dia estourada) nao e
   repetido.
+- **E-mail nao e renderizado em tempo de execucao.** Os templates React em
+  `src/emails/` sao a fonte da verdade, mas o React roda UMA vez, no
+  `npm run emails:gerar`, que escreve `src/emails/gerados.ts`. No envio so
+  ha troca de texto. Motivo medido em 15/09/2026: renderizar custava ~8ms de
+  CPU por e-mail e o plano free do Workers da 10ms por invocacao; uma
+  remessa de 50 gastava 406ms. Depois: 0,63ms. O pacote do Worker tambem
+  caiu de 13,6 para 6,6 MiB.
+  - **Mexeu num template? Rode `npm run emails:gerar`.** O
+    `npm run teste:emails` refaz o render e compara — se esquecer, acusa.
+  - **Todo valor interpolado passa por escape.** O React escapava sozinho;
+    troca de string nao. Um cliente chamado `Loja <b>X</b>` viraria HTML de
+    verdade no e-mail. Ver `src/lib/email-html.ts`.
+- **So renderiza no servidor o que precisa de dado por requisicao.** No
+  Cloudflare, requisicao que casa com arquivo estatico e servida pelo
+  binding de assets e NAO invoca o Worker: pagina estatica custa zero, nao
+  "pouco". Parametro de URL que so a tela usa (`?voltar=`, `?e=`) e lido no
+  navegador, nunca por `searchParams` na pagina — isso tornaria a pagina
+  inteira dinamica.
 - **Destino pos-login vem de lista fechada** (`/portal/...`), nunca da URL
   crua: aceitar destino arbitrario transformaria courte.com.br em trampolim
   de golpe.

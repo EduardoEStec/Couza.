@@ -24,34 +24,30 @@ import {
   pixelBasedPreset,
 } from "@react-email/components";
 import { cor, temaEmail } from "@/lib/tokens";
-import { emReais } from "@/lib/dinheiro";
 
+/** Tudo em texto ja formatado — ver a nota em cobranca.tsx. */
 export type PagamentoConfirmadoProps = {
   nome: string;
-  numero: number;
+  numero: string;
   descricao: string;
-  valorCentavos: number;
-  /** "cartao" | "pix" | "boleto" — ou null, quando o Asaas não disse. */
-  forma: string | null;
+  /** Ja em reais, sem o "R$". */
+  valor: string;
+  /**
+   * Como pagou, por extenso: "Pix", "cartao", "boleto". String vazia quando
+   * o Asaas nao disse — ai a frase simplesmente nao menciona a forma.
+   */
+  forma: string;
   url: string;
-};
-
-const NOME_DA_FORMA: Record<string, string> = {
-  cartao: "cartão",
-  pix: "Pix",
-  boleto: "boleto",
 };
 
 export function PagamentoConfirmado({
   nome,
   numero,
   descricao,
-  valorCentavos,
+  valor,
   forma,
   url,
 }: PagamentoConfirmadoProps) {
-  const porQual = forma ? NOME_DA_FORMA[forma] : null;
-
   return (
     <Html lang="pt-BR">
       <Head />
@@ -96,7 +92,7 @@ export function PagamentoConfirmado({
               }}
             >
               Obrigado, {nome}. Recebi o seu pagamento
-              {porQual ? ` por ${porQual}` : ""} e a fatura já está quitada.
+              {forma ? ` por ${forma}` : ""} e a fatura já está quitada.
             </Text>
 
             <Section
@@ -137,7 +133,7 @@ export function PagamentoConfirmado({
                   color: cor.ink,
                 }}
               >
-                R$ {emReais(valorCentavos)}
+                R$ {valor}
               </Text>
             </Section>
 

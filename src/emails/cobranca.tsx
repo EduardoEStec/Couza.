@@ -35,18 +35,26 @@ import {
   pixelBasedPreset,
 } from "@react-email/components";
 import { cor, temaEmail } from "@/lib/tokens";
-import { emDataBr, emReais } from "@/lib/dinheiro";
 
 export type MomentoCobranca =
   | "cobranca_nova"
   | "cobranca_lembrete"
   | "cobranca_vencida";
 
+/**
+ * Tudo em texto, ja formatado. O template nao sabe o que e centavo nem o
+ * que e data ISO — quem converte e quem chama.
+ *
+ * Isso existe para o pre-render funcionar: o gerador passa marcadores no
+ * lugar dos valores, e marcador nao passa por uma funcao que espera numero.
+ */
 export type CobrancaProps = {
   nome: string;
-  numero: number;
+  numero: string;
   descricao: string;
-  valorCentavos: number;
+  /** Ja em reais, sem o "R$": "1.234,56". */
+  valor: string;
+  /** Ja em dd/mm/aaaa. */
   vencimento: string;
   url: string;
   momento: MomentoCobranca;
@@ -80,7 +88,7 @@ export function Cobranca({
   nome,
   numero,
   descricao,
-  valorCentavos,
+  valor,
   vencimento,
   url,
   momento,
@@ -172,7 +180,7 @@ export function Cobranca({
                   color: t.destaque ? cor.danger : cor.ink,
                 }}
               >
-                R$ {emReais(valorCentavos)}
+                R$ {valor}
               </Text>
               <Text
                 style={{
@@ -182,7 +190,7 @@ export function Cobranca({
                   color: cor.n1,
                 }}
               >
-                {t.rotuloData} {emDataBr(vencimento)}
+                {t.rotuloData} {vencimento}
               </Text>
             </Section>
 

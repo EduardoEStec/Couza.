@@ -1,7 +1,6 @@
-import { render } from "@react-email/components";
 import { acharDestino, criarLink, podePedirLink } from "@/db/tokens";
 import { enviarEmail, urlBase } from "@/lib/email";
-import { LinkAcesso } from "@/emails/link-acesso";
+import { montarLinkAcesso } from "@/lib/email-html";
 
 /**
  * Manda o link de acesso, e NUNCA conta para quem chamou o que aconteceu.
@@ -34,14 +33,14 @@ export async function mandarLinkDeAcesso(
 
   const token = await criarLink(destino.clienteId, destino.usuarioId, tipo);
 
-  const html = await render(
-    LinkAcesso({
-      nome: destino.nome,
-      url: `${urlBase()}/portal/criar-senha/${token}`,
-      validadeTexto: "1 hora",
-      tipo,
-    }),
-  );
+  // Peca ja renderizada no build; aqui e so troca de texto. O primeiro
+  // acesso e uma tela que a pessoa espera carregar, entao renderizar React
+  // aqui gastaria do mesmo orcamento de 10ms que o login inteiro tem.
+  const html = montarLinkAcesso(tipo, {
+    nome: destino.nome,
+    url: `${urlBase()}/portal/criar-senha/${token}`,
+    validade: "1 hora",
+  });
 
   await enviarEmail({
     para: destino.email,

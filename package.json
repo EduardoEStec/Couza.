@@ -23,6 +23,7 @@
     "teste:asaas": "tsx scripts/teste-asaas.ts",
     "teste:checkout": "tsx scripts/teste-checkout.ts",
     "teste:emails": "tsx scripts/teste-emails.ts",
+    "emails:gerar": "tsx scripts/gerar-emails.ts",
     "semear:webhook": "tsx scripts/semear-webhook.ts"
   },
   "dependencies": {

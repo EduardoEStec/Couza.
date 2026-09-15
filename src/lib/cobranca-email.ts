@@ -6,7 +6,6 @@
  * acontece. A rota em src/app/api/cron/cobrancas é só a porta.
  */
 
-import { render } from "@react-email/components";
 import {
   LIMITE_POR_EXECUCAO,
   lembretes,
@@ -16,9 +15,9 @@ import {
   type FaturaParaEmail,
 } from "@/db/cobrancas-email";
 import { enviarUmaVez, liberarTravadas, urlBase } from "@/lib/email";
-import { Cobranca, type MomentoCobranca } from "@/emails/cobranca";
-import { PagamentoConfirmado } from "@/emails/pagamento-confirmado";
-import { emReais } from "@/lib/dinheiro";
+import type { MomentoCobranca } from "@/emails/cobranca";
+import { montarCobranca, montarConfirmacao } from "@/lib/email-html";
+import { emDataBr, emReais } from "@/lib/dinheiro";
 
 export type Resumo = {
   enviados: number;
@@ -50,17 +49,16 @@ async function mandarLote(
       continue;
     }
 
-    const html = await render(
-      Cobranca({
-        nome: f.nome,
-        numero: f.numero,
-        descricao: f.descricao,
-        valorCentavos: f.valorCentavos,
-        vencimento: f.vencimento,
-        url: `${urlBase()}/portal/pagamento/${f.id}`,
-        momento,
-      }),
-    );
+    // Sem React aqui: a peca ja veio renderizada do build, e isto e so
+    // troca de texto. Ver src/lib/email-html.ts.
+    const html = montarCobranca(momento, {
+      nome: f.nome,
+      numero: String(f.numero),
+      descricao: f.descricao,
+      valor: emReais(f.valorCentavos),
+      vencimento: emDataBr(f.vencimento),
+      url: `${urlBase()}/portal/pagamento/${f.id}`,
+    });
 
     const r = await enviarUmaVez({
       para: f.email,
@@ -135,16 +133,14 @@ export async function mandarConfirmacao(faturaId: string): Promise<void> {
   const f = await faturaPaga(faturaId);
   if (!f) return;
 
-  const html = await render(
-    PagamentoConfirmado({
-      nome: f.nome,
-      numero: f.numero,
-      descricao: f.descricao,
-      valorCentavos: f.valorCentavos,
-      forma: f.formaPagamento,
-      url: `${urlBase()}/portal/faturas/${f.id}/recibo`,
-    }),
-  );
+  const html = montarConfirmacao({
+    nome: f.nome,
+    numero: String(f.numero),
+    descricao: f.descricao,
+    valor: emReais(f.valorCentavos),
+    forma: f.formaPagamento,
+    url: `${urlBase()}/portal/faturas/${f.id}/recibo`,
+  });
 
   await enviarUmaVez({
     para: f.email,

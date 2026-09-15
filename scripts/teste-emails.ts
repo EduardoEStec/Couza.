@@ -14,8 +14,11 @@ import { ErroDefinitivo, tentar, TENTATIVAS } from "@/lib/tentar";
 import { rodarCobrancas } from "@/lib/cobranca-email";
 import { destinoDoLogin } from "@/lib/destino-login";
 import { render } from "@react-email/components";
-import { Cobranca } from "@/emails/cobranca";
+import { Cobranca, type MomentoCobranca } from "@/emails/cobranca";
 import { PagamentoConfirmado } from "@/emails/pagamento-confirmado";
+import { LinkAcesso, type TipoLink } from "@/emails/link-acesso";
+import { EMAILS } from "@/emails/gerados";
+import { montarCobranca, montarConfirmacao } from "@/lib/email-html";
 
 let falhas = 0;
 const ok = (c: boolean, m: string) => {
@@ -60,28 +63,102 @@ const daquiA = (dias: number) => {
     ok(n === 1, "erro definitivo nao e repetido — tentou 1 vez so");
   }
 
-  console.log("\n2) os templates renderizam");
+  console.log("");
+  console.log("2) os e-mails pre-renderizados");
   {
-    const html = await render(
-      Cobranca({
-        nome: "Fulana", numero: 42, descricao: "Mensalidade do site",
-        valorCentavos: 25000, vencimento: daquiA(3),
-        url: "https://courte.com.br/portal/pagamento/abc", momento: "cobranca_vencida",
-      }),
-    );
-    ok(html.includes("250,00"), "valor formatado em reais no HTML");
+    const html = montarCobranca("cobranca_vencida", {
+      nome: "Fulana", numero: "42", descricao: "Mensalidade do site",
+      valor: "250,00", vencimento: "01/10/2026",
+      url: "https://courte.com.br/portal/pagamento/abc",
+    });
+    ok(html.includes("250,00"), "valor entra no HTML");
     ok(html.includes("Cobrança vencida"), "copy do momento certo");
-    ok(!html.includes("undefined"), "sem 'undefined' vazando para o e-mail");
+    ok(!html.includes("%%"), "nenhum marcador sobrou por trocar");
+    ok(!html.includes("undefined"), "sem undefined vazando");
     ok(html.length < 102_400, `abaixo dos 102KB que o Gmail corta (${(html.length / 1024).toFixed(1)}KB)`);
-    const confirmacao = await render(
-      PagamentoConfirmado({
-        nome: "Fulana", numero: 42, descricao: "Mensalidade do site",
-        valorCentavos: 25000, forma: "pix",
-        url: "https://courte.com.br/portal/faturas/abc/recibo",
-      }),
-    );
-    ok(confirmacao.includes("por Pix"), "confirmacao diz a forma de pagamento");
-    ok(confirmacao.length < 102_400, `confirmacao abaixo de 102KB (${(confirmacao.length / 1024).toFixed(1)}KB)`);
+
+    const conf = montarConfirmacao({
+      nome: "Fulana", numero: "42", descricao: "Mensalidade",
+      valor: "250,00", forma: "pix",
+      url: "https://courte.com.br/portal/faturas/abc/recibo",
+    });
+    ok(conf.includes("por Pix"), "confirmacao diz a forma de pagamento");
+    const semForma = montarConfirmacao({
+      nome: "Fulana", numero: "42", descricao: "Mensalidade",
+      valor: "250,00", forma: null,
+      url: "https://courte.com.br/portal/faturas/abc/recibo",
+    });
+    ok(!semForma.includes("pagamento por"), "sem forma conhecida, a frase nao a menciona");
+    ok(!semForma.includes("%%"), "a peca sem forma tambem nao deixa marcador");
+  }
+
+  console.log("");
+  console.log("2b) ESCAPE — o React fazia sozinho, agora e por nossa conta");
+  {
+    const html = montarCobranca("cobranca_nova", {
+      nome: "<script>alert(1)</script>", numero: "1",
+      descricao: 'Site da "Loja & Cia"',
+      valor: "10,00", vencimento: "01/10/2026",
+      url: "https://courte.com.br/portal/pagamento/x?a=1&b=2",
+    });
+    ok(!html.includes("<script>"), "nome com tag NAO vira HTML de verdade");
+    ok(html.includes("&lt;script&gt;"), "a tag aparece escapada, como texto");
+    ok(html.includes("&amp; Cia"), "e-comercial na descricao vira &amp;");
+    ok(html.includes("&quot;Loja"), "aspas na descricao viram &quot;");
+    ok(html.includes("a=1&amp;b=2"), "e-comercial na URL tambem escapa");
+  }
+
+  console.log("");
+  console.log("2c) o gerado bate com o template — acusa se alguem esquecer de regerar");
+  {
+    const M = {
+      nome: "%%nome%%", numero: "%%numero%%", descricao: "%%descricao%%",
+      valor: "%%valor%%", vencimento: "%%vencimento%%", url: "%%url%%",
+      forma: "%%forma%%", validade: "%%validade%%",
+    };
+    const momentos: MomentoCobranca[] = ["cobranca_nova", "cobranca_lembrete", "cobranca_vencida"];
+    for (const momento of momentos) {
+      const fresco = await render(Cobranca({
+        nome: M.nome, numero: M.numero, descricao: M.descricao, valor: M.valor,
+        vencimento: M.vencimento, url: M.url, momento,
+      }));
+      ok(fresco === EMAILS[momento], `${momento} em dia`);
+    }
+    const conf = await render(PagamentoConfirmado({
+      nome: M.nome, numero: M.numero, descricao: M.descricao,
+      valor: M.valor, forma: M.forma, url: M.url,
+    }));
+    ok(conf === EMAILS.pagamento_confirmado, "pagamento_confirmado em dia");
+    const semForma = await render(PagamentoConfirmado({
+      nome: M.nome, numero: M.numero, descricao: M.descricao,
+      valor: M.valor, forma: "", url: M.url,
+    }));
+    ok(semForma === EMAILS.pagamento_confirmado_sem_forma, "pagamento_confirmado_sem_forma em dia");
+    const tipos: TipoLink[] = ["primeiro_acesso", "recuperar_senha"];
+    for (const tipo of tipos) {
+      const l = await render(LinkAcesso({ nome: M.nome, url: M.url, validadeTexto: M.validade, tipo }));
+      ok(l === EMAILS[tipo], `${tipo} em dia`);
+    }
+  }
+
+  console.log("");
+  console.log("2d) o ganho de CPU, medido");
+  {
+    const cem = () => {
+      for (let i = 0; i < 100; i++) {
+        montarCobranca("cobranca_nova", {
+          nome: "Fulana", numero: String(i), descricao: "Mensalidade",
+          valor: "250,00", vencimento: "01/10/2026",
+          url: "https://courte.com.br/portal/pagamento/abc",
+        });
+      }
+    };
+    cem();
+    const a = process.cpuUsage();
+    cem();
+    const d = process.cpuUsage(a);
+    const ms = (d.user + d.system) / 1000;
+    ok(ms < 50, `100 e-mails montados em ${ms.toFixed(1)} ms de CPU (${(ms / 100).toFixed(2)} ms cada)`);
   }
 
   console.log("\n3) a trava de envio duplicado — o indice, nao um if");
