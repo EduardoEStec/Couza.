@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { login } from "@/content/portal";
-import { Campo, CascaAuth, TituloAcesso } from "@/components/portal/casca-auth";
-import { Botao, Caixa, Falta, Marca, Nota, Cartao, Olho } from "@/components/ui";
+import { CascaAuth, TituloAcesso } from "@/components/portal/casca-auth";
+import { Caixa, Falta, Marca, Nota, Cartao } from "@/components/ui";
+import { FormularioLogin } from "./formulario";
 import { marca } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -47,31 +48,7 @@ export default function Login() {
       <TituloAcesso linhas={login.titulo} />
       <p className="mt-4 text-lead text-n1">{login.apoio}</p>
 
-      <div className="mt-8 flex flex-col gap-4.5">
-        <Campo rotulo={login.campos.email}>
-          <span className="text-n2">seu@email.com</span>
-        </Campo>
-
-        <Campo
-          rotulo={login.campos.senha}
-          foco
-          aoLado={
-            <Link
-              href="/portal/esqueci-senha"
-              className="text-sm text-acc transition-colors duration-200 ease-out-soft hover:text-acc-hover"
-            >
-              {login.esqueci}
-            </Link>
-          }
-        >
-          <span className="flex-1 tracking-[0.22em] text-ink">••••••••••</span>
-          <Olho className="shrink-0 text-n1" />
-        </Campo>
-
-        <Botao grande bloco className="mt-1.5">
-          {login.entrar}
-        </Botao>
-      </div>
+      <FormularioLogin />
 
       <hr className="my-8 border-0 border-t border-line" />
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { exigirSessao } from "@/lib/sessao";
 import Link from "next/link";
 import { recibo as t } from "@/content/portal";
 import { marca } from "@/content/site";
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
 
 const d = t.documento;
 
-export default function Recibo() {
+export default async function Recibo() {
+  await exigirSessao();
+
   return (
     <>
       <div className="nao-imprimir">

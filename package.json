@@ -10,7 +10,8 @@
     "db:gerar": "drizzle-kit generate",
     "db:aplicar": "drizzle-kit migrate",
     "db:estudio": "drizzle-kit studio",
-    "teste:fluxo": "tsx scripts/teste-fluxo.ts"
+    "teste:fluxo": "tsx scripts/teste-fluxo.ts",
+    "teste:sessao": "tsx scripts/teste-sessao.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

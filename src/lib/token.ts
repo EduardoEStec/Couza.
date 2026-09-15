@@ -13,7 +13,13 @@ const BYTES_TOKEN = 32;
 
 /** Valores em milissegundos. */
 export const VALIDADE_LINK = 60 * 60 * 1000; // 1 hora, como o ETAPAS.md pede
-export const VALIDADE_SESSAO = 30 * 24 * 60 * 60 * 1000; // 30 dias
+/**
+ * Sessao de 12 horas, DESLIZANTE: renova enquanto a pessoa usa e vence
+ * durante a noite. Curta de proposito — e uma tela com fatura e pagamento,
+ * nao uma rede social. Quem entra uma vez por mes para pagar vai digitar a
+ * senha, e isso esta certo.
+ */
+export const VALIDADE_SESSAO = 12 * 60 * 60 * 1000;
 
 export function gerarToken(): string {
   const bytes = crypto.getRandomValues(new Uint8Array(BYTES_TOKEN));

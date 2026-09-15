@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { exigirSessao } from "@/lib/sessao";
 import { faturas as t, type Fatura } from "@/content/portal";
 import { TopbarPortal } from "@/components/portal/topbar";
 import { Alerta, Baixar, Botao, Check, Falta, Pilula } from "@/components/ui";
@@ -70,7 +71,9 @@ function Selo({ fatura }: { fatura: Fatura }) {
   );
 }
 
-export default function Faturas() {
+export default async function Faturas() {
+  await exigirSessao();
+
   return (
     <>
       <TopbarPortal ativo="/portal/faturas" />

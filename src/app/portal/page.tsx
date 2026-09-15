@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { exigirSessao } from "@/lib/sessao";
 import { produtos as t } from "@/content/portal";
 import { TopbarPortal } from "@/components/portal/topbar";
 import {
@@ -25,7 +26,9 @@ function Linha({ rotulo, children }: { rotulo: string; children: React.ReactNode
   );
 }
 
-export default function Produtos() {
+export default async function Produtos() {
+  const sessao = await exigirSessao();
+
   return (
     <>
       <TopbarPortal ativo="/portal" />
@@ -34,7 +37,7 @@ export default function Produtos() {
         <div className="pt-7 pb-5 lg:pt-12 lg:pb-7">
           <h1 className="text-[clamp(30px,3.2vw,46px)]">
             {t.saudacao.antes}
-            <Falta o={t.saudacao.nome} />
+            {sessao.nome}
           </h1>
           <p className="mt-3.5 text-[17px] text-n1">{t.apoio}</p>
         </div>

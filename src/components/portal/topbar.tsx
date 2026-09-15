@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { navPortal } from "@/content/portal";
 import { Caixa, Marca, Nota, Usuario } from "@/components/ui";
+import { BotaoSair } from "./botao-sair";
 
 const icones = { caixa: Caixa, nota: Nota };
 
@@ -33,9 +34,12 @@ export function TopbarPortal({ ativo }: { ativo: "/portal" | "/portal/faturas" }
           ))}
         </nav>
 
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-pill bg-wash text-n1">
-          <Usuario />
-        </span>
+        <div className="flex shrink-0 items-center gap-3">
+          <BotaoSair />
+          <span className="flex h-10 w-10 items-center justify-center rounded-pill bg-wash text-n1">
+            <Usuario />
+          </span>
+        </div>
       </header>
 
       <div className="px-5 pt-4 sm:px-8 lg:hidden">
