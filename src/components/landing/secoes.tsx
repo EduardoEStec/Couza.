@@ -15,6 +15,7 @@ import {
   Texto,
 } from "@/components/ui";
 import { Entrar, Revelar } from "@/components/movimento";
+import { PortalDemo } from "@/components/landing/portal-demo";
 
 const secao = "mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-14";
 
@@ -113,8 +114,10 @@ export function ComoFunciona() {
   return (
     <section id="como-funciona" className={`${secao} py-14 lg:py-30`}>
       <Sobretitulo>{comoFunciona.sobretitulo}</Sobretitulo>
-      <h2 className="mt-4 max-w-[16ch] text-h2">
-        <Revelar>{comoFunciona.titulo}</Revelar>
+      <h2 className="mt-4 text-h2">
+        <Revelar>{comoFunciona.titulo[0]}</Revelar>
+        <br />
+        <Revelar atraso={0.12}>{comoFunciona.titulo[1]}</Revelar>
       </h2>
 
       <div className="mt-7 grid gap-4 lg:mt-12 lg:grid-cols-4 lg:gap-6">
@@ -134,6 +137,8 @@ export function ComoFunciona() {
           </Entrar>
         ))}
       </div>
+
+      <PortalDemo />
     </section>
   );
 }
@@ -153,7 +158,7 @@ export function Trabalhos() {
         <Falta o={trabalhos.aviso} />
       </div>
 
-      <div className="mt-7 grid gap-4 lg:mt-12 lg:grid-cols-3 lg:gap-6">
+      <div className="mt-7 grid gap-4 lg:mt-12 lg:grid-cols-2 lg:gap-6">
         {trabalhos.itens.map((item, i) => (
           <Entrar
             key={i}

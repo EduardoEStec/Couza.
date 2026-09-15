@@ -105,7 +105,7 @@ export const servicos = {
 
 export const comoFunciona = {
   sobretitulo: "Como funciona",
-  titulo: "Quatro passos, do primeiro contato ao pagamento.",
+  titulo: ["Quatro passos, do primeiro contato", "ao pagamento."],
   passos: [
     {
       numero: "01",
@@ -133,15 +133,93 @@ export const comoFunciona = {
   ],
 };
 
+/**
+ * Demo experimental do portal, mostrada abaixo dos quadrados de Como
+ * Funciona. Dados 100% ficticios — nome, valores e datas nao correspondem a
+ * nenhum cliente real. Isso NAO e um placeholder a preencher depois: e
+ * intencional, so precisa deixar claro pro visitante que e exemplo.
+ */
+export const portalDemo = {
+  sobretitulo: "Experimente",
+  titulo: "Um exemplo do portal do cliente.",
+  texto:
+    "Dados fictícios só para mostrar como fica — sem login, sem nada de verdade.",
+  aviso: "Demonstração — dados fictícios",
+  abas: { produtos: "Meus Produtos", faturas: "Faturas" },
+  produtos: [
+    {
+      nome: "Loja da Ana",
+      tipo: "E-commerce",
+      mensalidade: "R$ 199,00 /mês",
+      proximaCobranca: "05/10/2026",
+      ativoDesde: "12/03/2025",
+      avulsa: {
+        descricao: "Ajuste na home",
+        valor: "R$ 60,00",
+        vencimento: "Vence em 28/09/2026",
+      },
+    },
+    {
+      nome: "Studio Meireles",
+      tipo: "Sistema de agendamentos",
+      mensalidade: "R$ 189,00 /mês",
+      proximaCobranca: "12/10/2026",
+      ativoDesde: "20/01/2026",
+      avulsa: null,
+    },
+  ],
+  semAvulsas: "Nenhuma cobrança avulsa por enquanto.",
+  filtros: [
+    { chave: "todas", texto: "Todas" },
+    { chave: "aberta", texto: "Em aberto" },
+    { chave: "paga", texto: "Pagas" },
+    { chave: "atrasada", texto: "Atrasadas" },
+  ] as const,
+  faturas: [
+    {
+      id: "12",
+      numero: "0012",
+      descricao: "Mensalidade — Loja da Ana",
+      valor: "R$ 199,00",
+      status: "aberta" as const,
+      meta: "Vence em 20 dias",
+    },
+    {
+      id: "11",
+      numero: "0011",
+      descricao: "Mensalidade — Loja da Ana",
+      valor: "R$ 199,00",
+      status: "paga" as const,
+      meta: "Paga em 05/09/2026 · Pix",
+    },
+    {
+      id: "10",
+      numero: "0010",
+      descricao: "Mensalidade — Loja da Ana",
+      valor: "R$ 199,00",
+      status: "atrasada" as const,
+      meta: "Venceu há 41 dias",
+    },
+  ],
+  cliqueAvulsa:
+    "No portal de verdade, aqui abriria o checkout — cartão, Pix ou boleto.",
+  cliquePagar:
+    "No portal de verdade, aqui abriria o checkout — cartão, Pix ou boleto.",
+  cliqueRecibo: "No portal de verdade, aqui abriria o recibo dessa fatura.",
+};
+
 export const trabalhos = {
   sobretitulo: "Trabalhos",
   titulo: "Alguns projetos.",
   aviso: falta("a preencher com projetos reais"),
-  /** Placeholders ate o Guilherme escolher os projetos. Nenhum case inventado. */
+  /**
+   * INVENTADO A PEDIDO DO GUILHERME (16/09/2026) so pra ocupar o espaco —
+   * nao sao clientes reais. Trocar pelos projetos de verdade antes de ir
+   * para producao.
+   */
   itens: [
-    { imagem: falta("imagem do projeto"), nome: falta("nome do projeto"), tipo: falta("tipo de projeto") },
-    { imagem: falta("imagem do projeto"), nome: falta("nome do projeto"), tipo: falta("tipo de projeto") },
-    { imagem: falta("imagem do projeto"), nome: falta("nome do projeto"), tipo: falta("tipo de projeto") },
+    { imagem: "Home do site", nome: "Ferragens Center", tipo: "Site institucional" },
+    { imagem: "Painel de agendamentos", nome: "Studio Meireles", tipo: "Sistema sob medida" },
   ],
 };
 
