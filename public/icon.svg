@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="courte">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="couza">
   <!--
     ESTE ARQUIVO E A FONTE. public/favicon.ico deriva dele (16, 32 e 48 px,
     PNG dentro do container ICO) e existe so porque o Safari nao le favicon
     em SVG. Mexeu na geometria ou nas cores aqui? O .ico continua com o
     desenho velho ate ser refeito a partir deste SVG.
 
-    Favicon: o "c." recortado do logotipo "courte." (src/components/ui.tsx),
+    Favicon: o "c." recortado do logotipo "couza." (src/components/ui.tsx),
     na versao <Marca escuro />: fundo escuro, letra branca, ponto no acento.
     Cores do quadro "Tokens": color-dark (#080808) e color-acc (#4F2BFF).
     Fundo solido de proposito — aba de navegador tem tema claro e escuro, e

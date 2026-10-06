@@ -11,7 +11,7 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-20 border-b border-line bg-white/94 backdrop-blur-[8px]">
       <div className="mx-auto flex min-h-[68px] w-full max-w-[1280px] items-center justify-between gap-4 px-5 sm:px-8 lg:px-14">
-        <Link href="/" aria-label="courte, página inicial">
+        <Link href="/" aria-label="couza, página inicial">
           <Marca />
         </Link>
 

@@ -12,7 +12,7 @@ import { TopbarPortal } from "@/components/portal/topbar";
 import { Botao, Camadas, Check, Ciclo, Pilula, Tela } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Meus Produtos — Portal do Cliente | courte",
+  title: "Meus Produtos — Portal do Cliente | couza",
 };
 
 const icones = { site: Tela, sistema: Camadas, manutencao: Ciclo };

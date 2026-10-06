@@ -9,7 +9,7 @@ import { TopbarCheckout } from "@/components/portal/topbar";
 import { Checkout } from "./checkout";
 
 export const metadata: Metadata = {
-  title: "Pagamento — Portal do Cliente | courte",
+  title: "Pagamento — Portal do Cliente | couza",
 };
 
 /**

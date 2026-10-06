@@ -8,7 +8,7 @@ import { TopbarCheckout } from "@/components/portal/topbar";
 import { Botao, Check } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Pagamento confirmado — Portal do Cliente | courte",
+  title: "Pagamento confirmado — Portal do Cliente | couza",
 };
 
 /** Tela de confirmação depois do pagamento — pedida no ETAPAS.md. */

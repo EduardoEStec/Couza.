@@ -10,7 +10,7 @@
  * - sem raio grande nos blocos: o Outlook do Windows renderiza com o motor
  *   do Word e ignora border-radius (o botao em 8px passa)
  * - tudo que importa e TEXTO, nunca imagem — imagem pode vir bloqueada.
- *   Por isso o "courte." e tipografado, nao um PNG
+ *   Por isso o "couza." e tipografado, nao um PNG
  * - o endereco do link aparece escrito, porque botao em e-mail falha mais
  *   do que se imagina
  */
@@ -42,13 +42,13 @@ export type LinkAcessoProps = {
 
 const copy = {
   primeiro_acesso: {
-    preview: "Seu acesso ao Portal do Cliente da courte",
+    preview: "Seu acesso ao Portal do Cliente da couza",
     titulo: "Seu acesso ao portal",
     corpo: "Clique no botão abaixo para criar a sua senha e entrar no Portal do Cliente.",
     botao: "Criar minha senha",
   },
   recuperar_senha: {
-    preview: "Criar uma senha nova no Portal do Cliente da courte",
+    preview: "Criar uma senha nova no Portal do Cliente da couza",
     titulo: "Criar uma senha nova",
     corpo: "Você pediu para trocar a senha do Portal do Cliente. Clique no botão abaixo para escolher uma nova.",
     botao: "Criar senha nova",
@@ -75,7 +75,7 @@ export function LinkAcesso({ nome, url, validadeTexto, tipo }: LinkAcessoProps) 
                 color: cor.ink,
               }}
             >
-              courte<span style={{ color: cor.acc }}>.</span>
+              couza<span style={{ color: cor.acc }}>.</span>
             </Text>
 
             <Heading
@@ -189,7 +189,7 @@ export function LinkAcesso({ nome, url, validadeTexto, tipo }: LinkAcessoProps) 
             >
               Você recebeu este e-mail porque tem um produto contratado comigo.
               <br />
-              courte.com.br
+              couza.com.br
             </Text>
           </Container>
         </Body>

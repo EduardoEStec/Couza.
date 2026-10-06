@@ -27,11 +27,11 @@ export type Resumo = {
 };
 
 const ASSUNTO: Record<MomentoCobranca, (f: FaturaParaEmail) => string> = {
-  cobranca_nova: (f) => `Nova cobrança de R$ ${emReais(f.valorCentavos)} — courte`,
+  cobranca_nova: (f) => `Nova cobrança de R$ ${emReais(f.valorCentavos)} — couza`,
   cobranca_lembrete: (f) =>
-    `Sua cobrança de R$ ${emReais(f.valorCentavos)} vence em 3 dias — courte`,
+    `Sua cobrança de R$ ${emReais(f.valorCentavos)} vence em 3 dias — couza`,
   cobranca_vencida: (f) =>
-    `Cobrança de R$ ${emReais(f.valorCentavos)} vencida — courte`,
+    `Cobrança de R$ ${emReais(f.valorCentavos)} vencida — couza`,
 };
 
 async function mandarLote(
@@ -144,7 +144,7 @@ export async function mandarConfirmacao(faturaId: string): Promise<void> {
 
   await enviarUmaVez({
     para: f.email,
-    assunto: `Pagamento confirmado — fatura ${f.numero} — courte`,
+    assunto: `Pagamento confirmado — fatura ${f.numero} — couza`,
     html,
     tipo: "pagamento_confirmado",
     clienteId: f.clienteId,

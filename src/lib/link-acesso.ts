@@ -46,8 +46,8 @@ export async function mandarLinkDeAcesso(
     para: destino.email,
     assunto:
       tipo === "recuperar_senha"
-        ? "Criar uma senha nova — Portal do Cliente courte"
-        : "Seu acesso ao Portal do Cliente — courte",
+        ? "Criar uma senha nova — Portal do Cliente couza"
+        : "Seu acesso ao Portal do Cliente — couza",
     html,
     tipo,
     clienteId: destino.clienteId,

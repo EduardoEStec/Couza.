@@ -69,7 +69,7 @@ const daquiA = (dias: number) => {
     const html = montarCobranca("cobranca_vencida", {
       nome: "Fulana", numero: "42", descricao: "Mensalidade do site",
       valor: "250,00", vencimento: "01/10/2026",
-      url: "https://courte.com.br/portal/pagamento/abc",
+      url: "https://couza.com.br/portal/pagamento/abc",
     });
     ok(html.includes("250,00"), "valor entra no HTML");
     ok(html.includes("Cobrança vencida"), "copy do momento certo");
@@ -80,13 +80,13 @@ const daquiA = (dias: number) => {
     const conf = montarConfirmacao({
       nome: "Fulana", numero: "42", descricao: "Mensalidade",
       valor: "250,00", forma: "pix",
-      url: "https://courte.com.br/portal/faturas/abc/recibo",
+      url: "https://couza.com.br/portal/faturas/abc/recibo",
     });
     ok(conf.includes("por Pix"), "confirmacao diz a forma de pagamento");
     const semForma = montarConfirmacao({
       nome: "Fulana", numero: "42", descricao: "Mensalidade",
       valor: "250,00", forma: null,
-      url: "https://courte.com.br/portal/faturas/abc/recibo",
+      url: "https://couza.com.br/portal/faturas/abc/recibo",
     });
     ok(!semForma.includes("pagamento por"), "sem forma conhecida, a frase nao a menciona");
     ok(!semForma.includes("%%"), "a peca sem forma tambem nao deixa marcador");
@@ -99,7 +99,7 @@ const daquiA = (dias: number) => {
       nome: "<script>alert(1)</script>", numero: "1",
       descricao: 'Site da "Loja & Cia"',
       valor: "10,00", vencimento: "01/10/2026",
-      url: "https://courte.com.br/portal/pagamento/x?a=1&b=2",
+      url: "https://couza.com.br/portal/pagamento/x?a=1&b=2",
     });
     ok(!html.includes("<script>"), "nome com tag NAO vira HTML de verdade");
     ok(html.includes("&lt;script&gt;"), "a tag aparece escapada, como texto");
@@ -149,7 +149,7 @@ const daquiA = (dias: number) => {
         montarCobranca("cobranca_nova", {
           nome: "Fulana", numero: String(i), descricao: "Mensalidade",
           valor: "250,00", vencimento: "01/10/2026",
-          url: "https://courte.com.br/portal/pagamento/abc",
+          url: "https://couza.com.br/portal/pagamento/abc",
         });
       }
     };

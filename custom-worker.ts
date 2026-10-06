@@ -38,7 +38,7 @@ const worker = {
     ctx: ExecutionContext,
   ): Promise<void> {
     const remessa = async () => {
-      const req = new Request("https://courte.com.br/api/cron/cobrancas", {
+      const req = new Request("https://couza.com.br/api/cron/cobrancas", {
         method: "POST",
         headers: { "x-cron-segredo": env.CRON_SEGREDO ?? "" },
       });

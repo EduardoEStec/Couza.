@@ -8,7 +8,7 @@ import { TopbarPortal } from "@/components/portal/topbar";
 import { Alerta, Baixar, Botao, Check, Pilula } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Faturas — Portal do Cliente | courte",
+  title: "Faturas — Portal do Cliente | couza",
 };
 
 /**

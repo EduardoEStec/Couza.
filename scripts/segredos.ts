@@ -76,7 +76,7 @@ const SEGREDOS: Segredo[] = [
 /** Vao como `vars` no wrangler.jsonc, nao como secret: nao sao sigilosos. */
 const PUBLICAS = [
   ["ASAAS_AMBIENTE", "producao"],
-  ["URL_BASE", "https://courte.com.br"],
+  ["URL_BASE", "https://couza.com.br"],
   ["SMS_ATIVO", "false"],
 ];
 

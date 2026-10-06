@@ -47,7 +47,7 @@ export function Marca({ escuro = false }: { escuro?: boolean }) {
         escuro ? "text-white" : "text-ink"
       }`}
     >
-      courte<span className="text-acc">.</span>
+      couza<span className="text-acc">.</span>
     </span>
   );
 }

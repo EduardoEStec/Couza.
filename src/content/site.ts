@@ -19,7 +19,7 @@ export const ehFalta = (v: unknown): v is Falta =>
  *  GUILHERME: seus dados vao AQUI. Troque o `falta(...)` pelo valor.
  *
  *  antes:   email: falta("e-mail"),
- *  depois:  email: "contato@courte.com.br",
+ *  depois:  email: "contato@couza.com.br",
  *
  *  O que ainda esta como falta() aparece no site como caixinha
  *  tracejada — nada quebra se voce preencher um de cada vez.
@@ -30,8 +30,8 @@ export const ehFalta = (v: unknown): v is Falta =>
  * ===================================================================
  */
 export const marca = {
-  nome: "courte",
-  dominio: "courte.com.br",
+  nome: "couza",
+  dominio: "couza.com.br",
   pessoa: "Guilherme Courte",
   cpf: falta("CPF"),
   email: falta("e-mail"),

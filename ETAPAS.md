@@ -134,7 +134,7 @@ assinatura aparece no Asaas, e quando eu simulo o pagamento a fatura muda de
 status sozinha no meu portal. Me diga se algum desses passos não fechou.
 
 ETAPA 7 — Checkout no meu domínio
-O checkout inteiro é meu — o cliente não sai de courte.com.br em momento nenhum.
+O checkout inteiro é meu — o cliente não sai de couza.com.br em momento nenhum.
 Só as chamadas de API vão para o Asaas.
 
 /portal/pagamento/[id], com escolha de forma:
@@ -176,7 +176,7 @@ além do mínimo.
 ETAPA 9 — Deploy
 Publicar em produção.
 
-- Deploy no Cloudflare Workers, domínio courte.com.br (o DNS está na Cloudflare)
+- Deploy no Cloudflare Workers, domínio couza.com.br (o DNS está na Cloudflare)
 - Banco de produção separado do de desenvolvimento no Neon
 - Todos os segredos como secret do Workers, nenhum no repositório
 - Trocar a chave do Asaas de sandbox para produção só no último passo, e me avisar

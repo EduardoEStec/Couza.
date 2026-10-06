@@ -30,7 +30,7 @@ export function CascaAuth({
 
       <main className="flex flex-col px-5 sm:px-8 lg:px-10">
         <div className="flex min-h-[68px] items-center justify-between gap-4">
-          <Link href="/" aria-label="courte, página inicial">
+          <Link href="/" aria-label="couza, página inicial">
             <Marca />
           </Link>
           <Link

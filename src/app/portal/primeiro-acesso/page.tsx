@@ -5,7 +5,7 @@ import { CascaAuth, TituloAcesso } from "@/components/portal/casca-auth";
 import { FormularioPrimeiroAcesso } from "./formulario";
 
 export const metadata: Metadata = {
-  title: "Primeiro acesso — Portal do Cliente | courte",
+  title: "Primeiro acesso — Portal do Cliente | couza",
 };
 
 export default function PrimeiroAcesso() {

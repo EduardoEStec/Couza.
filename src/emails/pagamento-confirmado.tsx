@@ -66,7 +66,7 @@ export function PagamentoConfirmado({
                 color: cor.ink,
               }}
             >
-              courte<span style={{ color: cor.acc }}>.</span>
+              couza<span style={{ color: cor.acc }}>.</span>
             </Text>
 
             <Heading
@@ -208,7 +208,7 @@ export function PagamentoConfirmado({
             >
               Você recebeu este e-mail porque tem um produto contratado comigo.
               <br />
-              courte.com.br
+              couza.com.br
             </Text>
           </Container>
         </Body>

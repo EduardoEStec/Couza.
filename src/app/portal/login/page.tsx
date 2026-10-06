@@ -7,7 +7,7 @@ import { FormularioLogin } from "./formulario";
 import { marca } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Entrar — Portal do Cliente | courte",
+  title: "Entrar — Portal do Cliente | couza",
 };
 
 const iconesPainel = [Caixa, Nota, Cartao];
@@ -41,7 +41,7 @@ export default function Login() {
               })}
             </ul>
           </div>
-          <p className="text-xs text-n1">© 2026 courte.com.br</p>
+          <p className="text-xs text-n1">© 2026 couza.com.br</p>
         </>
       }
       rodape={

@@ -5,7 +5,7 @@ import { exigirAdmin } from "@/lib/admin";
 import { Marca } from "@/components/ui";
 import { BotaoSairAdmin, FormCliente } from "./formularios";
 
-export const metadata: Metadata = { title: "Clientes — Admin courte" };
+export const metadata: Metadata = { title: "Clientes — Admin couza" };
 
 export default async function Admin() {
   await exigirAdmin();

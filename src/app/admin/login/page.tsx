@@ -4,7 +4,7 @@ import { sessaoAdminAtiva } from "@/lib/admin";
 import { Marca } from "@/components/ui";
 import { FormLogin } from "../formularios";
 
-export const metadata: Metadata = { title: "Admin — courte" };
+export const metadata: Metadata = { title: "Admin — couza" };
 
 export default async function LoginAdmin() {
   if (await sessaoAdminAtiva()) redirect("/admin");

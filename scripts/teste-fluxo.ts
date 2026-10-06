@@ -112,7 +112,7 @@ async function limpar() {
 
   const env = await enviarEmail({
     para: "delivered@resend.dev",
-    assunto: "Teste do fluxo — courte",
+    assunto: "Teste do fluxo — couza",
     html,
     tipo: "primeiro_acesso",
     clienteId: d!.clienteId,
