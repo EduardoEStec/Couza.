@@ -1,6 +1,7 @@
 import {
   comoFunciona,
   hero,
+  quemSomos,
   servicos,
   trabalhos,
 } from "@/content/site";
@@ -176,6 +177,47 @@ export function Trabalhos() {
             </div>
             <p className="mt-2.5 text-sm text-n1">
               <Texto v={item.tipo} />
+            </p>
+          </Entrar>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
+export function QuemSomos() {
+  return (
+    <section id="quem-somos" className={`${secao} py-14 lg:py-30`}>
+      <Sobretitulo>{quemSomos.sobretitulo}</Sobretitulo>
+      <h2 className="mt-4 max-w-[18ch] text-h2">
+        <Revelar>{quemSomos.titulo}</Revelar>
+      </h2>
+      <Entrar atraso={0.12}>
+        <p className="mt-5 max-w-[46ch] text-lead text-n1 lg:mt-7">
+          <Texto v={quemSomos.texto} />
+        </p>
+      </Entrar>
+
+      <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3 lg:gap-6">
+        {quemSomos.pessoas.map((p, i) => (
+          <Entrar
+            key={i}
+            atraso={i * 0.08}
+            className="rounded-card bg-wash p-[22px] lg:p-8"
+          >
+            <div className="flex aspect-square items-center justify-center rounded-[20px] border border-dashed border-n2 bg-white text-sm text-n1">
+              <Texto v={p.foto} />
+            </div>
+            <h3 className="mt-5 text-xl font-medium tracking-[-0.03em]">
+              <Texto v={p.nome} />
+            </h3>
+            <p className="mt-1.5 text-sm font-medium text-acc">
+              <Texto v={p.funcao} />
+            </p>
+            <p className="mt-3 text-sm leading-[1.55] text-n1">
+              <Texto v={p.bio} />
             </p>
           </Entrar>
         ))}

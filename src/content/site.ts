@@ -44,6 +44,7 @@ export const nav = {
     { texto: "Serviços", href: "#servicos" },
     { texto: "Como funciona", href: "#como-funciona" },
     { texto: "Trabalhos", href: "#trabalhos" },
+    { texto: "Quem somos", href: "#quem-somos" },
     { texto: "Dúvidas", href: "#duvidas" },
   ],
   portal: { texto: "Portal do Cliente", href: "/portal/login" },
@@ -220,6 +221,24 @@ export const trabalhos = {
   itens: [
     { imagem: "Home do site", nome: "Ferragens Center", tipo: "Site institucional" },
     { imagem: "Painel de agendamentos", nome: "Studio Meireles", tipo: "Sistema sob medida" },
+  ],
+};
+
+/**
+ * Quem esta por tras da tecnologia. Uma entrada por pessoa em `pessoas` —
+ * a grade se ajusta sozinha a uma, duas ou mais.
+ */
+export const quemSomos = {
+  sobretitulo: "Quem somos",
+  titulo: "Quem está por trás da tecnologia.",
+  texto: falta("apresentação da Couza — 2 ou 3 linhas"),
+  pessoas: [
+    {
+      foto: falta("foto"),
+      nome: falta("nome"),
+      funcao: falta("função"),
+      bio: falta("mini bio — experiência, o que faz na Couza"),
+    },
   ],
 };
 
