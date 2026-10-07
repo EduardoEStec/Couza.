@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { nav } from "@/content/site";
-import { Botao, Marca, Menu } from "@/components/ui";
+import { Marca, Menu } from "@/components/ui";
 
 export function Nav() {
   const [aberto, setAberto] = useState(false);
@@ -28,10 +28,6 @@ export function Nav() {
         </nav>
 
         <div className="flex items-center gap-2.5">
-          <Botao href={nav.portal.href} className="min-h-11 px-[18px] text-[15px]">
-            {nav.portal.texto}
-          </Botao>
-
           <button
             type="button"
             onClick={() => setAberto((v) => !v)}

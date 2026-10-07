@@ -51,18 +51,22 @@ export function Hero() {
       </div>
 
       <Entrar atraso={0.36}>
-        <div className="mt-8 flex min-h-70 flex-col justify-between gap-10 rounded-card bg-acc p-6 text-white lg:mt-14 lg:min-h-105 lg:p-10">
-          <div className="flex items-start justify-between gap-4">
+        <div
+          className="relative mt-8 flex min-h-70 flex-col justify-between gap-10 overflow-hidden rounded-card bg-acc bg-cover bg-center p-6 text-white lg:mt-14 lg:min-h-105 lg:p-10"
+          style={{ backgroundImage: `url(${hero.destaque.imagem})` }}
+        >
+          {/* escurece o pe da imagem para o nome do projeto ficar legivel */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+          <div className="relative flex items-start justify-between gap-4">
             <span className="inline-flex h-8 items-center gap-1.5 rounded-pill bg-white/15 px-3.5 text-[13px] font-medium">
               <span className="h-[7px] w-[7px] rounded-pill bg-current" />
               {hero.destaque.etiqueta}
             </span>
             <SetaDiagonal tamanho={28} className="text-white" />
           </div>
-          <div>
-            <Falta o={hero.destaque.imagem} tom="escuro" />
-            <p className="mt-4 text-[26px] font-medium leading-[1.1] tracking-[-0.035em] lg:text-[44px]">
-              <Falta o={hero.destaque.nome} tom="escuro" />
+          <div className="relative">
+            <p className="text-[26px] font-medium leading-[1.1] tracking-[-0.035em] lg:text-[44px]">
+              <Texto v={hero.destaque.nome} tom="escuro" />
             </p>
           </div>
         </div>
@@ -194,18 +198,13 @@ export function QuemSomos() {
       <h2 className="mt-4 max-w-[18ch] text-h2">
         <Revelar>{quemSomos.titulo}</Revelar>
       </h2>
-      <Entrar atraso={0.12}>
-        <p className="mt-5 max-w-[46ch] text-lead text-n1 lg:mt-7">
-          <Texto v={quemSomos.texto} />
-        </p>
-      </Entrar>
 
-      <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3 lg:gap-6">
+      <div className="mt-7 flex flex-wrap justify-center gap-4 lg:mt-12 lg:gap-6">
         {quemSomos.pessoas.map((p, i) => (
           <Entrar
             key={i}
             atraso={i * 0.08}
-            className="rounded-card bg-wash p-[22px] lg:p-8"
+            className="w-full rounded-card bg-wash p-[22px] sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-3rem)/3)] lg:p-8"
           >
             <div className="flex aspect-square items-center justify-center rounded-[20px] border border-dashed border-n2 bg-white text-sm text-n1">
               <Texto v={p.foto} />

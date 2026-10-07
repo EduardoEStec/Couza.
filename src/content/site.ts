@@ -47,7 +47,6 @@ export const nav = {
     { texto: "Quem somos", href: "#quem-somos" },
     { texto: "Dúvidas", href: "#duvidas" },
   ],
-  portal: { texto: "Portal do Cliente", href: "/portal/login" },
 };
 
 export const hero = {
@@ -59,8 +58,8 @@ export const hero = {
   acaoSecundaria: { texto: "Ver trabalhos", href: "#trabalhos" },
   destaque: {
     etiqueta: "Projeto em destaque",
-    imagem: falta("imagem do projeto"),
-    nome: falta("nome do projeto"),
+    imagem: "/projetos/cuidadasuacarreira.png",
+    nome: "CUIDADASUACARREIRA",
   },
 };
 
@@ -231,8 +230,13 @@ export const trabalhos = {
 export const quemSomos = {
   sobretitulo: "Quem somos",
   titulo: "Quem está por trás da tecnologia.",
-  texto: falta("apresentação da Couza — 2 ou 3 linhas"),
   pessoas: [
+    {
+      foto: falta("foto"),
+      nome: falta("nome"),
+      funcao: falta("função"),
+      bio: falta("mini bio — experiência, o que faz na Couza"),
+    },
     {
       foto: falta("foto"),
       nome: falta("nome"),
@@ -307,14 +311,6 @@ export const rodape = {
         { texto: "Sites", href: "#servicos" },
         { texto: "Sistemas", href: "#servicos" },
         { texto: "Manutenção", href: "#servicos" },
-      ],
-    },
-    {
-      titulo: "Portal",
-      links: [
-        { texto: "Entrar", href: "/portal/login" },
-        { texto: "Primeiro acesso", href: "/portal/primeiro-acesso" },
-        { texto: "Faturas", href: "/portal/faturas" },
       ],
     },
   ],
