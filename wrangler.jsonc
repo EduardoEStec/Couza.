@@ -19,7 +19,7 @@
    * nosso e o terceiro. E o grosso do trafego do site sai por assets
    * estaticos, que nao invocam o Worker e nao contam para cota nenhuma.
    */
-  "account_id": "dd0e28e28c430023c4bd6dea71852100",
+  "account_id": "30fc36e3ab1dcbebf5a5b8f319fd7c8a",
 
   // Aponta para o worker CUSTOMIZADO, não para o gerado. O gerado só sabe
   // responder a requisições HTTP; o nosso acrescenta o handler `scheduled`,
