@@ -13,7 +13,7 @@ const jost = Jost({
 
 // RASCUNHO: textos de metadata sao provisorios, como o resto da copy.
 export const metadata: Metadata = {
-  title: "courte",
+  title: "couza",
   description:
     "Desenvolvimento de sites e sistemas sob medida, com portal do cliente para acompanhar produtos, faturas e pagamentos.",
   // O favicon mora em public/, nao em src/app/icon.svg. A convencao do Next

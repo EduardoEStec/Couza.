@@ -7,7 +7,7 @@
  * todos os testes passariam e a producao quebraria calada. Aqui quem monta
  * o corpo e o Asaas.
  *
- * Roda contra https://courte.com.br, com ASAAS_AMBIENTE=sandbox dos dois
+ * Roda contra https://couza.com.br, com ASAAS_AMBIENTE=sandbox dos dois
  * lados. Nenhum dinheiro se move.
  */
 import { config } from "dotenv";
@@ -105,7 +105,7 @@ async function limpar() {
     process.exit(1);
   }
 
-  console.log("\n3) esperando o webhook REAL do Asaas chegar em courte.com.br");
+  console.log("\n3) esperando o webhook REAL do Asaas chegar em couza.com.br");
   /**
    * Espera o evento de PAGAMENTO, nao o primeiro evento qualquer.
    *

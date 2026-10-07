@@ -11,7 +11,7 @@ import { BotaoImprimir } from "@/components/portal/botao-imprimir";
 import { Falta, Info, Marca, SetaEsquerda } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Recibo — Portal do Cliente | courte",
+  title: "Recibo — Portal do Cliente | couza",
 };
 
 const d = t.documento;

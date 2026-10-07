@@ -3,6 +3,7 @@ import { ScrollSuave } from "@/components/movimento";
 import {
   ComoFunciona,
   Hero,
+  QuemSomos,
   Servicos,
   Trabalhos,
 } from "@/components/landing/secoes";
@@ -21,6 +22,7 @@ export default function Home() {
         <Servicos />
         <ComoFunciona />
         <Trabalhos />
+        <QuemSomos />
         <Duvidas />
         <CtaFinal />
       </main>

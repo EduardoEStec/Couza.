@@ -1,16 +1,16 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "courte",
+  "name": "couza",
 
   /**
-   * A conta PESSOAL, e nao a chamada "courte" — de proposito.
+   * A conta PESSOAL, e nao a chamada "couza" — de proposito.
    *
-   * Uma zona vive numa conta so na Cloudflare, e courte.com.br esta nesta
+   * Uma zona vive numa conta so na Cloudflare, e couza.com.br esta nesta
    * aqui. Deixar o Worker numa conta e o dominio noutra nao funciona: o
    * deploy recusa com "Could not find zone".
    *
    * A alternativa seria mudar a zona de conta, mas mudar de conta apaga os
-   * registros de DNS — inclusive os que verificam envio.courte.com.br na
+   * registros de DNS — inclusive os que verificam envio.couza.com.br na
    * Resend. Ate recria-los e reverificar, e-mail nenhum sairia.
    *
    * Compartilhar a conta com outros Workers custa o seguinte, conferido em
@@ -50,13 +50,13 @@
     // "producao" e o ULTIMO passo do deploy, e so com o aval do Guilherme
     // na hora — exigencia do ETAPAS.md.
     "ASAAS_AMBIENTE": "sandbox",
-    "URL_BASE": "https://courte.com.br",
+    "URL_BASE": "https://couza.com.br",
     "SMS_ATIVO": "false"
   },
 
-  // custom_domain cria o registro de DNS sozinho, na zona courte.com.br.
+  // custom_domain cria o registro de DNS sozinho, na zona couza.com.br.
   "routes": [
-    { "pattern": "courte.com.br", "custom_domain": true }
+    { "pattern": "couza.com.br", "custom_domain": true }
   ],
 
   /**

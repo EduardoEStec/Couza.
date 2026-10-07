@@ -47,7 +47,7 @@ next-env.d.ts
 
 # design: as fontes do canvas (.dc.html + canvas.json) ficam versionadas;
 # o arquivo publicado é gerado a partir delas e pesa ~2,6 MB.
-/design/courte-site-e-portal.html
+/design/couza-site-e-portal.html
 
 # o modelo vai versionado; os valores reais nao
 !.env.example

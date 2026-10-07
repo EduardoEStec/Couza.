@@ -6,7 +6,7 @@ import { Botao, Envelope, Falta, Relogio, SetaDiagonal } from "@/components/ui";
 import { EmailDigitado } from "./email-digitado";
 
 export const metadata: Metadata = {
-  title: "Verifique seu e-mail — Portal do Cliente | courte",
+  title: "Verifique seu e-mail — Portal do Cliente | couza",
 };
 
 /**

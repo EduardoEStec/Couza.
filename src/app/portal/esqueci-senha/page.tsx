@@ -5,7 +5,7 @@ import { CascaAuth, TituloAcesso } from "@/components/portal/casca-auth";
 import { FormularioEsqueciSenha } from "./formulario";
 
 export const metadata: Metadata = {
-  title: "Esqueci minha senha — Portal do Cliente | courte",
+  title: "Esqueci minha senha — Portal do Cliente | couza",
 };
 
 export default function EsqueciSenha() {

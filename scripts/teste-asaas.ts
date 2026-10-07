@@ -53,14 +53,14 @@ const daquiA = (dias: number) => {
 
   console.log("\n2) cliente no Asaas");
   const cli = await criarClienteAsaas({
-    nome: "Cliente de Teste courte",
+    nome: "Cliente de Teste couza",
     documento: "24971563792", // CPF de teste publico do sandbox
     email: "teste@exemplo.invalido",
     telefone: "(11) 98765-4321",
     referencia: "teste-local-1",
   });
   ok(cli.id.startsWith("cus_"), `id no formato esperado: ${cli.id}`);
-  ok(cli.name === "Cliente de Teste courte", "nome gravado");
+  ok(cli.name === "Cliente de Teste couza", "nome gravado");
 
   const semTelefone = await criarClienteAsaas({
     nome: "Cliente sem telefone bom",

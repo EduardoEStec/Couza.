@@ -1,4 +1,4 @@
-# Projeto: courte.com.br — site institucional + portal do cliente
+# Projeto: couza.com.br — site institucional + portal do cliente
 
 ## Quem sou
 Guilherme Courte, presto serviços de TI como pessoa física (CPF): criação de sites,
@@ -137,7 +137,7 @@ devolve algo inesperado.
   navegador, nunca por `searchParams` na pagina — isso tornaria a pagina
   inteira dinamica.
 - **Destino pos-login vem de lista fechada** (`/portal/...`), nunca da URL
-  crua: aceitar destino arbitrario transformaria courte.com.br em trampolim
+  crua: aceitar destino arbitrario transformaria couza.com.br em trampolim
   de golpe.
 - **Boleto vai por link para o portal, nunca anexado** — anexo impede o envio
   em lote da Resend, e o portal sempre tem o código atual.

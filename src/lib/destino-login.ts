@@ -6,7 +6,7 @@
  *
  * A lista de permissão é fechada de propósito. Aceitar um destino qualquer
  * vindo da URL é redirecionamento aberto: bastaria mandar
- * `/portal/login?voltar=https://site-falso` para usar courte.com.br como
+ * `/portal/login?voltar=https://site-falso` para usar couza.com.br como
  * trampolim num golpe — o link sai do meu domínio, com a minha cara, e
  * termina em outro lugar.
  *

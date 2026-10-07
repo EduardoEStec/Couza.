@@ -17,7 +17,7 @@ import {
   FormProduto,
 } from "../../formularios";
 
-export const metadata: Metadata = { title: "Cliente — Admin courte" };
+export const metadata: Metadata = { title: "Cliente — Admin couza" };
 
 const TIPO: Record<Produto["tipo"], string> = {
   site: "Site",

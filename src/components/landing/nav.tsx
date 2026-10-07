@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { nav } from "@/content/site";
-import { Botao, Marca, Menu } from "@/components/ui";
+import { Marca, Menu } from "@/components/ui";
 
 export function Nav() {
   const [aberto, setAberto] = useState(false);
@@ -11,7 +11,7 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-20 border-b border-line bg-white/94 backdrop-blur-[8px]">
       <div className="mx-auto flex min-h-[68px] w-full max-w-[1280px] items-center justify-between gap-4 px-5 sm:px-8 lg:px-14">
-        <Link href="/" aria-label="courte, página inicial">
+        <Link href="/" aria-label="couza, página inicial">
           <Marca />
         </Link>
 
@@ -28,10 +28,6 @@ export function Nav() {
         </nav>
 
         <div className="flex items-center gap-2.5">
-          <Botao href={nav.portal.href} className="min-h-11 px-[18px] text-[15px]">
-            {nav.portal.texto}
-          </Botao>
-
           <button
             type="button"
             onClick={() => setAberto((v) => !v)}

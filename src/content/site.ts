@@ -19,7 +19,7 @@ export const ehFalta = (v: unknown): v is Falta =>
  *  GUILHERME: seus dados vao AQUI. Troque o `falta(...)` pelo valor.
  *
  *  antes:   email: falta("e-mail"),
- *  depois:  email: "contato@courte.com.br",
+ *  depois:  email: "contato@couza.com.br",
  *
  *  O que ainda esta como falta() aparece no site como caixinha
  *  tracejada — nada quebra se voce preencher um de cada vez.
@@ -30,8 +30,8 @@ export const ehFalta = (v: unknown): v is Falta =>
  * ===================================================================
  */
 export const marca = {
-  nome: "courte",
-  dominio: "courte.com.br",
+  nome: "couza",
+  dominio: "couza.com.br",
   pessoa: "Guilherme Courte",
   cpf: falta("CPF"),
   email: falta("e-mail"),
@@ -44,9 +44,9 @@ export const nav = {
     { texto: "Serviços", href: "#servicos" },
     { texto: "Como funciona", href: "#como-funciona" },
     { texto: "Trabalhos", href: "#trabalhos" },
+    { texto: "Quem somos", href: "#quem-somos" },
     { texto: "Dúvidas", href: "#duvidas" },
   ],
-  portal: { texto: "Portal do Cliente", href: "/portal/login" },
 };
 
 export const hero = {
@@ -58,8 +58,8 @@ export const hero = {
   acaoSecundaria: { texto: "Ver trabalhos", href: "#trabalhos" },
   destaque: {
     etiqueta: "Projeto em destaque",
-    imagem: falta("imagem do projeto"),
-    nome: falta("nome do projeto"),
+    imagem: "/projetos/cuidadasuacarreira.png",
+    nome: "CUIDADASUACARREIRA",
   },
 };
 
@@ -224,6 +224,29 @@ export const trabalhos = {
 };
 
 /**
+ * Quem esta por tras da tecnologia. Uma entrada por pessoa em `pessoas` —
+ * a grade se ajusta sozinha a uma, duas ou mais.
+ */
+export const quemSomos = {
+  sobretitulo: "Quem somos",
+  titulo: "Quem está por trás da tecnologia.",
+  pessoas: [
+    {
+      foto: falta("foto"),
+      nome: falta("nome"),
+      funcao: falta("função"),
+      bio: falta("mini bio — experiência, o que faz na Couza"),
+    },
+    {
+      foto: falta("foto"),
+      nome: falta("nome"),
+      funcao: falta("função"),
+      bio: falta("mini bio — experiência, o que faz na Couza"),
+    },
+  ],
+};
+
+/**
  * A resposta e uma lista de pedacos: string = texto, falta() = caixinha.
  * Assim um dado que falta pode aparecer no MEIO da frase.
  *
@@ -288,14 +311,6 @@ export const rodape = {
         { texto: "Sites", href: "#servicos" },
         { texto: "Sistemas", href: "#servicos" },
         { texto: "Manutenção", href: "#servicos" },
-      ],
-    },
-    {
-      titulo: "Portal",
-      links: [
-        { texto: "Entrar", href: "/portal/login" },
-        { texto: "Primeiro acesso", href: "/portal/primeiro-acesso" },
-        { texto: "Faturas", href: "/portal/faturas" },
       ],
     },
   ],

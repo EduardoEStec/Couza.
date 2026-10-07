@@ -43,7 +43,7 @@ function remetente(): string {
   if (!de) {
     throw new Error(
       "EMAIL_REMETENTE nao definida. Precisa ser um endereco no dominio " +
-        "verificado na Resend (envio.courte.com.br), nao o dominio raiz.",
+        "verificado na Resend (envio.couza.com.br), nao o dominio raiz.",
     );
   }
   return de;

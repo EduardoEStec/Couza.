@@ -7,7 +7,7 @@ import { conferirLink } from "@/db/tokens";
 import { FormularioCriarSenha } from "./formulario";
 
 export const metadata: Metadata = {
-  title: "Criar senha — Portal do Cliente | courte",
+  title: "Criar senha — Portal do Cliente | couza",
 };
 
 export default async function CriarSenha(
