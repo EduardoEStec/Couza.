@@ -170,9 +170,18 @@ export function Trabalhos() {
             atraso={i * 0.08}
             className="group rounded-card border border-line bg-white p-[22px] transition-[transform,box-shadow,border-color] duration-200 ease-out-soft hover:-translate-y-1.5 hover:border-[#dcdcdc] hover:shadow-[0_18px_40px_rgba(25,25,25,0.10)] lg:p-8"
           >
-            <div className="flex aspect-[4/3] items-center justify-center rounded-[20px] border border-dashed border-n2 bg-wash text-sm text-n1">
-              <Texto v={item.imagem} />
-            </div>
+            {item.foto ? (
+              // eslint-disable-next-line @next/next/no-img-element -- PNG estatico; next/image nao otimiza no Worker
+              <img
+                src={item.foto}
+                alt={item.imagem}
+                className="aspect-[4/3] w-full rounded-[20px] border border-line object-cover object-left-top"
+              />
+            ) : (
+              <div className="flex aspect-[4/3] items-center justify-center rounded-[20px] border border-dashed border-n2 bg-wash text-sm text-n1">
+                <Texto v={item.imagem} />
+              </div>
+            )}
             <div className="mt-5 flex items-center justify-between gap-3">
               <h3 className="text-xl font-medium tracking-[-0.03em]">
                 <Texto v={item.nome} />

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ctaFinal, marca, rodape } from "@/content/site";
-import { Botao, Falta, Marca } from "@/components/ui";
+import { Botao, Marca } from "@/components/ui";
 import { Entrar, Revelar } from "@/components/movimento";
 
 const secao = "mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-14";
@@ -14,7 +14,7 @@ export function CtaFinal() {
         </h2>
         <p className="mt-5 max-w-[42ch] text-lead text-white/80">
           {ctaFinal.textoAntes}
-          <Falta o={ctaFinal.prazo} tom="escuro" />
+          {ctaFinal.prazo}
           {ctaFinal.textoDepois}
         </p>
         <div className="mt-7 flex flex-wrap gap-3 lg:mt-11">
@@ -61,9 +61,9 @@ export function Rodape() {
           <div>
             <p className="text-xs uppercase tracking-[0.16em] text-n1">Contato</p>
             <div className="mt-3 flex flex-col items-start gap-2.5">
-              <Falta o={marca.email} tom="escuro" />
-              <Falta o={marca.telefone} tom="escuro" />
-              <Falta o={marca.cidade} tom="escuro" />
+              <span className="text-[15px] text-n2">{marca.email}</span>
+              <span className="text-[15px] text-n2">{marca.telefone}</span>
+              <span className="text-[15px] text-n2">{marca.cidade}</span>
             </div>
           </div>
         </div>

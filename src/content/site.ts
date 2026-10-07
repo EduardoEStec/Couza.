@@ -34,9 +34,9 @@ export const marca = {
   dominio: "couza.com.br",
   pessoa: "Guilherme Courte",
   cpf: falta("CPF"),
-  email: falta("e-mail"),
-  telefone: "(11) 94230-7211",
-  cidade: falta("cidade / UF"),
+  email: "contato@couza.com.br",
+  telefone: "(11) 92484-1502",
+  cidade: "São Paulo/SP",
 };
 
 export const nav = {
@@ -218,9 +218,15 @@ export const trabalhos = {
    * para producao.
    */
   itens: [
-    { imagem: "Home do site", nome: "Ferragens Center", tipo: "Site institucional" },
+    // Real: captura do Painel de vendas de C:\Projetos\Amorim\amorim.html.
+    {
+      imagem: "Painel de vendas do sistema",
+      foto: "/projetos/amorim-sistema.png",
+      nome: "Amorim Espetaria",
+      tipo: "Sistema para restaurante",
+    },
     { imagem: "Painel de agendamentos", nome: "Studio Meireles", tipo: "Sistema sob medida" },
-  ],
+  ] as { imagem: string; foto?: string; nome: string; tipo: string }[],
 };
 
 /**
@@ -233,15 +239,15 @@ export const quemSomos = {
   pessoas: [
     {
       foto: falta("foto"),
-      nome: falta("nome"),
-      funcao: falta("função"),
-      bio: falta("mini bio — experiência, o que faz na Couza"),
+      nome: "Eduardo Souza",
+      funcao: "CEO & Co-Founder",
+      bio: "Mais de 4 anos transformando ideias em produtos, sistemas e negócios digitais.",
     },
     {
       foto: falta("foto"),
-      nome: falta("nome"),
-      funcao: falta("função"),
-      bio: falta("mini bio — experiência, o que faz na Couza"),
+      nome: "Guilherme Courte",
+      funcao: "CTO & Co-Founder",
+      bio: "Mais de 5 anos de experiência com tecnologia, desenvolvimento de sistemas e criação de soluções digitais.",
     },
   ],
 };
@@ -297,9 +303,12 @@ export const duvidas = {
 export const ctaFinal = {
   titulo: "Tem um projeto? Me conte.",
   textoAntes: "Resposta em ",
-  prazo: falta("prazo de resposta"),
+  prazo: "24h",
   textoDepois: ". Sem formulário de dez campos: me diga o que você precisa.",
-  acao: { texto: "Falar comigo", href: "#contato" },
+  acao: {
+    texto: "Falar comigo",
+    href: `https://wa.me/5511924841502?text=${encodeURIComponent("Olá quero resolver:")}`,
+  },
 };
 
 export const rodape = {
