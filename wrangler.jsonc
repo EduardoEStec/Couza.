@@ -3,20 +3,15 @@
   "name": "couza",
 
   /**
-   * A conta PESSOAL, e nao a chamada "couza" — de proposito.
+   * A conta onde o Worker e o deploy pelo GitHub foram criados (07/10/2026).
+   * Antes era a conta pessoal (dd0e28e2...), que tinha o courte.com.br; o
+   * couza.com.br saiu da Hostinger para a Cloudflare depois disso.
    *
-   * Uma zona vive numa conta so na Cloudflare, e couza.com.br esta nesta
-   * aqui. Deixar o Worker numa conta e o dominio noutra nao funciona: o
-   * deploy recusa com "Could not find zone".
+   * Uma zona vive numa conta so na Cloudflare. Deixar o Worker numa conta e
+   * o dominio noutra nao funciona: o deploy recusa com "Could not find zone".
    *
-   * A alternativa seria mudar a zona de conta, mas mudar de conta apaga os
-   * registros de DNS — inclusive os que verificam envio.couza.com.br na
-   * Resend. Ate recria-los e reverificar, e-mail nenhum sairia.
-   *
-   * Compartilhar a conta com outros Workers custa o seguinte, conferido em
-   * 15/09/2026: a cota de 100 mil requisicoes/dia do plano free e por
-   * CONTA, e o teto de 5 Cron Triggers tambem. Aqui ja havia 2 crons, o
-   * nosso e o terceiro. E o grosso do trafego do site sai por assets
+   * A cota de 100 mil requisicoes/dia do plano free e por CONTA, e o teto
+   * de 5 Cron Triggers tambem. O grosso do trafego do site sai por assets
    * estaticos, que nao invocam o Worker e nao contam para cota nenhuma.
    */
   "account_id": "30fc36e3ab1dcbebf5a5b8f319fd7c8a",
