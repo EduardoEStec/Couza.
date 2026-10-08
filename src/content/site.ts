@@ -218,6 +218,7 @@ export const trabalhos = {
       imagem: "Logo da Amorim Espetaria",
       foto: "/projetos/amorim-logo.jpg",
       inteira: true,
+      href: "/restaurantes",
       nome: "Amorim Espetaria",
       tipo: "Sistema para restaurante",
     },
@@ -228,7 +229,7 @@ export const trabalhos = {
       nome: "CUIDADASUACARREIRA",
       tipo: "Sistema sob medida",
     },
-  ] as { imagem: string; foto?: string; inteira?: boolean; nome: string; tipo: string }[],
+  ] as { imagem: string; foto?: string; inteira?: boolean; href?: string; nome: string; tipo: string }[],
 };
 
 /**
@@ -319,9 +320,9 @@ export const rodape = {
     {
       titulo: "Serviços",
       links: [
-        { texto: "Sites", href: "#servicos" },
-        { texto: "Sistemas", href: "#servicos" },
-        { texto: "Manutenção", href: "#servicos" },
+        { texto: "Sites", href: "/#servicos" },
+        { texto: "Sistemas", href: "/#servicos" },
+        { texto: "Manutenção", href: "/#servicos" },
       ],
     },
   ],

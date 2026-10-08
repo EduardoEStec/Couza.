@@ -5,7 +5,7 @@ import { useState } from "react";
 import { nav } from "@/content/site";
 import { Marca, Menu } from "@/components/ui";
 
-export function Nav() {
+export function Nav({ links = nav.links }: { links?: { texto: string; href: string }[] }) {
   const [aberto, setAberto] = useState(false);
 
   return (
@@ -16,7 +16,7 @@ export function Nav() {
         </Link>
 
         <nav className="hidden gap-7 lg:flex">
-          {nav.links.map((l) => (
+          {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
@@ -50,7 +50,7 @@ export function Nav() {
         className="border-t border-line bg-white lg:hidden"
       >
         <nav className="mx-auto flex w-full max-w-[1280px] flex-col px-5 py-2 sm:px-8">
-          {nav.links.map((l) => (
+          {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}

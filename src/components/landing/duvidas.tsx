@@ -9,7 +9,7 @@ import { Revelar } from "@/components/movimento";
  * Acordeao do quadro "Movimento": altura 0fr -> 1fr em 320ms com --ease-inout-soft,
  * e a barra vertical do "+" encolhe em scaleY ate virar "-". Sem salto de layout.
  */
-export function Duvidas() {
+export function Duvidas({ dados = duvidas }: { dados?: typeof duvidas }) {
   const [aberta, setAberta] = useState<number | null>(0);
 
   return (
@@ -19,14 +19,14 @@ export function Duvidas() {
     >
       <div className="grid items-start gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
         <div>
-          <Sobretitulo>{duvidas.sobretitulo}</Sobretitulo>
+          <Sobretitulo>{dados.sobretitulo}</Sobretitulo>
           <h2 className="mt-4 max-w-[12ch] text-h2">
-            <Revelar>{duvidas.titulo}</Revelar>
+            <Revelar>{dados.titulo}</Revelar>
           </h2>
         </div>
 
         <div className="lg:mt-2">
-          {duvidas.itens.map((item, i) => {
+          {dados.itens.map((item, i) => {
             const estaAberta = aberta === i;
             return (
               <div key={item.pergunta} className="border-t border-line first:border-t-0">

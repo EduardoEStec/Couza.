@@ -2,6 +2,7 @@ import { Nav } from "@/components/landing/nav";
 import { ScrollSuave } from "@/components/movimento";
 import {
   ComoFunciona,
+  Experimente,
   Hero,
   QuemSomos,
   Servicos,
@@ -22,6 +23,7 @@ export default function Home() {
         <Servicos />
         <ComoFunciona />
         <Trabalhos />
+        <Experimente />
         <QuemSomos />
         <Duvidas />
         <CtaFinal />

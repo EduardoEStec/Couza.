@@ -5,21 +5,21 @@ import { Entrar, Revelar } from "@/components/movimento";
 
 const secao = "mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-14";
 
-export function CtaFinal() {
+export function CtaFinal({ dados = ctaFinal }: { dados?: typeof ctaFinal }) {
   return (
     <section id="contato" className={`${secao} pb-14 lg:pb-26`}>
       <Entrar className="rounded-card bg-acc p-8 text-white lg:p-20">
         <h2 className="max-w-[14ch] text-h2">
-          <Revelar>{ctaFinal.titulo}</Revelar>
+          <Revelar>{dados.titulo}</Revelar>
         </h2>
         <p className="mt-5 max-w-[42ch] text-lead text-white/80">
-          {ctaFinal.textoAntes}
-          {ctaFinal.prazo}
-          {ctaFinal.textoDepois}
+          {dados.textoAntes}
+          {dados.prazo}
+          {dados.textoDepois}
         </p>
         <div className="mt-7 flex flex-wrap gap-3 lg:mt-11">
-          <Botao href={ctaFinal.acao.href} variante="claro" grande novaAba>
-            {ctaFinal.acao.texto}
+          <Botao href={dados.acao.href} variante="claro" grande novaAba>
+            {dados.acao.texto}
           </Botao>
         </div>
       </Entrar>

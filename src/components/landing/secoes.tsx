@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   comoFunciona,
   hero,
@@ -17,6 +18,7 @@ import {
 } from "@/components/ui";
 import { Entrar, Revelar } from "@/components/movimento";
 import { PortalDemo } from "@/components/landing/portal-demo";
+import { ProjetosHorizontal } from "@/components/landing/projetos-horizontal";
 
 const secao = "mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-14";
 
@@ -142,7 +144,16 @@ export function ComoFunciona() {
           </Entrar>
         ))}
       </div>
+    </section>
+  );
+}
 
+/* ------------------------------------------------------------------ */
+
+/** Demo do portal ("Experimente"), logo depois de Trabalhos. */
+export function Experimente() {
+  return (
+    <section id="experimente" className={`${secao} pb-14 lg:pb-30`}>
       <PortalDemo />
     </section>
   );
@@ -151,52 +162,73 @@ export function ComoFunciona() {
 /* ------------------------------------------------------------------ */
 
 export function Trabalhos() {
-  return (
-    <section id="trabalhos" className={`${secao} py-14 lg:py-30`}>
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <Sobretitulo>{trabalhos.sobretitulo}</Sobretitulo>
-          <h2 className="mt-4 max-w-[16ch] text-h2">
-            <Revelar>{trabalhos.titulo}</Revelar>
-          </h2>
+  const cartoes = trabalhos.itens.map((item, i) => {
+    const conteudo = (
+      <>
+        {item.foto ? (
+          // Moldura fixa; a imagem dentro dela desliza um pouco (parallax) no ProjetosHorizontal.
+          <div className="relative min-h-0 flex-1 overflow-hidden rounded-[20px] border border-line bg-white">
+            {/* eslint-disable-next-line @next/next/no-img-element -- PNG estatico; next/image nao otimiza no Worker */}
+            <img
+              data-imagem
+              src={item.foto}
+              alt={item.imagem}
+              className={`absolute inset-0 h-full w-full will-change-transform ${
+                item.inteira ? "object-contain p-6" : "object-cover object-left-top"
+              }`}
+            />
+          </div>
+        ) : (
+          <div className="flex min-h-0 flex-1 items-center justify-center rounded-[20px] border border-dashed border-n2 bg-wash text-sm text-n1">
+            <Texto v={item.imagem} />
+          </div>
+        )}
+        <div data-legenda className="will-change-transform">
+          <div className="mt-5 flex items-center justify-between gap-3">
+            <h3 className="text-xl font-medium tracking-[-0.03em]">
+              <Texto v={item.nome} />
+            </h3>
+            <SetaDiagonal className="text-n2 transition-colors duration-200 ease-out-soft group-hover:text-acc" />
+          </div>
+          <p className="mt-2.5 text-sm text-n1">
+            <Texto v={item.tipo} />
+          </p>
         </div>
-        <Falta o={trabalhos.aviso} />
-      </div>
+      </>
+    );
+    return (
+      <Entrar
+        key={i}
+        atraso={i * 0.08}
+        className="group flex w-full flex-col rounded-card border border-line bg-white p-[22px] transition-[transform,box-shadow,border-color] duration-200 ease-out-soft hover:-translate-y-1.5 hover:border-[#dcdcdc] hover:shadow-[0_18px_40px_rgba(25,25,25,0.10)] lg:p-8"
+      >
+        {item.href ? (
+          <Link href={item.href} className="flex min-h-0 flex-1 flex-col">
+            {conteudo}
+          </Link>
+        ) : (
+          conteudo
+        )}
+      </Entrar>
+    );
+  });
 
-      <div className="mt-7 grid gap-4 lg:mt-12 lg:grid-cols-2 lg:gap-6">
-        {trabalhos.itens.map((item, i) => (
-          <Entrar
-            key={i}
-            atraso={i * 0.08}
-            className="group rounded-card border border-line bg-white p-[22px] transition-[transform,box-shadow,border-color] duration-200 ease-out-soft hover:-translate-y-1.5 hover:border-[#dcdcdc] hover:shadow-[0_18px_40px_rgba(25,25,25,0.10)] lg:p-8"
-          >
-            {item.foto ? (
-              // eslint-disable-next-line @next/next/no-img-element -- PNG estatico; next/image nao otimiza no Worker
-              <img
-                src={item.foto}
-                alt={item.imagem}
-                className={`aspect-[4/3] w-full rounded-[20px] border border-line ${
-                  item.inteira ? "bg-white object-contain p-6" : "object-cover object-left-top"
-                }`}
-              />
-            ) : (
-              <div className="flex aspect-[4/3] items-center justify-center rounded-[20px] border border-dashed border-n2 bg-wash text-sm text-n1">
-                <Texto v={item.imagem} />
-              </div>
-            )}
-            <div className="mt-5 flex items-center justify-between gap-3">
-              <h3 className="text-xl font-medium tracking-[-0.03em]">
-                <Texto v={item.nome} />
-              </h3>
-              <SetaDiagonal className="text-n2 transition-colors duration-200 ease-out-soft group-hover:text-acc" />
-            </div>
-            <p className="mt-2.5 text-sm text-n1">
-              <Texto v={item.tipo} />
-            </p>
-          </Entrar>
-        ))}
-      </div>
-    </section>
+  return (
+    <ProjetosHorizontal
+      id="trabalhos"
+      cartoes={cartoes}
+      cabecalho={
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <Sobretitulo>{trabalhos.sobretitulo}</Sobretitulo>
+            <h2 className="mt-4 max-w-[16ch] text-h2">
+              <Revelar>{trabalhos.titulo}</Revelar>
+            </h2>
+          </div>
+          <Falta o={trabalhos.aviso} />
+        </div>
+      }
+    />
   );
 }
 
