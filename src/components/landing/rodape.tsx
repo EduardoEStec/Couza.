@@ -18,7 +18,7 @@ export function CtaFinal() {
           {ctaFinal.textoDepois}
         </p>
         <div className="mt-7 flex flex-wrap gap-3 lg:mt-11">
-          <Botao href={ctaFinal.acao.href} variante="claro" grande>
+          <Botao href={ctaFinal.acao.href} variante="claro" grande novaAba>
             {ctaFinal.acao.texto}
           </Botao>
         </div>

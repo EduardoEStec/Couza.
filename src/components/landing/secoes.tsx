@@ -175,7 +175,9 @@ export function Trabalhos() {
               <img
                 src={item.foto}
                 alt={item.imagem}
-                className="aspect-[4/3] w-full rounded-[20px] border border-line object-cover object-left-top"
+                className={`aspect-[4/3] w-full rounded-[20px] border border-line ${
+                  item.inteira ? "bg-white object-contain p-6" : "object-cover object-left-top"
+                }`}
               />
             ) : (
               <div className="flex aspect-[4/3] items-center justify-center rounded-[20px] border border-dashed border-n2 bg-wash text-sm text-n1">

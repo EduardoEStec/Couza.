@@ -58,7 +58,7 @@ export const hero = {
   acaoSecundaria: { texto: "Ver trabalhos", href: "#trabalhos" },
   destaque: {
     etiqueta: "Projeto em destaque",
-    imagem: "/projetos/cuidadasuacarreira.png",
+    imagem: "/projetos/cuidadasuacarreira-sistema.png",
     nome: "CUIDADASUACARREIRA",
   },
 };
@@ -212,21 +212,23 @@ export const trabalhos = {
   sobretitulo: "Trabalhos",
   titulo: "Alguns projetos.",
   aviso: falta("a preencher com projetos reais"),
-  /**
-   * INVENTADO A PEDIDO DO GUILHERME (16/09/2026) so pra ocupar o espaco —
-   * nao sao clientes reais. Trocar pelos projetos de verdade antes de ir
-   * para producao.
-   */
   itens: [
-    // Real: captura do Painel de vendas de C:\Projetos\Amorim\amorim.html.
+    // Real: logo enviada pelo Eduardo (08/10/2026). `inteira` mostra sem cortar.
     {
-      imagem: "Painel de vendas do sistema",
-      foto: "/projetos/amorim-sistema.png",
+      imagem: "Logo da Amorim Espetaria",
+      foto: "/projetos/amorim-logo.jpg",
+      inteira: true,
       nome: "Amorim Espetaria",
       tipo: "Sistema para restaurante",
     },
-    { imagem: "Painel de agendamentos", nome: "Studio Meireles", tipo: "Sistema sob medida" },
-  ] as { imagem: string; foto?: string; nome: string; tipo: string }[],
+    // Real: captura da tela inicial do sistema, enviada pelo Eduardo (08/10/2026).
+    {
+      imagem: "Tela inicial do sistema",
+      foto: "/projetos/cuidadasuacarreira-sistema.png",
+      nome: "CUIDADASUACARREIRA",
+      tipo: "Sistema sob medida",
+    },
+  ] as { imagem: string; foto?: string; inteira?: boolean; nome: string; tipo: string }[],
 };
 
 /**

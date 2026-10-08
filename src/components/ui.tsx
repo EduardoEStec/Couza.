@@ -81,6 +81,7 @@ export function Botao({
   variante = "primario",
   grande = false,
   bloco = false,
+  novaAba = false,
   className = "",
   children,
   ...resto
@@ -89,6 +90,8 @@ export function Botao({
   variante?: Variante;
   grande?: boolean;
   bloco?: boolean;
+  /** Abre o href em outra aba, sem tirar a pessoa do site. */
+  novaAba?: boolean;
   children: ReactNode;
 } & Omit<ComponentProps<"button">, "ref">) {
   const classe = [
@@ -104,7 +107,11 @@ export function Botao({
 
   if (href) {
     return (
-      <Link href={href} className={classe}>
+      <Link
+        href={href}
+        className={classe}
+        {...(novaAba && { target: "_blank", rel: "noopener noreferrer" })}
+      >
         {children}
       </Link>
     );
