@@ -167,7 +167,7 @@ export function Trabalhos() {
       <>
         {item.foto ? (
           // Moldura fixa; a imagem dentro dela desliza um pouco (parallax) no ProjetosHorizontal.
-          <div className="relative min-h-0 flex-1 overflow-hidden rounded-[20px] border border-line bg-white">
+          <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/10] rounded-[20px] border border-line bg-white">
             {/* eslint-disable-next-line @next/next/no-img-element -- PNG estatico; next/image nao otimiza no Worker */}
             <img
               data-imagem
@@ -179,7 +179,7 @@ export function Trabalhos() {
             />
           </div>
         ) : (
-          <div className="flex min-h-0 flex-1 items-center justify-center rounded-[20px] border border-dashed border-n2 bg-wash text-sm text-n1">
+          <div className="flex aspect-[4/5] w-full items-center sm:aspect-[16/10] justify-center rounded-[20px] border border-dashed border-n2 bg-wash text-sm text-n1">
             <Texto v={item.imagem} />
           </div>
         )}

@@ -350,42 +350,52 @@ export function ProjetosHorizontal({
   }, [total]);
 
   return (
-    <section
-      id={id}
-      ref={secaoRef}
-      className="relative"
-      // Uma tela de altura para cada passo entre projetos.
-      style={{ height: `calc(100svh + ${(total - 1) * 100}svh)` }}
-    >
-      <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden pt-[92px] pb-8 lg:pt-[108px] lg:pb-12">
-        <div className="mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-14">{cabecalho}</div>
+    <div id={id} className="pt-14 lg:pt-30">
+      {/* O titulo rola normal com a pagina; so a faixa dos projetos prende na tela. */}
+      <div className="mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-14">{cabecalho}</div>
 
-        <div className="mx-auto mt-6 flex min-h-0 w-full max-w-[1280px] flex-1 px-5 sm:px-8 lg:mt-10 lg:px-14">
-          <div ref={trilhoRef} className="flex w-full gap-4 will-change-transform lg:gap-6">
-            {cartoes.map((cartao, i) => (
-              <div key={i} className="flex w-[86%] shrink-0 lg:w-[72%]">
-                <div className="flex w-full origin-center will-change-transform">{cartao}</div>
-              </div>
+      <section
+        ref={secaoRef}
+        aria-label="Projetos"
+        className="relative mt-6 lg:mt-10"
+        // Uma tela de altura para cada passo entre projetos.
+        style={{ height: `calc(100svh + ${(total - 1) * 100}svh)` }}
+      >
+        {/* 68px = altura do menu fixo do topo */}
+        <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pt-[68px] pb-4">
+          <div className="mx-auto flex w-full max-w-[1280px] px-5 sm:px-8 lg:px-14">
+            <div ref={trilhoRef} className="flex w-full items-start gap-4 will-change-transform lg:gap-6">
+              {cartoes.map((cartao, i) => (
+                <div
+                  key={i}
+                  // Imagem 16:10 fixa; o cartao fica o mais largo que couber na ALTURA da tela
+                  // (menu, legenda, bolinhas e respiros ocupam ~270px no celular e ~300px no computador).
+                  // No celular (tela alta e estreita) a imagem e 4:5; do tablet para cima, 16:10.
+                  className="flex w-[max(260px,min(86%,calc((100svh-270px)*0.8+44px)))] sm:w-[max(260px,min(86%,calc((100svh-270px)*1.6+44px)))] shrink-0 lg:w-[max(320px,min(72%,calc((100svh-300px)*1.6+64px)))]"
+                >
+                  <div className="flex w-full origin-center will-change-transform">{cartao}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div
+            ref={bolinhasRef}
+            className="mx-auto mt-5 flex w-full max-w-[1280px] items-center gap-2 px-5 sm:px-8 lg:px-14"
+          >
+            {cartoes.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => irParaRef.current(i)}
+                aria-label={`Projeto ${i + 1} de ${total}`}
+                aria-current={i === indice}
+                className="h-2 w-2 rounded-pill bg-acc"
+              />
             ))}
           </div>
         </div>
-
-        <div
-          ref={bolinhasRef}
-          className="mx-auto mt-5 flex w-full max-w-[1280px] items-center gap-2 px-5 sm:px-8 lg:px-14"
-        >
-          {cartoes.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => irParaRef.current(i)}
-              aria-label={`Projeto ${i + 1} de ${total}`}
-              aria-current={i === indice}
-              className="h-2 w-2 rounded-pill bg-acc"
-            />
-          ))}
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
