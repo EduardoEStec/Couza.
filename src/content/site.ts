@@ -213,6 +213,13 @@ export const trabalhos = {
   titulo: "Alguns projetos.",
   aviso: falta("a preencher com projetos reais"),
   itens: [
+    // Real: captura da tela inicial do sistema, enviada pelo Eduardo (08/10/2026).
+    {
+      imagem: "Tela inicial do sistema",
+      foto: "/projetos/cuidadasuacarreira-sistema.png",
+      nome: "CUIDADASUACARREIRA",
+      tipo: "Sistema sob medida",
+    },
     // Real: logo enviada pelo Eduardo (08/10/2026). `inteira` mostra sem cortar.
     {
       imagem: "Logo da Amorim Espetaria",
@@ -221,13 +228,6 @@ export const trabalhos = {
       href: "/restaurantes",
       nome: "Amorim Espetaria",
       tipo: "Sistema para restaurante",
-    },
-    // Real: captura da tela inicial do sistema, enviada pelo Eduardo (08/10/2026).
-    {
-      imagem: "Tela inicial do sistema",
-      foto: "/projetos/cuidadasuacarreira-sistema.png",
-      nome: "CUIDADASUACARREIRA",
-      tipo: "Sistema sob medida",
     },
   ] as { imagem: string; foto?: string; inteira?: boolean; href?: string; nome: string; tipo: string }[],
 };

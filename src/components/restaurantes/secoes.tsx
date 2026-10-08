@@ -12,7 +12,7 @@ const secao = "mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-14";
 export function HeroRestaurantes() {
   return (
     <section className={`${secao} pt-10 pb-14 lg:pt-18 lg:pb-30`}>
-      <h1 className="max-w-[14ch] text-hero">
+      <h1 className="text-h2">
         <Revelar>{restHero.nome}</Revelar>
       </h1>
       <Entrar atraso={0.12}>
@@ -100,7 +100,9 @@ export function Telas() {
         </div>
 
         <Entrar atraso={0.12} className="lg:sticky lg:top-24 lg:self-start">
-          <figure className="mx-auto max-w-[320px]">
+          {/* No computador o celular fica preso ao rolar: a largura tambem segue a ALTURA da
+              tela (proporcao 390x844 do print + legenda e respiro ~180px), para caber inteiro. */}
+          <figure className="mx-auto max-w-[280px] lg:max-w-[min(260px,calc((100svh-180px)*0.46))]">
             <img
               src={restTelas.celular.src}
               alt={restTelas.celular.alt}
