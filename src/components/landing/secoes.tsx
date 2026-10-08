@@ -9,7 +9,6 @@ import {
 import {
   Botao,
   Check,
-  Falta,
   icones,
   Seta,
   SetaDiagonal,
@@ -218,14 +217,11 @@ export function Trabalhos() {
       id="trabalhos"
       cartoes={cartoes}
       cabecalho={
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <Sobretitulo>{trabalhos.sobretitulo}</Sobretitulo>
-            <h2 className="mt-4 max-w-[16ch] text-h2">
-              <Revelar>{trabalhos.titulo}</Revelar>
-            </h2>
-          </div>
-          <Falta o={trabalhos.aviso} />
+        <div>
+          <Sobretitulo>{trabalhos.sobretitulo}</Sobretitulo>
+          <h2 className="mt-4 max-w-[16ch] text-h2">
+            <Revelar>{trabalhos.titulo}</Revelar>
+          </h2>
         </div>
       }
     />

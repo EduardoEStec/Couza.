@@ -211,7 +211,6 @@ export const portalDemo = {
 export const trabalhos = {
   sobretitulo: "Trabalhos",
   titulo: "Alguns projetos.",
-  aviso: falta("a preencher com projetos reais"),
   itens: [
     // Real: captura da tela inicial do sistema, enviada pelo Eduardo (08/10/2026).
     {
