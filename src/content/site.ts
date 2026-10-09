@@ -212,13 +212,6 @@ export const trabalhos = {
   sobretitulo: "Trabalhos",
   titulo: "Alguns projetos.",
   itens: [
-    // Real: captura da tela inicial do sistema, enviada pelo Eduardo (08/10/2026).
-    {
-      imagem: "Tela inicial do sistema",
-      foto: "/projetos/cuidadasuacarreira-sistema.png",
-      nome: "CUIDADASUACARREIRA",
-      tipo: "Sistema sob medida",
-    },
     // Real: logo enviada pelo Eduardo (08/10/2026). `inteira` mostra sem cortar.
     {
       imagem: "Logo da Amorim Espetaria",
@@ -235,14 +228,12 @@ export const trabalhos = {
       nome: "URBLAB",
       tipo: "Sistema de gestão interno",
     },
-    // Real: logo enviada pelo Eduardo (09/10/2026); fundo = cor do proprio PNG.
+    // Real: captura da tela inicial do sistema, enviada pelo Eduardo (08/10/2026).
     {
-      imagem: "Logo do Romaneio",
-      foto: "/projetos/romaneio-logo.png",
-      inteira: true,
-      fundo: "#F3F3F0",
-      nome: "Romaneio",
-      tipo: "Sistema interno para entrada de mercadoria",
+      imagem: "Tela inicial do sistema",
+      foto: "/projetos/cuidadasuacarreira-sistema.png",
+      nome: "CUIDADASUACARREIRA",
+      tipo: "Sistema sob medida",
     },
     // Real: tela enviada pelo Eduardo (09/10/2026), com nome do sistema, clientes,
     // unidades, maquinas e usuarios DESFOCADOS (original fica fora do projeto).
@@ -252,6 +243,15 @@ export const trabalhos = {
       foto: "/projetos/couza-remote.png",
       nome: "Couza Remote",
       tipo: "Sistema interno de gestão de máquinas e acesso remoto",
+    },
+    // Real: logo enviada pelo Eduardo (09/10/2026); fundo = cor do proprio PNG.
+    {
+      imagem: "Logo do Romaneio",
+      foto: "/projetos/romaneio-logo.png",
+      inteira: true,
+      fundo: "#F3F3F0",
+      nome: "Romaneio",
+      tipo: "Sistema interno para entrada de mercadoria",
     },
   ] as {
     imagem: string;

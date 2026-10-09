@@ -12,10 +12,24 @@ const jost = Jost({
 });
 
 // RASCUNHO: textos de metadata sao provisorios, como o resto da copy.
+// SEO (09/10/2026): a marca "Couza" no inicio do titulo e da descricao e o que
+// ajuda a aparecer na busca por "couza". Os dados da empresa para o Google
+// (JSON-LD) ficam em src/app/page.tsx; sitemap e robots em public/.
 export const metadata: Metadata = {
-  title: "couza",
+  metadataBase: new URL("https://couza.com.br"),
+  title: "Couza — Sites e sistemas sob medida",
   description:
-    "Desenvolvimento de sites e sistemas sob medida, com portal do cliente para acompanhar produtos, faturas e pagamentos.",
+    "Couza desenvolve sites e sistemas sob medida, com portal do cliente para acompanhar produtos, faturas e pagamentos.",
+  applicationName: "Couza",
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "Couza",
+    title: "Couza — Sites e sistemas sob medida",
+    description:
+      "Couza desenvolve sites e sistemas sob medida, com portal do cliente para acompanhar produtos, faturas e pagamentos.",
+    url: "/",
+  },
   // O favicon mora em public/, nao em src/app/icon.svg. A convencao do Next
   // publica o arquivo como rota (/icon.svg), e rota e servida pelo Worker:
   // toda primeira visita ao site pagaria uma invocacao so para buscar o

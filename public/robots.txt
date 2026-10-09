@@ -1,0 +1,9 @@
+# Arquivo estatico (public/): servido pela Cloudflare sem invocar o Worker.
+# A Cloudflare pode acrescentar seus "content signals" no topo deste arquivo.
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /portal
+Disallow: /api
+
+Sitemap: https://couza.com.br/sitemap.xml

@@ -8,9 +8,20 @@ import { restCta, restDuvidas, restNav } from "@/content/restaurantes";
 
 // RASCUNHO, como o resto da copy desta pagina (ver src/content/restaurantes.ts).
 export const metadata: Metadata = {
-  title: "Couza · Restaurantes",
+  title: "Couza · Restaurantes — Sistema para restaurantes",
   description:
-    "Sistema para restaurantes: comandas, caixa, estoque e cardápio digital num sistema só.",
+    "Sistema para restaurantes da Couza: comandas, caixa, estoque e cardápio digital num sistema só.",
+  alternates: { canonical: "/restaurantes" },
+  // O openGraph da pagina SUBSTITUI o do layout (nao mescla): repete o basico.
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "Couza",
+    title: "Couza · Restaurantes — Sistema para restaurantes",
+    description:
+      "Sistema para restaurantes da Couza: comandas, caixa, estoque e cardápio digital num sistema só.",
+    url: "/restaurantes",
+  },
 };
 
 // Pagina estatica: nada aqui depende da requisicao, entao sai como asset e
