@@ -17,7 +17,7 @@ import {
 } from "@/components/ui";
 import { Entrar, Revelar } from "@/components/movimento";
 import { PortalDemo } from "@/components/landing/portal-demo";
-import { ProjetosHorizontal } from "@/components/landing/projetos-horizontal";
+import { ProjetosEsteira } from "@/components/landing/projetos-esteira";
 
 const secao = "mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-14";
 
@@ -167,38 +167,36 @@ export function Trabalhos() {
     const conteudo = (
       <>
         {item.foto ? (
-          // Moldura fixa; a imagem dentro dela desliza um pouco (parallax) no ProjetosHorizontal.
+          // Moldura fixa; no hover a imagem aproxima de leve dentro dela.
           <div
-            className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/10] rounded-[20px] border border-line bg-white"
+            className="relative aspect-[16/10] w-full overflow-hidden rounded-[20px] border border-line bg-white"
             // Logo com fundo proprio (ex.: Romaneio): a moldura pega a mesma cor.
             style={item.fundo ? { backgroundColor: item.fundo } : undefined}
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- PNG estatico; next/image nao otimiza no Worker */}
             <img
-              data-imagem
               src={item.foto}
               alt={item.imagem}
-              className={`absolute inset-0 h-full w-full will-change-transform ${
+              loading="lazy"
+              className={`absolute inset-0 h-full w-full transition-transform duration-700 ease-out-soft group-hover:scale-[1.04] ${
                 item.inteira ? "object-contain p-6" : "object-cover object-left-top"
               }`}
             />
           </div>
         ) : (
-          <div className="flex aspect-[4/5] w-full items-center sm:aspect-[16/10] justify-center rounded-[20px] border border-dashed border-n2 bg-wash text-sm text-n1">
+          <div className="flex aspect-[16/10] w-full items-center justify-center rounded-[20px] border border-dashed border-n2 bg-wash text-sm text-n1">
             <Texto v={item.imagem} />
           </div>
         )}
-        <div data-legenda className="will-change-transform">
-          <div className="mt-5 flex items-center justify-between gap-3">
-            <h3 className="text-xl font-medium tracking-[-0.03em]">
-              <Texto v={item.nome} />
-            </h3>
-            <SetaDiagonal className="text-n2 transition-colors duration-200 ease-out-soft group-hover:text-acc" />
-          </div>
-          <p className="mt-2.5 text-sm text-n1">
-            <Texto v={item.tipo} />
-          </p>
+        <div className="mt-5 flex items-center justify-between gap-3">
+          <h3 className="text-xl font-medium tracking-[-0.03em]">
+            <Texto v={item.nome} />
+          </h3>
+          <SetaDiagonal className="text-n2 transition-colors duration-200 ease-out-soft group-hover:text-acc" />
         </div>
+        <p className="mt-2.5 text-sm text-n1">
+          <Texto v={item.tipo} />
+        </p>
       </>
     );
     return (
@@ -219,7 +217,7 @@ export function Trabalhos() {
   });
 
   return (
-    <ProjetosHorizontal
+    <ProjetosEsteira
       id="trabalhos"
       cartoes={cartoes}
       cabecalho={

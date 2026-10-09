@@ -14,11 +14,6 @@ const EASE_OUT_SOFT = [0.22, 0.61, 0.36, 1] as const;
  * Lenis 1.3 (virou `syncTouch`), e o padrao ja e o scroll nativo no toque —
  * que era exatamente a intencao. Por isso nao passamos nada de touch aqui.
  */
-let lenisAtual: Lenis | null = null;
-
-/** A instancia do scroll suave, para quem precisa rolar a pagina por codigo (ex.: Projetos). */
-export const pegarLenis = () => lenisAtual;
-
 export function ScrollSuave() {
   useEffect(() => {
     const lenis = new Lenis({
@@ -27,8 +22,6 @@ export function ScrollSuave() {
       wheelMultiplier: 0.7,
       gestureOrientation: "vertical",
     });
-    lenisAtual = lenis;
-
     let frame = requestAnimationFrame(function passo(tempo: number) {
       lenis.raf(tempo);
       frame = requestAnimationFrame(passo);
@@ -60,7 +53,6 @@ export function ScrollSuave() {
       window.removeEventListener("click", aoClicar, { capture: true });
       cancelAnimationFrame(frame);
       lenis.destroy();
-      if (lenisAtual === lenis) lenisAtual = null;
     };
   }, []);
 
