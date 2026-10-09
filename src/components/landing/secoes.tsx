@@ -59,11 +59,13 @@ export function Hero() {
           {/* escurece o pe da imagem para o nome do projeto ficar legivel */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
           <div className="relative flex items-start justify-between gap-4">
-            <span className="inline-flex h-8 items-center gap-1.5 rounded-pill bg-white/15 px-3.5 text-[13px] font-medium">
+            <span className="inline-flex h-8 items-center gap-1.5 rounded-pill bg-dark px-3.5 text-white shadow-[0_4px_14px_rgba(0,0,0,0.18)] text-[13px] font-medium">
               <span className="h-[7px] w-[7px] rounded-pill bg-current" />
               {hero.destaque.etiqueta}
             </span>
-            <SetaDiagonal tamanho={28} className="text-white" />
+            <span className="flex h-10 w-10 items-center justify-center rounded-pill bg-dark text-white shadow-[0_4px_14px_rgba(0,0,0,0.18)]">
+              <SetaDiagonal tamanho={22} />
+            </span>
           </div>
           <div className="relative">
             <p className="text-[26px] font-medium leading-[1.1] tracking-[-0.035em] lg:text-[44px]">
@@ -166,7 +168,11 @@ export function Trabalhos() {
       <>
         {item.foto ? (
           // Moldura fixa; a imagem dentro dela desliza um pouco (parallax) no ProjetosHorizontal.
-          <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/10] rounded-[20px] border border-line bg-white">
+          <div
+            className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/10] rounded-[20px] border border-line bg-white"
+            // Logo com fundo proprio (ex.: Romaneio): a moldura pega a mesma cor.
+            style={item.fundo ? { backgroundColor: item.fundo } : undefined}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element -- PNG estatico; next/image nao otimiza no Worker */}
             <img
               data-imagem

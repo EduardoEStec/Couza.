@@ -228,7 +228,40 @@ export const trabalhos = {
       nome: "Amorim Espetaria",
       tipo: "Sistema para restaurante",
     },
-  ] as { imagem: string; foto?: string; inteira?: boolean; href?: string; nome: string; tipo: string }[],
+    // Real: tela de entrada do sistema, enviada pelo Eduardo (09/10/2026).
+    {
+      imagem: "Tela de entrada do sistema URBLAB",
+      foto: "/projetos/urblab-sistema.png",
+      nome: "URBLAB",
+      tipo: "Sistema de gestão interno",
+    },
+    // Real: logo enviada pelo Eduardo (09/10/2026); fundo = cor do proprio PNG.
+    {
+      imagem: "Logo do Romaneio",
+      foto: "/projetos/romaneio-logo.png",
+      inteira: true,
+      fundo: "#F3F3F0",
+      nome: "Romaneio",
+      tipo: "Sistema interno para entrada de mercadoria",
+    },
+    // Real: tela enviada pelo Eduardo (09/10/2026), com nome do sistema, clientes,
+    // unidades, maquinas e usuarios DESFOCADOS (original fica fora do projeto).
+    // Nome no site "Couza Remote" a pedido do Eduardo.
+    {
+      imagem: "Painel de gestão de máquinas, com os nomes desfocados",
+      foto: "/projetos/couza-remote.png",
+      nome: "Couza Remote",
+      tipo: "Sistema interno de gestão de máquinas e acesso remoto",
+    },
+  ] as {
+    imagem: string;
+    foto?: string;
+    inteira?: boolean;
+    fundo?: string;
+    href?: string;
+    nome: string | Falta;
+    tipo: string | Falta;
+  }[],
 };
 
 /**

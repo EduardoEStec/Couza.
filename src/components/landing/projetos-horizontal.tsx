@@ -263,7 +263,6 @@ export function ProjetosHorizontal({
     let toqueUsado = false;
     const aoTocar = (e: TouchEvent) => {
       ultimoToque = true;
-      ultimoGesto = performance.now();
       toqueY = e.touches[0].clientY;
       toqueUsado = false;
       medir();
@@ -285,7 +284,9 @@ export function ProjetosHorizontal({
 
     const aoRolar = () => {
       const y = window.scrollY;
-      if (ultimoToque && !animando && performance.now() - ultimoGesto < 1200) {
+      // So o embalo de um ARRASTE de dedo (nao um toque num link, que rola por codigo).
+      const porCodigo = pegarLenis()?.isScrolling === "smooth";
+      if (ultimoToque && !animando && !porCodigo && performance.now() - ultimoGesto < 1200) {
         // Embalo do toque atravessando a entrada: no iOS, mexer no scroll
         // durante a inercia nao a interrompe; tirar o overflow interrompe.
         const prender = (destino: number) => {

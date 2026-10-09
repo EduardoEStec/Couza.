@@ -34,7 +34,30 @@ export function ScrollSuave() {
       frame = requestAnimationFrame(passo);
     });
 
+    // Links para um trecho da propria pagina ("#contato", "/#servicos"): o Link
+    // do Next so rola na PRIMEIRA vez — se a URL ja termina em #contato, o
+    // segundo clique nao faz nada. Aqui o clique e tratado sempre, com o
+    // scroll suave, e a URL so ganha o # (sem nova entrada no historico).
+    const aoClicar = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = (e.target as Element | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
+      if (!link || link.target === "_blank") return;
+      const url = new URL(link.href);
+      if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return;
+      const alvo = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      if (!alvo) return;
+      // Sem stopPropagation: o onClick do proprio link (ex.: fechar o menu do
+      // celular) ainda roda, e o Link do Next ve defaultPrevented e nao navega.
+      e.preventDefault();
+      history.replaceState(history.state, "", url.hash);
+      // Espera o quadro seguinte: o clique pode fechar o menu do celular, que
+      // muda a altura do topo e, com ela, a posicao do destino.
+      requestAnimationFrame(() => requestAnimationFrame(() => lenis.scrollTo(alvo)));
+    };
+    window.addEventListener("click", aoClicar, { capture: true });
+
     return () => {
+      window.removeEventListener("click", aoClicar, { capture: true });
       cancelAnimationFrame(frame);
       lenis.destroy();
       if (lenisAtual === lenis) lenisAtual = null;
