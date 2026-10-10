@@ -12,6 +12,8 @@ import {
   icones,
   Seta,
   SetaDiagonal,
+  CadeadoAberto,
+  CadeadoFechado,
   Sobretitulo,
   Texto,
 } from "@/components/ui";
@@ -182,6 +184,18 @@ export function Trabalhos() {
                 item.inteira ? "object-contain p-6" : "object-cover object-left-top"
               }`}
             />
+            {item.acesso && (
+              // Cadeado aberto = tem pagina para visitar; fechado = sistema interno.
+              <span
+                title={item.acesso === "aberto" ? "Projeto aberto: clique para ver" : "Sistema interno"}
+                className="absolute top-3 left-3 flex h-9 w-9 items-center justify-center rounded-pill bg-dark text-white shadow-[0_4px_14px_rgba(0,0,0,0.18)]"
+              >
+                {item.acesso === "aberto" ? <CadeadoAberto /> : <CadeadoFechado />}
+                <span className="sr-only">
+                  {item.acesso === "aberto" ? "Projeto aberto" : "Sistema interno"}
+                </span>
+              </span>
+            )}
           </div>
         ) : (
           <div className="flex aspect-[16/10] w-full items-center justify-center rounded-[20px] border border-dashed border-n2 bg-wash text-sm text-n1">
@@ -192,7 +206,10 @@ export function Trabalhos() {
           <h3 className="text-xl font-medium tracking-[-0.03em]">
             <Texto v={item.nome} />
           </h3>
-          <SetaDiagonal className="text-n2 transition-colors duration-200 ease-out-soft group-hover:text-acc" />
+          {/* A seta so aparece onde o card abre alguma coisa. */}
+          {item.href && (
+            <SetaDiagonal className="text-n2 transition-colors duration-200 ease-out-soft group-hover:text-acc" />
+          )}
         </div>
         <p className="mt-2.5 text-sm text-n1">
           <Texto v={item.tipo} />

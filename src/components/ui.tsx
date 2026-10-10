@@ -166,6 +166,26 @@ export function SetaDiagonal({ className = "", tamanho = 22 }: IconeProps) {
   );
 }
 
+/** Cadeado fechado: sistema interno, sem acesso publico. */
+export function CadeadoFechado({ className = "", tamanho = 16 }: IconeProps) {
+  return (
+    <svg {...svg(tamanho, className, 1.8)}>
+      <rect x="5" y="11" width="14" height="10" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </svg>
+  );
+}
+
+/** Cadeado aberto: projeto publico, com pagina para visitar. */
+export function CadeadoAberto({ className = "", tamanho = 16 }: IconeProps) {
+  return (
+    <svg {...svg(tamanho, className, 1.8)}>
+      <rect x="5" y="11" width="14" height="10" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 7.75-1.4" />
+    </svg>
+  );
+}
+
 export function Menu({ className = "", tamanho = 20 }: IconeProps) {
   return (
     <svg {...svg(tamanho, className, 1.6)}>

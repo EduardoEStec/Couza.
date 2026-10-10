@@ -218,6 +218,7 @@ export const trabalhos = {
       foto: "/projetos/amorim-logo.jpg",
       inteira: true,
       href: "/restaurantes",
+      acesso: "aberto",
       nome: "Amorim Espetaria",
       tipo: "Sistema para restaurante",
     },
@@ -225,6 +226,7 @@ export const trabalhos = {
     {
       imagem: "Tela de entrada do sistema URBLAB",
       foto: "/projetos/urblab-sistema.png",
+      acesso: "interno",
       nome: "URBLAB",
       tipo: "Sistema de gestão interno",
     },
@@ -241,6 +243,7 @@ export const trabalhos = {
     {
       imagem: "Painel de gestão de máquinas, com os nomes desfocados",
       foto: "/projetos/couza-remote.png",
+      acesso: "interno",
       nome: "Couza Remote",
       tipo: "Sistema interno de gestão de máquinas e acesso remoto",
     },
@@ -250,6 +253,7 @@ export const trabalhos = {
       foto: "/projetos/romaneio-logo.png",
       inteira: true,
       fundo: "#F3F3F0",
+      acesso: "interno",
       nome: "Romaneio",
       tipo: "Sistema interno para entrada de mercadoria",
     },
@@ -259,6 +263,8 @@ export const trabalhos = {
     inteira?: boolean;
     fundo?: string;
     href?: string;
+    /** Cadeado no card: "aberto" = tem pagina para visitar; "interno" = sistema fechado. */
+    acesso?: "aberto" | "interno";
     nome: string | Falta;
     tipo: string | Falta;
   }[],
