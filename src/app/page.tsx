@@ -11,7 +11,7 @@ import {
 } from "@/components/landing/secoes";
 import { Duvidas } from "@/components/landing/duvidas";
 import { CtaFinal, Rodape } from "@/components/landing/rodape";
-import { marca } from "@/content/site";
+import { duvidas, ehFalta, marca, quemSomos, servicos } from "@/content/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -32,7 +32,38 @@ const dadosEstruturados = {
       alternateName: "couza",
       url: "https://couza.com.br/",
       logo: "https://couza.com.br/icon.svg",
-      description: "Sites e sistemas sob medida.",
+      description:
+        "Desenvolvimento de sistemas sob medida, software personalizado e criação de sites em São Paulo.",
+      knowsAbout: [
+        "Sistemas sob medida",
+        "Software personalizado",
+        "Sistemas web",
+        "Sistemas de gestão",
+        "Integração de sistemas",
+        "Criação de sites",
+        "Landing pages",
+        "Manutenção de sites",
+      ],
+      founder: quemSomos.pessoas.map((p) => ({
+        "@type": "Person",
+        name: p.nome,
+        jobTitle: p.funcao,
+      })),
+      // Servicos e perguntas saem do mesmo texto da pagina: IA e busca so
+      // devem ler o que o visitante tambem le.
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Serviços",
+        itemListElement: servicos.itens.map((s) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: s.titulo,
+            provider: { "@id": "https://couza.com.br/#empresa" },
+            description: s.texto,
+          },
+        })),
+      },
       email: marca.email,
       telephone: "+55 11 92484-1502",
       address: {
@@ -50,6 +81,18 @@ const dadosEstruturados = {
       url: "https://couza.com.br/",
       inLanguage: "pt-BR",
       publisher: { "@id": "https://couza.com.br/#empresa" },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://couza.com.br/#duvidas",
+      // Pergunta com falta() na resposta fica de fora ate ser preenchida.
+      mainEntity: duvidas.itens
+        .filter((d) => !d.resposta.some(ehFalta))
+        .map((d) => ({
+          "@type": "Question",
+          name: d.pergunta,
+          acceptedAnswer: { "@type": "Answer", text: d.resposta.join("") },
+        })),
     },
   ],
 };

@@ -50,7 +50,7 @@ export const nav = {
 };
 
 export const hero = {
-  sobretitulo: "Desenvolvimento web sob medida",
+  sobretitulo: "Desenvolvimento de sistemas sob medida",
   titulo: ["Sites e sistemas", "sob medida."],
   texto:
     "Eu desenvolvo, publico e mantenho. Você acompanha tudo — o que contratou, o que vence e o que já pagou — no portal do cliente, sem precisar me perguntar.",
@@ -65,7 +65,7 @@ export const hero = {
 
 export const servicos = {
   sobretitulo: "Serviços",
-  titulo: "O que eu faço, sem enrolação.",
+  titulo: "Sistemas sob medida, sites e manutenção.",
   itens: [
     {
       icone: "tela" as const,

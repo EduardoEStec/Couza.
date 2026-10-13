@@ -17,17 +17,35 @@ const jost = Jost({
 // (JSON-LD) ficam em src/app/page.tsx; sitemap e robots em public/.
 export const metadata: Metadata = {
   metadataBase: new URL("https://couza.com.br"),
-  title: "Couza — Sites e sistemas sob medida",
+  title: "Couza — Sistemas sob medida e criação de sites em São Paulo",
   description:
-    "Couza desenvolve sites e sistemas sob medida, com portal do cliente para acompanhar produtos, faturas e pagamentos.",
+    "Couza desenvolve sistemas sob medida, software personalizado e sites profissionais em São Paulo: sistemas web, integrações, landing pages e manutenção mensal.",
+  // O Google ignora `keywords`; fica para buscadores menores e como registro
+  // dos termos que o titulo, a descricao e o JSON-LD miram (13/10/2026).
+  keywords: [
+    "sistema sob medida",
+    "sistemas sob medida",
+    "desenvolvimento de sistemas sob medida",
+    "software sob medida",
+    "software personalizado",
+    "sistema personalizado",
+    "sistema web",
+    "sistema de gestão",
+    "criação de sites",
+    "site profissional",
+    "landing page",
+    "desenvolvimento web",
+    "manutenção de sites",
+    "São Paulo",
+  ],
   applicationName: "Couza",
   openGraph: {
     type: "website",
     locale: "pt_BR",
     siteName: "Couza",
-    title: "Couza — Sites e sistemas sob medida",
+    title: "Couza — Sistemas sob medida e criação de sites em São Paulo",
     description:
-      "Couza desenvolve sites e sistemas sob medida, com portal do cliente para acompanhar produtos, faturas e pagamentos.",
+      "Couza desenvolve sistemas sob medida, software personalizado e sites profissionais em São Paulo: sistemas web, integrações, landing pages e manutenção mensal.",
     url: "/",
   },
   // O favicon mora em public/, nao em src/app/icon.svg. A convencao do Next

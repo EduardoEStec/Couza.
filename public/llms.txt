@@ -1,0 +1,30 @@
+# Couza
+
+> Couza (couza.com.br) faz desenvolvimento de sistemas sob medida (software personalizado, sistemas web e de gestão) e criação de sites, em São Paulo/SP. Desenvolve, publica e mantém; o cliente acompanha o que contratou, o que vence e o que já pagou num portal do cliente.
+
+Contato: contato@couza.com.br · (11) 92484-1502 · São Paulo/SP
+Fundadores: Eduardo Souza (CEO & Co-Founder) e Guilherme Courte (CTO & Co-Founder).
+
+## Serviços
+
+- Sites e landing pages: layout feito do zero, pensado primeiro para o celular, com domínio e publicação.
+- Sistemas sob medida: cadastros, relatórios, integração com outros serviços e acesso por usuário — para quando a planilha não dá mais conta e o sistema de prateleira não serve.
+- Manutenção e evolução: mensalidade que cobre hospedagem monitorada, correções, ajustes e suporte direto.
+
+## Como funciona
+
+1. Conversa sobre o problema.
+2. Proposta com escopo, prazo e valor por escrito, antes de começar.
+3. Construção, com acompanhamento e revisão antes de ir para o ar.
+4. Portal do cliente com produtos, faturas e pagamento por cartão, Pix ou boleto.
+
+Presta serviço como pessoa física: emite recibo, não nota fiscal.
+
+## Produto: Couza · Restaurantes
+
+Sistema para restaurante com comandas por mesa e balcão, caixa e sangria, estoque que baixa sozinho, compras, painel de vendas (faturamento, lucro, margem, ticket médio) e cardápio digital no celular do cliente, com a marca do restaurante. Nasceu na Amorim Espetaria.
+
+## Páginas
+
+- [Início](https://couza.com.br/): serviços, como funciona, trabalhos, quem somos e dúvidas.
+- [Couza · Restaurantes](https://couza.com.br/restaurantes): sistema para restaurantes.
