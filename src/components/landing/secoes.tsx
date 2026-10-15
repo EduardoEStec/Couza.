@@ -266,9 +266,26 @@ export function QuemSomos() {
             atraso={i * 0.08}
             className="w-full rounded-card bg-wash p-[22px] sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-3rem)/3)] lg:p-8"
           >
-            <div className="flex aspect-square items-center justify-center rounded-[20px] border border-dashed border-n2 bg-white text-sm text-n1">
-              <Texto v={p.foto} />
-            </div>
+            {typeof p.foto === "string" ? (
+              <div className="aspect-square w-full overflow-hidden rounded-[20px] border border-line">
+                {/* eslint-disable-next-line @next/next/no-img-element -- PNG estatico; next/image nao otimiza no Worker */}
+                <img
+                  src={p.foto}
+                  alt={p.nome}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                  style={
+                    p.foco
+                      ? { transform: `scale(${p.foco.zoom})`, transformOrigin: p.foco.ponto }
+                      : undefined
+                  }
+                />
+              </div>
+            ) : (
+              <div className="flex aspect-square items-center justify-center rounded-[20px] border border-dashed border-n2 bg-white text-sm text-n1">
+                <Texto v={p.foto} />
+              </div>
+            )}
             <h3 className="mt-5 text-xl font-medium tracking-[-0.03em]">
               <Texto v={p.nome} />
             </h3>

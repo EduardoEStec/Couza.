@@ -279,13 +279,15 @@ export const quemSomos = {
   titulo: "Quem está por trás da tecnologia.",
   pessoas: [
     {
-      foto: falta("foto"),
+      foto: "/equipe/eduardo-souza.jpeg",
+      // Foto de corpo inteiro: aproxima no rosto (ponto em % do quadro).
+      foco: { ponto: "44% 52%", zoom: 1.7 },
       nome: "Eduardo Souza",
       funcao: "CEO & Co-Founder",
       bio: "Mais de 4 anos transformando ideias em produtos, sistemas e negócios digitais.",
     },
     {
-      foto: falta("foto"),
+      foto: "/equipe/guilherme-courte.png",
       nome: "Guilherme Courte",
       funcao: "CTO & Co-Founder",
       bio: "Mais de 5 anos de experiência com tecnologia, desenvolvimento de sistemas e criação de soluções digitais.",
