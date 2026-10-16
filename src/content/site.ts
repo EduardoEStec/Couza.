@@ -284,7 +284,7 @@ export const quemSomos = {
       foco: { ponto: "44% 52%", zoom: 1.7 },
       nome: "Eduardo Souza",
       funcao: "CEO & Co-Founder",
-      bio: "Mais de 4 anos transformando ideias em produtos, sistemas e negócios digitais.",
+      bio: "Mais de 5 anos transformando ideias em produtos, sistemas e negócios digitais.",
     },
     {
       foto: "/equipe/guilherme-courte.png",
