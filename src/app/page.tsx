@@ -11,7 +11,7 @@ import {
 } from "@/components/landing/secoes";
 import { Duvidas } from "@/components/landing/duvidas";
 import { CtaFinal, Rodape } from "@/components/landing/rodape";
-import { duvidas, ehFalta, marca, quemSomos, servicos } from "@/content/site";
+import { duvidas, ehFalta, marca, quemSomos, rodape, servicos } from "@/content/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -64,6 +64,7 @@ const dadosEstruturados = {
           },
         })),
       },
+      sameAs: rodape.redes.map((r) => r.href),
       email: marca.email,
       telephone: "+55 11 92484-1502",
       address: {

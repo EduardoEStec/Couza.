@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ctaFinal, marca, rodape } from "@/content/site";
-import { Botao, Marca } from "@/components/ui";
+import { Botao, Marca, iconesRedes } from "@/components/ui";
 import { Entrar, Revelar } from "@/components/movimento";
 
 const secao = "mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-14";
@@ -70,10 +70,27 @@ export function Rodape() {
 
         <hr className="my-9 border-0 border-t border-[#242424] lg:my-14" />
 
-        <div className="flex flex-wrap justify-between gap-3 text-[13px] text-n1">
+        <div className="flex flex-wrap items-center justify-between gap-3 text-[13px] text-n1">
           <span>
             © {rodape.ano} {marca.dominio}
           </span>
+          <div className="flex items-center gap-1">
+            {rodape.redes.map((r) => {
+              const Icone = iconesRedes[r.icone];
+              return (
+                <a
+                  key={r.nome}
+                  href={r.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${r.nome} da couza (abre em nova aba)`}
+                  className="flex h-10 w-10 items-center justify-center rounded-btn text-n2 transition-colors duration-200 ease-out-soft hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-acc"
+                >
+                  <Icone />
+                </a>
+              );
+            })}
+          </div>
         </div>
       </div>
     </footer>

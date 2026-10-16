@@ -366,5 +366,11 @@ export const rodape = {
       ],
     },
   ],
+  /** Icones na linha do ©; os mesmos links vao no `sameAs` do JSON-LD. */
+  redes: [
+    { nome: "Instagram", icone: "instagram", href: "https://www.instagram.com/couza.com.br/" },
+    { nome: "LinkedIn", icone: "linkedin", href: "https://www.linkedin.com/company/couza/" },
+    { nome: "TikTok", icone: "tiktok", href: "https://www.tiktok.com/@couza.com.br" },
+  ] as { nome: string; icone: "instagram" | "linkedin" | "tiktok"; href: string }[],
   ano: 2026,
 };
